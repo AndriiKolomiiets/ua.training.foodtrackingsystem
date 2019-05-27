@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class JdbcDao {
 
-    public String checkLoginInDB(String login, String pass){
+    public boolean checkLoginInDB(String login, String pass){
         Connection connection = null;
-        String message = null;
+        boolean message = false;
         PreparedStatement statement;
         ResultSet rs;
         try {
@@ -21,12 +21,9 @@ public class JdbcDao {
             statement.setString(2, pass);
             rs = statement.executeQuery();
             if(rs.next()){
-                message = "Success";
-            }else{
-                message = "Failure";
+                message = true;
             }
         } catch (Exception e) {
-            message = "Failure";
             e.printStackTrace();
         }
         return message;

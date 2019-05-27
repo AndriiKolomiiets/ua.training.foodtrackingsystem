@@ -24,7 +24,10 @@
 </div>
 
 <div id="loginDiv" class="modal">
-    <form id="loginForm" class="modal-content animate" name="login_form" <%--action="/LoginServlet/"--%>>
+    <%--<span onclick="document.getElementById('loginDiv').style.display='none'"
+          class="close" title="Close Form">&times;</span>--%>
+
+    <form id="loginForm" class="modal-content animate" name="login_form" <%--action="/Servlet/"--%>>
         <%--onsubmit="return validateForm()--%>
         <div class="imgcontainer">
             <span onclick="document.getElementById('loginDiv').style.display='none'"
@@ -55,7 +58,7 @@
 </div>
 <div id="messageDiv" style="display:none;"></div>
 
-<script>
+<%--<script>
     var modal = document.getElementById('loginDiv');
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
@@ -63,7 +66,7 @@
             modal.style.display = "none";
         }
     }
-</script>
+</script>--%>
 
 <script>
     // Get the modal
@@ -107,7 +110,7 @@
         }
         $.ajax({
             /*cache: false,*/
-            url: "/LoginServlet/",
+            url: "/Servlet/",
             method: "get",
             /*dataType: 'json',
             contentType: 'application/json; charset=utf-8',*/
@@ -131,7 +134,8 @@
     //function to display message to the user
     function showMessage(results) {
         if (results === 'Success') {
-            $("#messageDiv").show(5000);
+            window.alert("<font color='green'>You are successfully logged in. </font>")
+            $("#messageDiv").show(50);
             $('#messageDiv').html("<font color='green'>You are successfully logged in. </font>")
         } else {
             $('#messageDiv').html("<font color='red'>Username or password incorrect </font>")
@@ -164,7 +168,7 @@
 </form>
 <br>
 <ul>
-    <li><a href="index.jsp">Home</a></li>
+    <li><a href="${pageContext.request.contextPath}/food_tracking/main">Home</a></li>
     <li style="float:right"><a href="user_settings.jsp">User Settings</a></li>
     <li><a href="food_tracking.jsp">Food Tracking</a></li>
     <li><a href="statistic.jsp">Statistic</a></li>
@@ -198,7 +202,7 @@
 
 <%--
 <div id="loginDiv" class="modal">
-    <form id="loginForm" class="left_form" name="login_form" action="/LoginServlet/" onsubmit="return validateForm()">
+    <form id="loginForm" class="left_form" name="login_form" action="/Servlet/" onsubmit="return validateForm()">
         <table>
             <tr><fmt:message key="index.login.input"/><input type="text" name="login" id="login" pattern="[0-9A-Za-z ]{2,15}"/></tr>
             <tr><fmt:message key="index.password.input"/><input type="text" name="pass" id="password" pattern="[0-9A-Za-z ]{4,15}"/></tr>
