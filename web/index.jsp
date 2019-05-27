@@ -24,12 +24,11 @@
 </div>
 
 <div id="loginDiv" class="modal">
-    <span onclick="document.getElementById('loginDiv').style.display='none'"
-          class="close" title="Close Form">&times;</span>
-
     <form id="loginForm" class="modal-content animate" name="login_form" <%--action="/LoginServlet/"--%>>
-        <%--onsubmit="return validateForm()--%>">
+        <%--onsubmit="return validateForm()--%>
         <div class="imgcontainer">
+            <span onclick="document.getElementById('loginDiv').style.display='none'"
+                  class="close" title="Close Form">&times;</span>
             <img src="images/login.jpg" alt="Avatar" class="avatar">
         </div>
         <div class="container">
@@ -77,6 +76,20 @@
     }
 </script>
 
+<%--<script>
+    window.onload = function() {
+        if (window.jQuery) {
+            showMessage("Success");
+            $('#messageDiv').css("display", "block");
+
+        } else {
+            // jQuery is not loaded
+            alert("Doesn't Work");
+        }
+    }
+
+</script>--%>
+
 <script>
     $("#login_button").on('click', function () {
         var login = $("#login").val();
@@ -93,7 +106,7 @@
             return;
         }
         $.ajax({
-            /*            cache: false,*/
+            /*cache: false,*/
             url: "/LoginServlet/",
             method: "get",
             /*dataType: 'json',
@@ -105,19 +118,12 @@
             success: function (results) {
                 if (results != null && results != "") {
                     showMessage(results);
-                    /*$('#messageDiv').css("display", "block");*/
-                    $("#messageDiv").show(50000);
-                    alert("You are successfully logged in.")
+                    $('#messageDiv').css("display", "block");
                 } else {
                     $('#messageDiv').css("display", "none");
                     $('#messageDiv').html("");
                     alert("Some exception occurred! Please try again.");
                 }
-            },
-            error: function (response) {
-                $('#messageDiv').css("display", "none");
-                $('#messageDiv').html("");
-                alert("Some exception occurred! Please try again.");
             }
         });
     });
@@ -125,7 +131,7 @@
     //function to display message to the user
     function showMessage(results) {
         if (results === 'Success') {
-            $("#messageDiv").show(50000);
+            $("#messageDiv").show(5000);
             $('#messageDiv').html("<font color='green'>You are successfully logged in. </font>")
         } else {
             $('#messageDiv').html("<font color='red'>Username or password incorrect </font>")
