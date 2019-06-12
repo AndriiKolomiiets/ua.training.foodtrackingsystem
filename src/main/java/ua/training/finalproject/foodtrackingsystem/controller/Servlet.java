@@ -3,9 +3,7 @@ package ua.training.finalproject.foodtrackingsystem.controller;
 import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
 import ua.training.finalproject.foodtrackingsystem.controller.command.Command;
 import ua.training.finalproject.foodtrackingsystem.controller.command.CommandUtil;
-import ua.training.finalproject.foodtrackingsystem.model.service.LoginService;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +13,8 @@ import java.util.Map;
 
 public class Servlet extends HttpServlet {
     private Map<String, Command> commands;
-    private static final String PAGE_PATH = "/food_tracking/";
-    private static final String REGEX_REDIRECT_PAGE = ".*/food_tracking/";
+    private static final String PAGE_PATH = "/fts/";
+    private static final String REGEX_REDIRECT_PAGE = ".*/fts/";
 
     @Override
     public void init() {
@@ -52,7 +50,17 @@ public class Servlet extends HttpServlet {
         if (page.contains(PagePath.REDIRECT)) {
             resp.sendRedirect(page.replace(PagePath.REDIRECT, PAGE_PATH));
         } else {
-            req.getRequestDispatcher(page).forward(req, resp);
+
+            if (page.equals("200")) {
+
+//                resp.sendRedirect("http://localhost:8080/fts/mealStatistic");
+                resp.setContentType("text/html;charset=UTF-8");
+                resp.getWriter().write("200");
+            } else {
+                req.getRequestDispatcher(page).forward(req, resp);
+            }
+
+
         }
     }
 }

@@ -7,7 +7,30 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
     <servlet>
+        <servlet-name>Servlet</servlet-name>
+        <servlet-class>ua.training.finalproject.foodtrackingsystem.controller.Servlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/fts/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>ua.training.finalproject.foodtrackingsystem.controller.listener.AccessFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!--<servlet>
         <display-name>LoginServlet</display-name>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>ua.training.finalproject.foodtrackingsystem.controller.Servlet</servlet-class>
@@ -15,6 +38,10 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet/</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
+    <error-page>
+        <exception-type>ua.training.finalproject.foodtrackingsystem.controller.command.exception.DataSqlException</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
 
 </web-app>

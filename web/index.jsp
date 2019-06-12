@@ -7,7 +7,7 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="page_content"/>
 
-<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="style/styles.css">
 
 <!DOCTYPE html>
 <html lang="${language}">
@@ -67,6 +67,20 @@
         }
     }
 </script>--%>
+<script>
+    $( document ).ready(function() {
+        window.addEventListener( "pageshow", function ( event ) {
+            var historyTraversal = event.persisted ||
+                ( typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2 );
+            if ( historyTraversal ) {
+                // Handle page restore.
+                window.location.reload();
+            }
+        });
+        console.log( "cache disabled!" );
+    });
+</script>
 
 <script>
     // Get the modal
@@ -120,6 +134,7 @@
             },
             success: function (results) {
                 if (results != null && results != "") {
+                    window.location.reload( true );
                     showMessage(results);
                     $('#messageDiv').css("display", "block");
                 } else {
@@ -168,10 +183,12 @@
 </form>
 <br>
 <ul>
-    <li><a href="${pageContext.request.contextPath}/food_tracking/main">Home</a></li>
-    <li style="float:right"><a href="user_settings.jsp">User Settings</a></li>
-    <li><a href="food_tracking.jsp">Food Tracking</a></li>
-    <li><a href="statistic.jsp">Statistic</a></li>
+    <li><a href="${pageContext.request.contextPath}/fts/main">Home</a></li>
+    <li style="float:right"><a href="${pageContext.request.contextPath}/fts/userSettings">User Settings</a></li>
+    <li><a href="${pageContext.request.contextPath}/fts/foodTracking">Food Tracking</a></li>
+    <li><a href="${pageContext.request.contextPath}/fts/userStatistic">Statistic</a></li>
+    <li><a href="${pageContext.request.contextPath}/fts/dayMeal">Day Meal</a></li>
+    <li><a href="${pageContext.request.contextPath}/fts/mealStatistic">Meal Statistic</a></li>
 </ul>
 <br>
 <h1 align="center" style="color:#1e4103"><fmt:message key="index.title"/></h1>

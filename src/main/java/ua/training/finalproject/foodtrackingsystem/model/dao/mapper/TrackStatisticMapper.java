@@ -1,0 +1,20 @@
+package ua.training.finalproject.foodtrackingsystem.model.dao.mapper;
+
+import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
+import ua.training.finalproject.foodtrackingsystem.model.entity.TrackStatistic;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class TrackStatisticMapper implements ObjectMapper {
+    @Override
+    public Object extractFromResultSet(ResultSet rs) throws SQLException {
+        TrackStatistic trackStatistic = new TrackStatistic();
+        trackStatistic.setId(rs.getLong(Attributes.REQUEST_TRACK_STATISTIC_ID));
+        trackStatistic.setDateTime(rs.getTimestamp(Attributes.REQUEST_DATE_TYME)
+                .toLocalDateTime());
+        trackStatistic.setNumber(rs.getInt(Attributes.REQUEST_NUMBER));
+
+        return trackStatistic;
+    }
+}

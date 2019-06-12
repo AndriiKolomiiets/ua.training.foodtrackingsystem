@@ -1,4 +1,6 @@
-package ua.training.finalproject.foodtrackingsystem.controller.command;
+package ua.training.finalproject.foodtrackingsystem.controller.command.direction;
+
+import ua.training.finalproject.foodtrackingsystem.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 
