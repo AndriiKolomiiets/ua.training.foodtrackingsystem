@@ -20,7 +20,7 @@ public class RegisterNewUser implements Command {
         String login = request.getParameter(Attributes.REQUEST_LOGIN);
         String pass = request.getParameter(Attributes.REQUEST_PASSWORD);
         Optional<User> httpUser = CommandUtil.extractRegisterUserFromHTTP(request);
-        Optional<User> optionalUser = service.checkLoginAndGetUser(login, pass);
+        Optional<User> optionalUser = service.checkLoginAndGetUser(login);
 
         if (optionalUser.isPresent()){
 //            request.getSession().setAttribute(Attributes.PAGE_USER_ERROR_LOGIN, Attributes.PAGE_USER_WRONG_DATA);

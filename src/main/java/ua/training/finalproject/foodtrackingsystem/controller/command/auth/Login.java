@@ -24,13 +24,16 @@ public class Login implements Command {
             return Attributes.RETURN_STATEMENT_USER_IS_EMPTY;
         }
 
-        Optional<User> optionalUser = service.checkLoginAndGetUser(login, pass);
+        Optional<User> optionalUser = service.checkLoginAndGetUser(login);
 
         if (optionalUser.isPresent() && optionalUser.get().getPassword().equals(pass)) {
             returnStatement = CommandUtil.openUsersSession(request, optionalUser.get());
         } else if (optionalUser.isPresent() && !optionalUser.get().getPassword().equals(pass)) {
+            returnStatement = Attributes.USER_ERROR_PASSWORD;
+
+        } else if (!optionalUser.isPresent()){
             returnStatement = Attributes.USER_ERROR_LOGIN;
-        } else {
+        }else {
             returnStatement = Attributes.USER_NOT_EXISTS;
         }
 

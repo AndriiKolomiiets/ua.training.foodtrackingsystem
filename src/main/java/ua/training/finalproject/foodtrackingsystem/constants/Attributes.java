@@ -40,6 +40,7 @@ public interface Attributes {
     String RETURN_STATEMENT_USER_EXISTS_IN_DB = "userExistsInDb";
     String USER_ERROR_LOGIN = "userErrorLogin";
     String USER_NOT_EXISTS = "userNotExist";
+    String USER_ERROR_PASSWORD = "userPassError";
 
     //USER
     String REQUEST_USER_ID = "user_id";
@@ -116,6 +117,7 @@ public interface Attributes {
     String COMMAND_MENU_ADD_DISH = "addNewDish";
     String COMMAND_MENU_LIST_DISH_PAGE = "listDishPage";
     String COMMAND_MENU_LIST_USERS_PAGE = "listUsersPage";
+
 
 
 }

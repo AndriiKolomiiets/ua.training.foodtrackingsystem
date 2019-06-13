@@ -155,21 +155,28 @@
                 login: login,
                 password: password
             },
-            success: function (results) {
-                if (results != null && results != "") {
-                    if (results == "success") {
+            success: function (result) {
+                    if (result === "success") {
                         window.location.reload(true);
                         window.location = "/fts/foodTracking";
-                    } else if (results == "loginError") {
-                        alert("Wrong login or password! Try agin.")
+                    }else if (result==="userIsLogged"){
+                        alert("<fmt:message key="page.user.alreadyLoggedIn"/>");
+                    } else if (result==="userExistsInDb"){
+                        alert("<fmt:message key="page.user.loginAlreadyExists"/>");
+                    } else if (result==="userPassError"){
+                        alert("<fmt:message key="page.user.wrong.password"/>");
+                        console.log("user pass error")
+                    }else if (result==="userErrorLogin"){
+                        alert("<fmt:message key="page.name.wrong"/>");
+                    }else if (result==="userNotExist"){
+                        alert("<fmt:message key="page.user.loginDoesntExistInDb"/>");
                     }
-                } else {
-                    $('#messageDiv').css("display", "none");
-                    $('#messageDiv').html("");
-                    alert("Some exception occurred! Please try again.");
-                }
-                if (results === "no_errors") location.href = "http://localhost:8080/fts/foodTracking"
-            },
+                    else {
+                        alert("<fmt:message key="page.user.problem"/>");
+                        console.log("Unknown response from Servlet.");
+                    }
+                    console.log("Servlet response: " + result);
+                },
             error: function (results) {
                 alert("Error!")
             }
@@ -179,34 +186,34 @@
 <%--                               LOGIN FORM ENDS                  --%>
 
 <div class="login-box">
-    <h1>Registration</h1>
+    <h1><fmt:message key="form.register.name"/></h1>
     <form id="registrationForm">
         <div class="textbox">
             <i class="fas fa-user"></i>
-            <input type="text" name="username" id="username" placeholder="Login"
+            <input type="text" name="username" id="username" placeholder="<fmt:message key="form.login.input"/>"
                    pattern="[A-za-z0-9]{3,9}" value="topic1" required>
         </div>
 
         <div class="textbox">
             <i class="fas fa-lock"></i>
-            <input type="password" id="new-password" name="new-password" placeholder="Password"
+            <input type="password" id="new-password" name="new-password" placeholder="<fmt:message key="form.pass.input"/>"
                    pattern="[A-za-z0-9]{4,9}" value="topic1" required>
         </div>
 
         <div class="textbox">
             <i class="fas fa-lock"></i>
             <input type="password" id="new-password2" name="new-password2"
-                   placeholder="Password confirmation"
+                   placeholder="<fmt:message key="form.pass.confirm.input"/>"
                    pattern="[A-za-z0-9]{4,9}" value="topic1" required>
         </div>
         <div class="textbox">
             <i class="fas fa-user"></i>
-            <input type="text" id="emailId" name="email" placeholder="Email"
+            <input type="text" id="emailId" name="email" placeholder="<fmt:message key="form.email.input"/>"
             <%-- pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
 --%> value="mail@gmail.com" required>
         </div>
 
-        <input type="button" class="btn" id="registerButton" value="Register">
+        <input type="button" class="btn" id="registerButton" value="<fmt:message key="form.register.button"/>">
     </form>
 </div>
 
@@ -225,25 +232,31 @@
                 console.log("Login is Valid");
             } else {
                 console.log("Login is Invalid");
-                alert("Please, input your username!")
+                alert("<fmt:message key="page.name.wrong"/>");
             }
             if (passRegex.test(password)) {
                 console.log("Password is Valid");
             } else {
                 console.log("Password is Invalid");
-                alert("Password has to be longer than 5 characters!")
+                alert("<fmt:message key="page.password.wrong"/>");
             }
             if (passRegex.test(password2)) {
                 console.log("Password2 is Valid");
             } else {
                 console.log("Password2 is Invalid");
-                alert("Password has to be longer than 5 characters!")
+                alert("<fmt:message key="page.password.unconfirmed"/>");
+            }
+            if (password===password2){
+                console.log("Password confirmed!");
+            } else {
+                console.log("Password wasn't confirmed!");
+                alert("<fmt:message key="page.password.unconfirmed"/>");
             }
             if (emailRegex.test(email)) {
                 console.log("Email is Valid");
             } else {
                 console.log("Email is Invalid");
-                alert("Email has to be longer than 5 characters!")
+                alert("<fmt:message key="page.email.wrong"/>");
             }
 
             // Prevent the form from submitting via the browser.
@@ -251,7 +264,8 @@
                 (loginRegex.test(username)) &
                 (passRegex.test(password)) &
                 (passRegex.test(password2)) &
-                (emailRegex.test(email))) {
+                (emailRegex.test(email))&
+                (password===password2)) {
                 event.preventDefault();
                 ajaxPost();
                 console.log("Form sent");
@@ -278,22 +292,25 @@
                         window.location.reload(true);
                         window.location = "/fts/foodTracking";
                     }else if (result==="userIsLogged"){
-                        alert("User with such login is already logged in!")
+                        alert("<fmt:message key="page.user.alreadyLoggedIn"/>");
                     } else if (result==="userExistsInDb"){
-                        alert("User with such login is already exists!")
-                    }else if (result==="userErrorLogin"){
-                        alert("Wrong login! Try again")
+                        alert("<fmt:message key="page.user.loginAlreadyExists"/>");
+                    } else if (result==="userPassError"){
+                        alert("<fmt:message key="page.user.wrong.password"/>");
+                        console.log("user pass error");
+                    } else if (result==="userErrorLogin"){
+                        alert("<fmt:message key="page.name.wrong"/>");
                     }else if (result==="userNotExist"){
-                        alert("User with such login doesn't exists!")
+                        alert("<fmt:message key="page.user.loginDoesntExistInDb"/>");
                     }
                     else {
-                        alert("Some problem happened! Please, try again.")
+                        alert("<fmt:message key="page.user.problem"/>");
                         console.log("Unknown response from Servlet.");
                     }
                     console.log("Servlet response: " + result);
                 },
                 error: function (e) {
-                    alert("Some Error occured!")
+                    alert("<fmt:message key="page.user.error"/>");
                     console.log("ERROR: ", e);
                 }
             });

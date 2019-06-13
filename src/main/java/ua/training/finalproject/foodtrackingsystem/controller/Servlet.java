@@ -50,6 +50,7 @@ public class Servlet extends HttpServlet {
         returnStatements.add(Attributes.RETURN_STATEMENT_USER_LOGGED_OUT);
         returnStatements.add(Attributes.USER_ERROR_LOGIN);
         returnStatements.add(Attributes.USER_NOT_EXISTS);
+        returnStatements.add(Attributes.USER_ERROR_PASSWORD);
         String path = req.getRequestURI();
 
         path = path.replaceAll(REGEX_REDIRECT_PAGE, "");

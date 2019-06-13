@@ -23,7 +23,7 @@ public class LoginService {
         return userDao.checkUserByLogin(login, password);
     }
 
-    public Optional<User> checkLoginAndGetUser (String login, String password) {
+    public Optional<User> checkLoginAndGetUser (String login) {
 //        DaoFactory daoFactory = JdbcDaoFactory.getInstance();
 //        UserDao userDao = daoFactory.createUserDao();
         DaoFactory daoFactory;
@@ -31,6 +31,7 @@ public class LoginService {
         daoFactory = JdbcDaoFactory.getInstance();
 
         UserDao userDao = daoFactory.createUserDao();
-        return Optional.ofNullable(userDao.getOrCheckUser(login, password));
+        userDao.getOrCheckUser(login);
+        return Optional.ofNullable(userDao.getOrCheckUser(login));
     }
 }

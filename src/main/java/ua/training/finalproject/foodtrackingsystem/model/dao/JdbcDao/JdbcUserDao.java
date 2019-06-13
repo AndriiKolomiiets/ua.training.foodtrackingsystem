@@ -41,11 +41,11 @@ public class JdbcUserDao implements UserDao {
         return message;
     }
 
-    public User getOrCheckUser(String login, String pass) {
+    /*public User getOrCheckUser(String login, String pass) {
 //        Optional<User> optionalUser;
         Integer role_id = 2;
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("select.userByLogin"))) {
+                resourceBundle.getString("select.userByLoginAndPass"))) {
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, pass);
             rs = preparedStatement.executeQuery();
@@ -79,6 +79,44 @@ public class JdbcUserDao implements UserDao {
         user = null;
     }
            return user;
+    }*/
+
+    public User getOrCheckUser(String login) {
+//        Optional<User> optionalUser;
+        Integer role_id = 2;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("select.userByLogin"))) {
+            preparedStatement.setString(1, login);
+
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                user = new User();
+                user.setId(rs.getLong(Attributes.REQUEST_USER_ID));
+                user.setUsername(rs.getString(Attributes.REQUEST_LOGIN));
+                user.setPassword(rs.getString(Attributes.REQUEST_PASSWORD));
+                user.setEmail(rs.getString(Attributes.REQUEST_EMAIL));
+                role_id =rs.getInt(Attributes.REQUEST_ROLE_ID);
+                user.setClient(new Client());
+                user.getClient().setId(rs.getLong(Attributes.REQUEST_CLIENT_ID));
+            }
+        } catch (Exception e) {
+            user = null;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("select.roleByRoleId"))) {
+            preparedStatement.setInt(1, role_id);
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                String roleFromDb = rs.getString(Attributes.REQUEST_ROLE);
+                user.setRole(Role.valueOf(roleFromDb));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //todo: logger
+            user = null;
+        }
+        return user;
     }
 
     @Override
