@@ -17,10 +17,9 @@ public interface Attributes {
     //WRONG MESSAGES
     String PAGE_USER_EXIST = "page.user.email.exist";
     String PAGE_USER_WRONG_DATA = "page.wrong.data";
-    String PAGE_USER_NOT_EXIST = "page.user.email.not.exist";
+
     String PAGE_USER_WRONG_PASSWORD = "page.user.wrong.password";
     String PAGE_USER_LOGGED = "page.user.email.logged";
-    String PAGE_USER_ERROR_LOGIN = "userErrorLogin";
     String PAGE_USER_ERROR_DATA = "userErrorData";
     String PAGE_USER_NON_EMAIL = "nonEmail";
     String PAGE_USER_NON_ERROR_DATA = "nonErrorData";
@@ -32,6 +31,15 @@ public interface Attributes {
     String REQUEST_LANGUAGE = "lang";
     String REQUEST_LOCALE_LANGUAGE = "localeLang";
     String REQUEST_CURRENT_PAGE = "currPage";
+
+    //RETURN STATEMENT
+    String RETURN_STATEMENT_USER_IS_EMPTY = "userIsEmpty";
+    String RETURN_STATEMENT_USER_LOGGED = "userIsLogged";
+    String RETURN_STATEMENT_SUCCESS = "success";
+    String RETURN_STATEMENT_USER_LOGGED_OUT = "userIsLoggedOut";
+    String RETURN_STATEMENT_USER_EXISTS_IN_DB = "userExistsInDb";
+    String USER_ERROR_LOGIN = "userErrorLogin";
+    String USER_NOT_EXISTS = "userNotExist";
 
     //USER
     String REQUEST_USER_ID = "user_id";
@@ -108,5 +116,6 @@ public interface Attributes {
     String COMMAND_MENU_ADD_DISH = "addNewDish";
     String COMMAND_MENU_LIST_DISH_PAGE = "listDishPage";
     String COMMAND_MENU_LIST_USERS_PAGE = "listUsersPage";
+
 
 }

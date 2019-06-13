@@ -12,6 +12,16 @@
 <!DOCTYPE html>
 <html lang="${language}">
 <head>
+    <script>
+        function preback() {
+            window.history.forward();
+        }
+
+        setTimeout("preback()", 0);
+        window.onload = function () {
+            null
+        };
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><fmt:message key="index.title"/></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

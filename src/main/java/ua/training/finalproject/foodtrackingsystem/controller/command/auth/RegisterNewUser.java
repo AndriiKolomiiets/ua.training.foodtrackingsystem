@@ -1,5 +1,6 @@
 package ua.training.finalproject.foodtrackingsystem.controller.command.auth;
 
+import org.w3c.dom.Attr;
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
 import ua.training.finalproject.foodtrackingsystem.controller.command.Command;
@@ -18,22 +19,15 @@ public class RegisterNewUser implements Command {
         RegisterService registerService = new RegisterService();
         String login = request.getParameter(Attributes.REQUEST_LOGIN);
         String pass = request.getParameter(Attributes.REQUEST_PASSWORD);
-        String returnPage = PagePath.LOGIN_OR_REGISTER;
         Optional<User> httpUser = CommandUtil.extractRegisterUserFromHTTP(request);
         Optional<User> optionalUser = service.checkLoginAndGetUser(login, pass);
 
         if (optionalUser.isPresent()){
-            request.getSession().setAttribute(Attributes.PAGE_USER_ERROR_LOGIN, Attributes.PAGE_USER_WRONG_DATA);
-            return PagePath.LOGIN_OR_REGISTER;
+//            request.getSession().setAttribute(Attributes.PAGE_USER_ERROR_LOGIN, Attributes.PAGE_USER_WRONG_DATA);
+            //todo: log
+            return Attributes.RETURN_STATEMENT_USER_EXISTS_IN_DB;
         }
-//        httpUser.get();
-        registerService.registerNewUser(httpUser.get());
-
-       /* LoginService loginService = new LoginService();
-        optionalUser = loginService.checkLoginAndGetUser(login, pass);*/
-        //todo: problem appears here
-        returnPage = CommandUtil.openUsersSession(request,  httpUser.get());
-        request.setAttribute("response", "200");
-        return "200";
+        httpUser.ifPresent(registerService::registerNewUser);
+        return CommandUtil.openUsersSession(request,  httpUser.get());
     }
 }

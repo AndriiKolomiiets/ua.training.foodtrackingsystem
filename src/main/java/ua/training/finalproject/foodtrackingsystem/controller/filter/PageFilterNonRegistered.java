@@ -17,7 +17,7 @@ import java.util.Optional;
  * @author
  */
 @WebFilter(urlPatterns = {"/fts/homePage", "/fts/foodTracking", "/fts/dayMeal",
-        "/fts/mealStatistic", "/fts/logOut", /*"/fts/userSettings",*/ /*"wwwwwwww",
+        "/fts/mealStatistic", "/fts/logOut", "/fts/userSettings", /*"wwwwwwww",
         "wwwwwwww", "wwwwwwww", "wwwwwwww"*/})
 //@Log4j2
 public class PageFilterNonRegistered extends AbstractFilter {

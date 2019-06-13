@@ -1,7 +1,6 @@
 package ua.training.finalproject.foodtrackingsystem.controller.command;
 
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
-import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
 import ua.training.finalproject.foodtrackingsystem.controller.command.auth.LogOut;
 import ua.training.finalproject.foodtrackingsystem.controller.command.auth.Login;
 import ua.training.finalproject.foodtrackingsystem.controller.command.auth.RegisterNewUser;
@@ -45,13 +44,13 @@ public abstract class CommandUtil {
         request.getServletContext().setAttribute(Attributes.REQUEST_USERS_ALL, allUsers);
     }
 
-    public static void setUserRole(HttpServletRequest request,
+/*    public static void setUserRole(HttpServletRequest request,
                                    Role role, String name) {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
         context.setAttribute("userName", name);
         session.setAttribute("role", role);
-    }
+    }*/
 
     public static String openUsersSession(HttpServletRequest request, User user) {
 
@@ -64,9 +63,7 @@ public abstract class CommandUtil {
         if (allUsers.contains(user.getUsername())) {
 //            log.warn(Mess.LOG_USER_DOUBLE_AUTH + " [" + user.getEmail() + "]");
 //           todo: logger
-            //todo: change attributes
-            request.getSession().setAttribute(Attributes.PAGE_USER_ERROR_LOGIN, Attributes.PAGE_USER_LOGGED);
-            return PagePath.LOGIN_OR_REGISTER;
+            return Attributes.RETURN_STATEMENT_USER_LOGGED;
         }
 
         request.getSession().setAttribute(Attributes.REQUEST_USER, user);
@@ -76,21 +73,22 @@ public abstract class CommandUtil {
         request.getServletContext().setAttribute(Attributes.REQUEST_USERS_ALL, allUsers);
 //        log.info(Mess.LOG_USER_LOGGED + "[" + user.getEmail() + "]");
 //todo: logger
-        return PagePath.USER_MAIN_PAGE;
+        return Attributes.RETURN_STATEMENT_SUCCESS;
     }
 
-    public static boolean checkUserIsLogged(HttpServletRequest request, String userName) {
+    public static String checkUserIsLogged(HttpServletRequest request, String userName) {
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
                 .getAttribute("loggedUsers");
 
-//        if (){}
-        if ((!loggedUsers.isEmpty())&(loggedUsers.stream().anyMatch(userName::equals))) {
-            return true;
+//        if (){}.
+        if ((!loggedUsers.isEmpty())
+                && (loggedUsers.stream().anyMatch(userName::equals))) {
+            return Attributes.RETURN_STATEMENT_USER_LOGGED;
         }
         loggedUsers.add(userName);
         request.getSession().getServletContext()
                 .setAttribute("loggedUsers", loggedUsers);
-        return false;
+        return Attributes.RETURN_STATEMENT_USER_LOGGED_OUT;
     }
 
     public static Optional<User> extractUserFromHTTP(HttpServletRequest request) {

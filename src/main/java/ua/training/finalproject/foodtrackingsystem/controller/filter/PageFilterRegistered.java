@@ -18,7 +18,7 @@ import java.util.Optional;
  * @author
  */
 @WebFilter(urlPatterns = {"/fts/loginOrRegister", "/fts/registerNewUser",
-        "/fts/logIn", ""})
+        "/fts/logIn", "/ftl/"})
 //todo: change default path into /ftl/
 //@Log4j2
 public class PageFilterRegistered extends AbstractFilter {

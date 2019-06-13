@@ -1,5 +1,6 @@
 package ua.training.finalproject.foodtrackingsystem.controller;
 
+import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
 import ua.training.finalproject.foodtrackingsystem.controller.command.Command;
 import ua.training.finalproject.foodtrackingsystem.controller.command.CommandUtil;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Servlet extends HttpServlet {
@@ -39,6 +42,14 @@ public class Servlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        HashSet<String> returnStatements = new HashSet<>();
+        returnStatements.add(Attributes.RETURN_STATEMENT_SUCCESS);
+        returnStatements.add(Attributes.RETURN_STATEMENT_USER_EXISTS_IN_DB);
+        returnStatements.add(Attributes.RETURN_STATEMENT_USER_IS_EMPTY);
+        returnStatements.add(Attributes.RETURN_STATEMENT_USER_LOGGED);
+        returnStatements.add(Attributes.RETURN_STATEMENT_USER_LOGGED_OUT);
+        returnStatements.add(Attributes.USER_ERROR_LOGIN);
+        returnStatements.add(Attributes.USER_NOT_EXISTS);
         String path = req.getRequestURI();
 
         path = path.replaceAll(REGEX_REDIRECT_PAGE, "");
@@ -48,19 +59,16 @@ public class Servlet extends HttpServlet {
         String page = command.execute(req);
 
         if (page.contains(PagePath.REDIRECT)) {
-            resp.sendRedirect(page.replace(PagePath.REDIRECT, PAGE_PATH));
+            resp.sendRedirect(page.replace(PagePath.REDIRECT, Attributes.PAGE_PATH));
         } else {
-
-            if (page.equals("200")) {
-
-//                resp.sendRedirect("http://localhost:8080/fts/mealStatistic");
-                resp.setContentType("text/html;charset=UTF-8");
-                resp.getWriter().write("200");
-            } else {
-                req.getRequestDispatcher(page).forward(req, resp);
+            for (String s : returnStatements) {
+                if (page.equals(s)) {
+                    resp.setContentType("text/html;charset=UTF-8");
+                    resp.getWriter().write(page);
+                    return;
+                }
             }
-
-
+            req.getRequestDispatcher(page).forward(req, resp);
         }
     }
 }

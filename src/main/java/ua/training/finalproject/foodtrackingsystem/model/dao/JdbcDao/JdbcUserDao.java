@@ -101,6 +101,7 @@ public class JdbcUserDao implements UserDao {
             connection.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
+        //todo: logging
         }
     }
 

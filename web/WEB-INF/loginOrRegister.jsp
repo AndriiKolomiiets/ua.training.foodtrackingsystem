@@ -9,6 +9,16 @@
 
 <html>
 <head>
+    <script>
+        function preback() {
+            window.history.forward();
+        }
+
+        setTimeout("preback()", 0);
+        window.onload = function () {
+            null
+        };
+    </script>
     <title>Food Tracking System</title>
 
     <link rel="stylesheet" type="text/css" href="../style/styles.css">
@@ -147,33 +157,24 @@
             },
             success: function (results) {
                 if (results != null && results != "") {
-                    alert(results);
-                    window.location.href = "http://localhost:8080/fts/foodTracking";
-                    showMessage(results);
-                    $('#messageDiv').css("display", "block");
+                    if (results == "success") {
+                        window.location.reload(true);
+                        window.location = "/fts/foodTracking";
+                    } else if (results == "loginError") {
+                        alert("Wrong login or password! Try agin.")
+                    }
                 } else {
                     $('#messageDiv').css("display", "none");
                     $('#messageDiv').html("");
                     alert("Some exception occurred! Please try again.");
                 }
-                if(results === "no_errors") location.href = "http://localhost:8080/fts/foodTracking"
+                if (results === "no_errors") location.href = "http://localhost:8080/fts/foodTracking"
             },
             error: function (results) {
                 alert("Error!")
             }
         });
     });
-
-    //function to display message to the user
-    function showMessage(results) {
-        if (results === 'Success') {
-            window.alert("<font color='green'>You are successfully logged in. </font>")
-            $("#messageDiv").show(50);
-            $('#messageDiv').html("<font color='green'>You are successfully logged in. </font>")
-        } else {
-            $('#messageDiv').html("<font color='red'>Username or password incorrect </font>")
-        }
-    }
 </script>
 <%--                               LOGIN FORM ENDS                  --%>
 
@@ -201,8 +202,8 @@
         <div class="textbox">
             <i class="fas fa-user"></i>
             <input type="text" id="emailId" name="email" placeholder="Email"
-                  <%-- pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
-    --%>             value="mail@gmail.com"   required>
+            <%-- pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+--%> value="mail@gmail.com" required>
         </div>
 
         <input type="button" class="btn" id="registerButton" value="Register">
@@ -211,49 +212,45 @@
 
 <script>
     $(document).ready(function () {
-
         // SUBMIT FORM
         $("#registerButton").click(function (event) {
             var username = $("#username").val();
             var password = $("#new-password").val();
             var password2 = $("#new-password2").val();
             var email = $("#emailId").val();
-
-            var term = "sample1";
-
             var passRegex = new RegExp("^([a-z0-9]{3,9})$");
             var loginRegex = new RegExp("[A-za-z0-9]{4,9}");
             var emailRegex = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             if (loginRegex.test(username)) {
-                console.log("Valid");
+                console.log("Login is Valid");
             } else {
-                console.log("Invalid");
+                console.log("Login is Invalid");
                 alert("Please, input your username!")
             }
             if (passRegex.test(password)) {
-                console.log("Valid");
+                console.log("Password is Valid");
             } else {
-                console.log("Invalid");
+                console.log("Password is Invalid");
                 alert("Password has to be longer than 5 characters!")
             }
             if (passRegex.test(password2)) {
-                console.log("Valid");
+                console.log("Password2 is Valid");
             } else {
-                console.log("Invalid");
+                console.log("Password2 is Invalid");
                 alert("Password has to be longer than 5 characters!")
             }
             if (emailRegex.test(email)) {
-                console.log("Valid");
+                console.log("Email is Valid");
             } else {
-                console.log("Invalid");
+                console.log("Email is Invalid");
                 alert("Email has to be longer than 5 characters!")
             }
 
             // Prevent the form from submitting via the browser.
-            if ((passRegex.test(password))&
-                (loginRegex.test(username))&
-                (passRegex.test(password))&
-                (passRegex.test(password2))&
+            if ((passRegex.test(password)) &
+                (loginRegex.test(username)) &
+                (passRegex.test(password)) &
+                (passRegex.test(password2)) &
                 (emailRegex.test(email))) {
                 event.preventDefault();
                 ajaxPost();
@@ -261,9 +258,7 @@
             }
         });
 
-
         function ajaxPost() {
-
             // PREPARE FORM DATA
             var formData = {
                 login: $("#username").val(),
@@ -276,25 +271,29 @@
             // DO POST
             $.ajax({
                 type: "POST",
-                // contentType: "application/json",
                 url: window.location + "/fts/register",
                 data: formData,
-                // dataType: 'json',
                 success: function (result) {
-
-                    if (result === "200") {
-                        // alert("registered!");
-                        window.location.reload( true );
+                    if (result === "success") {
+                        window.location.reload(true);
                         window.location = "/fts/foodTracking";
-                        // window.location.replace("/fts/foodTracking");
-
-                    } else {
-                        alert("Fuuuuuuck!!!")
+                    }else if (result==="userIsLogged"){
+                        alert("User with such login is already logged in!")
+                    } else if (result==="userExistsInDb"){
+                        alert("User with such login is already exists!")
+                    }else if (result==="userErrorLogin"){
+                        alert("Wrong login! Try again")
+                    }else if (result==="userNotExist"){
+                        alert("User with such login doesn't exists!")
                     }
-                    console.log(result);
+                    else {
+                        alert("Some problem happened! Please, try again.")
+                        console.log("Unknown response from Servlet.");
+                    }
+                    console.log("Servlet response: " + result);
                 },
                 error: function (e) {
-                    alert("Error!")
+                    alert("Some Error occured!")
                     console.log("ERROR: ", e);
                 }
             });
