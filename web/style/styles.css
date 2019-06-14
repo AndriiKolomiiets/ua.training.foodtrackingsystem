@@ -54,6 +54,7 @@ input[type=text], input[type=password] {
     border: none;
     cursor: pointer;
     width: 10%;
+    border-radius: 4px;
 }
 
 /*.left_div{
@@ -68,6 +69,7 @@ input[type=text], input[type=password] {
     border: none;
     cursor: pointer;
     width: 100%;
+    border-radius: 4px;
 }
 
 .new_header_button {
@@ -195,6 +197,7 @@ span.psw {
     }
     .cancelbtn {
         width: 100%;
+        border-radius: 4px;
     }
 }
 

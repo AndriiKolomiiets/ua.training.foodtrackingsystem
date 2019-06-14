@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-war" build-on-make="true" name="foodTracking">
-    <output-path>$PROJECT_DIR$/out/artifacts/foodTracking</output-path>
-    <root id="root" />
-  </artifact>
-</component>

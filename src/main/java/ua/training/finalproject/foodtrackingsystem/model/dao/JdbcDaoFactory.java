@@ -49,7 +49,7 @@ public class JdbcDaoFactory extends DaoFactory {
         return new JdbcTrackStatisticDao(getConnection());
     }
 
-    private Connection getConnection() {
+/*    private Connection getConnection() {
         try {
             Driver driver = new com.mysql.jdbc.Driver();
             DriverManager.registerDriver(driver);
@@ -61,16 +61,16 @@ public class JdbcDaoFactory extends DaoFactory {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
-/*    private Connection getConnection() {
-     DataSource dataSource;
+    private Connection getConnection() {
+     DataSource dataSource = ConnectionPoolHolder.getDataSource();
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
-    }*/
+    }
 }
 

@@ -89,7 +89,7 @@
 <%--                    LOGIN FORM                           --%>
 
 <div id="loginDiv" class="modal">
-    <form id="loginForm" class="modal-content animate" name="login_form" <%--action="/Servlet/"--%>>
+    <form id="loginForm" class="modal-content animate" name="login_form">
         <%--onsubmit="return validateForm()--%>
         <div class="imgcontainer">
             <span onclick="document.getElementById('loginDiv').style.display='none'"
@@ -104,7 +104,7 @@
             <tr><fmt:message key="index.password.input"/><input type="password" name="password" id="password"
                                                                 placeholder="<fmt:message key="index.password.enter"/>"
                                                                 pattern="[0-9A-Za-z ]{4,15}"/></tr>
-            <button type="submit" name="login_button" id="login_button">Login</button>
+            <button type="button" name="login_button" id="login_button">Login</button>
         </div>
 
         <div class="container" style="background-color:#f1f1f1">
@@ -116,10 +116,8 @@
         </div>
     </form>
 </div>
-<div id="messageDiv" style="display:none;"></div>
-
-
-<script>
+<%--<div id="messageDiv" style="display:none;"></div>--%>
+<%--<script>
     // Get the modal
     var modal = document.getElementById('loginDiv');
     // When the user clicks anywhere outside of the modal, close it
@@ -128,27 +126,27 @@
             modal.style.display = "none";
         }
     }
-</script>
+</script>--%>
 
 <script>
     $("#login_button").on('click', function () {
         var login = $("#login").val();
         var password = $("#password").val();
         if (login == "") {
-            $('#messageDiv').css("display", "none");
+            // $('#messageDiv').css("display", "none");
             alert("<fmt:message key="index.input.login.message"/>");
             login.focus()
             return;
         }
         if (password == "") {
-            $('#messageDiv').css("display", "none");
+            // $('#messageDiv').css("display", "none");
             alert("<fmt:message key="index.input.pass.message"/>");
             return;
         }
         $.ajax({
             /*cache: false,*/
-            url: "window.location/fts/login",
-            method: "post",
+            url: "/fts/login",
+            method: "POST",
             /*dataType: 'json',
             contentType: 'application/json; charset=utf-8',*/
             data: {
@@ -177,7 +175,7 @@
                     }
                     console.log("Servlet response: " + result);
                 },
-            error: function (results) {
+            error: function (result) {
                 alert("Error!")
             }
         });
@@ -285,7 +283,7 @@
             // DO POST
             $.ajax({
                 type: "POST",
-                url: window.location + "/fts/register",
+                url: "/fts/register",
                 data: formData,
                 success: function (result) {
                     if (result === "success") {
