@@ -13,4 +13,5 @@ public interface UserDao extends GenericDao <User>{
     void createWithoutClient(User entity);
 
     void setClient(User user);
+    Long getClientId(String username);
 }

@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface ClientDao extends GenericDao <Client> {
     Optional<Client> findByUserId(long id);
+
 }

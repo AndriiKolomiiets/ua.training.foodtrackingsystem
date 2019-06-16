@@ -1534,14 +1534,7 @@
       <ColNames>login</ColNames>
       <UnderlyingIndexName>users_login_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="365" parent="289" name="users_clients_id_fk">
-      <ColNames>client_id</ColNames>
-      <RefSchemaName>food_tracking_system_db</RefSchemaName>
-      <RefTableName>clients</RefTableName>
-      <RefColNames>client_id</RefColNames>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <foreign-key id="366" parent="289" name="users_roles_role_id_fk">
+    <foreign-key id="365" parent="289" name="users_roles_role_id_fk">
       <ColNames>role_id</ColNames>
       <RefSchemaName>food_tracking_system_db</RefSchemaName>
       <RefTableName>roles</RefTableName>

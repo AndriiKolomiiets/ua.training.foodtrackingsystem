@@ -122,4 +122,5 @@ public interface Attributes {
 
     String HTML_CONTENT_TYPE = "text/html;charset=UTF-8";
 
+    String REQUEST_MEAL_LIST = "mealList";
 }

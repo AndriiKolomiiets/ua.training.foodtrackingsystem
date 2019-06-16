@@ -1,7 +1,6 @@
 package ua.training.finalproject.foodtrackingsystem.model.dao.JdbcDao;
 
 import org.apache.log4j.Logger;
-import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.model.dao.dao.ClientDao;
 import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.ClientMapper;
@@ -35,13 +34,13 @@ public class JdbcClientDao implements ClientDao {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("insert.simpleClient"))) {
+                resourceBundle.getString("insert.client"))) {
             preparedStatement.setLong(1, entity.getUser().getId());
-            /*preparedStatement.setDate(2, Date.valueOf(entity.getBirthDate()));
+            preparedStatement.setDate(2, Date.valueOf(entity.getBirthDate()));
             preparedStatement.setInt(3, entity.getCaloriesNorm());
             preparedStatement.setInt(4, entity.getHeight());
             preparedStatement.setInt(5, entity.getWeight());
-            preparedStatement.setInt(6, entity.getLifeStyleCoefficient());*/
+            preparedStatement.setInt(6, entity.getLifeStyleCoefficient());
             preparedStatement.addBatch();
             preparedStatement.executeBatch();
             connection.setAutoCommit(true);
@@ -111,22 +110,21 @@ public class JdbcClientDao implements ClientDao {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("insert.client"))) {
-            preparedStatement.setLong(1, entity.getUser().getId());
-            preparedStatement.setDate(2, Date.valueOf(entity.getBirthDate()));
-            preparedStatement.setInt(3, entity.getCaloriesNorm());
-            preparedStatement.setInt(4, entity.getHeight());
-            preparedStatement.setInt(5, entity.getWeight());
-            preparedStatement.setInt(6, entity.getLifeStyleCoefficient());
+                resourceBundle.getString("update.client"))) {
+//            preparedStatement.setLong(1, entity.getUser().getId());
+            preparedStatement.setDate(1, Date.valueOf(entity.getBirthDate()));
+            preparedStatement.setInt(2, entity.getCaloriesNorm());
+            preparedStatement.setInt(3, entity.getHeight());
+            preparedStatement.setInt(4, entity.getWeight());
+            preparedStatement.setInt(5, entity.getLifeStyleCoefficient());
+            preparedStatement.setLong(6, entity.getId());
             preparedStatement.addBatch();
             preparedStatement.executeBatch();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
-        log.debug(LogMessages.LOG_CLIENT_UPDATED_IN_DB + "[Login: " + entity.getUser().getUsername() + "]");
-
-
+        log.debug(LogMessages.LOG_CLIENT_UPDATED_IN_DB + "[Login: " + entity + "]");
     }
 
     @Override

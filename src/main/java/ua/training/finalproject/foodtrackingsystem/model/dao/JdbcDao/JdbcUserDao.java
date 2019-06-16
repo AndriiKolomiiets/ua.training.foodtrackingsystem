@@ -1,6 +1,7 @@
 package ua.training.finalproject.foodtrackingsystem.model.dao.JdbcDao;
 
 import org.apache.log4j.Logger;
+import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.model.dao.dao.UserDao;
 import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.ClientMapper;
@@ -8,6 +9,7 @@ import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.UserMapper;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 
+import javax.naming.directory.AttributeInUseException;
 import java.sql.*;
 import java.util.*;
 
@@ -130,6 +132,24 @@ public class JdbcUserDao implements UserDao {
         return optionalUser;
     }
 
+    public Long getClientId(String username){
+        Long clientId = null;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("select.userClientById"))) {
+            preparedStatement.setString(1, username);
+            rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+           while (rs.next()){
+             clientId = rs.getLong(Attributes.REQUEST_CLIENT_ID);
+           }
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        return clientId;
+    }
+
+//    public void setClientId()
+
     @Override
     public Optional<User> findByUsername(String name) {
         Optional<User> optionalUser = Optional.empty();
@@ -139,13 +159,6 @@ public class JdbcUserDao implements UserDao {
             preparedStatement.setString(1, name);
             rs = preparedStatement.executeQuery();
             rs = preparedStatement.getResultSet();
-
-
-
-
-
-
-
             optionalUser = Optional.of(userMapper.extractFromResultSet(rs));
         } catch (SQLException e) {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");

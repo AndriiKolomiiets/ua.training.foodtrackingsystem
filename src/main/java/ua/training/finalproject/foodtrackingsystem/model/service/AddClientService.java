@@ -14,6 +14,14 @@ import java.util.List;
 public class AddClientService {
     private static final Logger log = Logger.getLogger(AddClientService.class);
 
+    public void addClient(Client client){
+        DaoFactory daoFactory;
+        daoFactory = JdbcDaoFactory.getInstance();
+        ClientDao clientDao = daoFactory.createClientDao();
+        clientDao.create(client);
+        clientDao.close();
+    }
+
     public void addOrUpdate(Client client) {
         DaoFactory daoFactory;
         int normCalories;
@@ -38,6 +46,14 @@ public class AddClientService {
         client.setCaloriesNorm(normCalories);
         clientDao.update(client);
 
+        clientDao.close();
+    }
+
+    public void update(Client client) {
+        DaoFactory daoFactory;
+        daoFactory = JdbcDaoFactory.getInstance();
+        ClientDao clientDao = daoFactory.createClientDao();
+        clientDao.update(client);
         clientDao.close();
     }
 }

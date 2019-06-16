@@ -2,7 +2,7 @@
 
 <jsp:include page="../pagecomponents/header.jsp"/>
 <jsp:include page="../pagecomponents/footer.jsp"/>
-
+<link rel="stylesheet" type="text/css" href="../../style/settingsStyle.css">
 
 <script>
     function preback() {
@@ -26,8 +26,20 @@
 </c:if>
 <c:if test="${client.id==null}">
 
+    <div align="center">
+        <h2>To track meal, please, create a client account!</h2>
+        <br>
+        <div class="row">
+            <button onclick="location.href='${pageContext.request.contextPath}/fts/userSettings'" type="button">
+                Create account
+            </button>
+        </div>
+    </div>
 
 </c:if>
+
+
+<c:if test="${client.id!=null}">
 
 
 
@@ -61,3 +73,4 @@
         </form>
     </div>
 </div>
+</c:if>
