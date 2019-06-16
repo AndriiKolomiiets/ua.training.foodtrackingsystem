@@ -10,6 +10,7 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Food;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 public class JdbcDayMealDao implements DayMealDao {
@@ -37,20 +38,20 @@ public class JdbcDayMealDao implements DayMealDao {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("insert.simpleDayMeal"))) {
+                resourceBundle.getString("insert.dayMeal"))) {
             preparedStatement.setLong(1, entity.getClient().getId());
-            /*preparedStatement.setDate(2, Date.valueOf(entity.getBirthDate()));
-            preparedStatement.setInt(3, entity.getCaloriesNorm());
-            preparedStatement.setInt(4, entity.getHeight());
-            preparedStatement.setInt(5, entity.getWeight());
-            preparedStatement.setInt(6, entity.getLifeStyleCoefficient());*/
+            preparedStatement.setTimestamp(2, Timestamp.valueOf(entity.getDateTime()));
+            preparedStatement.setLong(3, entity.getFood().getId());
+            preparedStatement.setInt(4, entity.getNumber());
+            preparedStatement.setString(5, entity.getCaloriesStatus());
+            preparedStatement.setInt(6, entity.getCaloriesToNorm());
             preparedStatement.addBatch();
             preparedStatement.executeBatch();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
-        log.debug(LogMessages.LOG_DAY_MEAL_CREATED_IN_DB + "[Login: " + entity.getClient().getUser().getUsername() + "]");
+        log.debug(LogMessages.LOG_DAY_MEAL_CREATED_IN_DB + "[Login: " + entity.getClient() + "]");
     }
 
     public Optional<DayMeal> findDayMealByClient(Client client) {
@@ -114,7 +115,8 @@ public class JdbcDayMealDao implements DayMealDao {
 
     @Override
     public void update(DayMeal entity) {
-        try {
+        //<editor-fold desc="create method - need to be rewrote">
+       /* try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
@@ -134,7 +136,8 @@ public class JdbcDayMealDao implements DayMealDao {
         } catch (SQLException e) {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
-        log.debug(LogMessages.LOG_DAY_MEAL_ADDED_TO_DB + "[Login: " + entity.getClient().getUser().getUsername() + "]");
+        log.debug(LogMessages.LOG_DAY_MEAL_ADDED_TO_DB + "[Login: " + entity.getClient().getUser().getUsername() + "]");*/
+        //</editor-fold>
     }
 
     @Override

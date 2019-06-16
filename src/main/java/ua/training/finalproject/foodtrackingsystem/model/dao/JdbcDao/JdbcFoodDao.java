@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.model.dao.dao.FoodDao;
+import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.FoodMapper;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Food;
 
 import java.sql.Connection;
@@ -22,6 +23,8 @@ public class JdbcFoodDao implements FoodDao {
     private static final Logger log = Logger.getLogger(JdbcFoodDao.class);
     private ResultSet rs;
     private Food food;
+    private FoodMapper foodMapper = new FoodMapper();
+    private Optional<Food> optionalFood;
 
     public JdbcFoodDao(Connection connection) {
         this.connection = connection;
@@ -29,7 +32,24 @@ public class JdbcFoodDao implements FoodDao {
 
     @Override
     public void create(Food entity) {
-
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("insert.food"))) {
+            preparedStatement.setString(1, entity.getFoodName());
+            preparedStatement.setInt(2, entity.getCalories());
+            preparedStatement.setInt(3, entity.getProteins());
+            preparedStatement.setInt(4, entity.getLipids());
+            preparedStatement.setInt(5, entity.getCarbs());
+            preparedStatement.addBatch();
+            preparedStatement.executeBatch();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
     }
 
     @Override
@@ -77,5 +97,20 @@ public class JdbcFoodDao implements FoodDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Optional<Food> findByName(String foodName) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("select.foodByName"))) {
+            preparedStatement.setString(1, foodName);
+            rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+            optionalFood = Optional.of(foodMapper.extractFromResultSet(rs));
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        return optionalFood;
+
     }
 }

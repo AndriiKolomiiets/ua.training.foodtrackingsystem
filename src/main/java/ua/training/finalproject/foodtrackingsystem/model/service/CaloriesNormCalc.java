@@ -13,6 +13,6 @@ public class CaloriesNormCalc {
         return client.getHeight() *
                 client.getWeight() *
                 client.getLifeStyleCoefficient() +
-                age / 1000;
+                age / 10000;
     }
 }

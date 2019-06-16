@@ -7,7 +7,7 @@
 <br>
 <h1 align="center" style="color:#1e4103"><fmt:message key="meal.statistic.title"/></h1>
 <br>
-<c:if test="${client.id==null}">
+<c:if test="${calories_norm==null}">
 
     <div align="center">
         <h2>To track a meal, please, create a client account!</h2>
@@ -22,7 +22,7 @@
 </c:if>
 
 
-<c:if test="${client.id!=null}">
+<c:if test="${calories_norm!=null}">
 
 
 

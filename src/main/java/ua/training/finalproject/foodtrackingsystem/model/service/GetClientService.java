@@ -24,6 +24,7 @@ public class GetClientService {
         if (userId!=null) {
             client = clientDao.findByUserId(userId);
         }
+        clientDao.close();
         return client.orElse(null);
     }
 

@@ -24,7 +24,7 @@ public class AddClient implements Command {
     public String execute(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(Attributes.REQUEST_USER);
         GetUserService getUserService = new GetUserService();
-        Optional<User> userFromBb = getUserService.getUserByName(user.getUsername());
+        Optional<User> userFromDb = getUserService.getUserByName(user.getUsername());
         String login = user.getUsername();
 //        String pass = request.getParameter(Attributes.REQUEST_PASSWORD);
         String returnStatement;
@@ -33,15 +33,16 @@ public class AddClient implements Command {
         Integer caloriesToNorm = 0;
         AddClientService addClientService = new AddClientService();
         GetClientService getClientService = new GetClientService();
+        GetDayMealService getDayMealService = new GetDayMealService();
 //        Long clientId = user.getClient().getId();
 //        GetClientService getClientService = new GetClientService();
 
-        Client client = getClientService.getClient(userFromBb.get());
-        CommandUtil.openUsersSession(request, userFromBb.get());
+        Client client = getClientService.getClient(userFromDb.get());
+
         //todo: mistake!!!!!!!!!!!
         if (client==null||client.getId()==null){
             client = new Client();
-            client.setUser(userFromBb.get());
+            client.setUser(userFromDb.get());
             String httpDate = request.getParameter(Attributes.REQUEST_BIRTH_DATE);
             client.setBirthDate(LocalDate.parse(httpDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             client.setHeight(Integer.parseInt(request.getParameter(Attributes.REQUEST_HEIGHT)));
@@ -65,21 +66,27 @@ public class AddClient implements Command {
             client.setCaloriesNorm(caloriesNorm);
             addClientService.update(client);
         }
+        userFromDb.get().setClient(client);
+        CommandUtil.openUsersSession(request, userFromDb.get());
 
-
-        GetDayMealService getDayMealService = new GetDayMealService();
 
 
 //todo: is DayMeal rewrite to DayMealList!!!!!!!!!!
-        Optional<DayMeal> dayMeal= getDayMealService.getDayMealByClient(client);
-        if (dayMeal.isPresent()){
-            caloriesToNorm = dayMeal.get().getCaloriesToNorm();
-            caloriesStatus = dayMeal.get().getCaloriesStatus();
+        Optional<DayMeal> optionalDayMeal= getDayMealService.getDayMealByClient(client);
+        if (optionalDayMeal.isPresent()){
+            caloriesToNorm = optionalDayMeal.get().getCaloriesToNorm();
+            caloriesStatus = optionalDayMeal.get().getCaloriesStatus();
+        } else {
+            DayMeal dayMeal = new DayMeal();
+            dayMeal.setClient(client);
+
+            //todo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          //  create day meal
         }
 
 
-        request.getSession().setAttribute(Attributes.REQUEST_CLIENT_ID, client.getId());
-        request.getSession().setAttribute(Attributes.REQUEST_CALORIES_NORM, caloriesNorm);
+//        request.getSession().setAttribute(Attributes.REQUEST_CLIENT_ID, client.getId());
+        request.getSession().setAttribute(Attributes.REQUEST_CALORIES_NORM, client.getCaloriesNorm());
         request.getSession().setAttribute(Attributes.REQUEST_CALORIES_TO_NORM, caloriesToNorm);
         request.getSession().setAttribute(Attributes.REQUEST_CALORIES_STATUS, caloriesStatus);
         returnStatement = PagePath.USER_FOOD_TRACKING;

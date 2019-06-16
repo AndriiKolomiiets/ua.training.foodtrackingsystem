@@ -1,6 +1,6 @@
 package ua.training.finalproject.foodtrackingsystem.model.entity;
 
-public class Food implements Entity{
+public class Food implements Entity {
     private Long id;
     private String foodName;
     private Integer calories;
@@ -65,5 +65,15 @@ public class Food implements Entity{
 
     public void setCarbs(Integer carbs) {
         this.carbs = carbs;
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + getId() +
+                "\nFood name: " + getFoodName() +
+                "\nCalories: " + getCalories() +
+                "\nProteins: " + getProteins() +
+                "\nLipids: " + getLipids() +
+                "\nCarbs: " + getCarbs();
     }
 }
