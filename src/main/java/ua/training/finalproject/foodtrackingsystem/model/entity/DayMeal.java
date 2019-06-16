@@ -7,23 +7,32 @@ public class DayMeal implements Entity{
     private Long id;
 //    private Client client;
     private LocalDateTime dateTime;
-    private List<Food> foodList;
+    private Food food;
     private Integer number;
     private String caloriesStatus;
     private Integer caloriesToNorm;
+    private Client client;
 
-    public DayMeal(Long id, LocalDateTime dateTime, List<Food> foodList, Integer number, String caloriesStatus) {
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public DayMeal(Long id, LocalDateTime dateTime, Food food, Integer number, String caloriesStatus) {
         this.id = id;
         this.dateTime = dateTime;
-        this.foodList = foodList;
+        this.food = food;
         this.number = number;
         this.caloriesStatus = caloriesStatus;
     }
 
-    public DayMeal(Long id, LocalDateTime dateTime, List<Food> foodList, Integer number, String caloriesStatus, Integer caloriesToNorm) {
+    public DayMeal(Long id, LocalDateTime dateTime, Food food, Integer number, String caloriesStatus, Integer caloriesToNorm) {
         this.id = id;
         this.dateTime = dateTime;
-        this.foodList = foodList;
+        this.food = food;
         this.number = number;
         this.caloriesStatus = caloriesStatus;
         this.caloriesToNorm = caloriesToNorm;
@@ -48,12 +57,12 @@ public class DayMeal implements Entity{
         this.dateTime = dateTime;
     }
 
-    public List<Food> getFoodList() {
-        return foodList;
+    public Food getFood() {
+        return food;
     }
 
-    public void setFoodList(List<Food> foodList) {
-        this.foodList = foodList;
+    public void setFood(Food food) {
+        this.food = food;
     }
 
     public Integer getNumber() {

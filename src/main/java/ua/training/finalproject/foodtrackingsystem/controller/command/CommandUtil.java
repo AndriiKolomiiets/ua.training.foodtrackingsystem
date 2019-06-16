@@ -1,21 +1,23 @@
 package ua.training.finalproject.foodtrackingsystem.controller.command;
 
+import org.apache.log4j.Logger;
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
+import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.controller.command.auth.LogOut;
 import ua.training.finalproject.foodtrackingsystem.controller.command.auth.Login;
 import ua.training.finalproject.foodtrackingsystem.controller.command.auth.RegisterNewUser;
 import ua.training.finalproject.foodtrackingsystem.controller.command.direction.*;
 import ua.training.finalproject.foodtrackingsystem.controller.command.exception.DataHttpException;
 import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.UserMapper;
-import ua.training.finalproject.foodtrackingsystem.model.entity.Role;
+import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
+import ua.training.finalproject.foodtrackingsystem.model.service.CreateClientService;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 public abstract class CommandUtil {
+    private static final Logger log = Logger.getLogger(CommandUtil.class);
 
     public static Map<String, Command> initializeCommands() {
         Map<String, Command> commandMap = new HashMap<>();
@@ -23,11 +25,13 @@ public abstract class CommandUtil {
         commandMap.put("loginOrRegister", new LoginOrRegister());
         commandMap.put("register", new RegisterNewUser());
         commandMap.put("logOut", new LogOut());
-        commandMap.put("dayMeal", new DayMeal());
+        commandMap.put("dayMeal", new ToDayMeal());
         commandMap.put("mainPage", new MainPage());
         commandMap.put("changeLanguage", new ChangeLanguage());
+        commandMap.put("addClient", new AddClient());
 
         commandMap.put("foodTracking", new FoodTracking());
+        commandMap.put("trackFood", new TrackFood());
         commandMap.put("allUsersStatistic", new AllUsersStatistic());
         commandMap.put("manageAllUsers", new ManageAllUsers());
         commandMap.put("userSettings", new ClientSettings());
@@ -44,50 +48,41 @@ public abstract class CommandUtil {
         request.getServletContext().setAttribute(Attributes.REQUEST_USERS_ALL, allUsers);
     }
 
-/*    public static void setUserRole(HttpServletRequest request,
-                                   Role role, String name) {
-        HttpSession session = request.getSession();
-        ServletContext context = request.getServletContext();
-        context.setAttribute("userName", name);
-        session.setAttribute("role", role);
-    }*/
-
     public static String openUsersSession(HttpServletRequest request, User user) {
 
         HashSet<String> allUsers = (HashSet<String>) request.getServletContext().getAttribute(Attributes.REQUEST_USERS_ALL);
 
         if (allUsers == null) {
-            //todo: logger
+            log.debug(LogMessages.LOG_ALL_USERS_NULL);
             allUsers = new HashSet<>();
         }
         if (allUsers.contains(user.getUsername())) {
-//            log.warn(Mess.LOG_USER_DOUBLE_AUTH + " [" + user.getEmail() + "]");
-//           todo: logger
+            log.warn(LogMessages.LOG_USER_DOUBLE_AUTH + " [" + user.getUsername() + "]");
             return Attributes.RETURN_STATEMENT_USER_LOGGED;
         }
-
         request.getSession().setAttribute(Attributes.REQUEST_USER, user);
         request.getSession().setAttribute(Attributes.PAGE_NAME, Attributes.PAGE_FOOD_TRACKING);
 
         allUsers.add(user.getUsername());
         request.getServletContext().setAttribute(Attributes.REQUEST_USERS_ALL, allUsers);
-//        log.info(Mess.LOG_USER_LOGGED + "[" + user.getEmail() + "]");
-//todo: logger
+        log.debug(LogMessages.LOG_USER_LOGGED + "[" + user.getUsername() + "]");
         return Attributes.RETURN_STATEMENT_SUCCESS;
     }
 
     public static String checkUserIsLogged(HttpServletRequest request, String userName) {
-        HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
+        HashSet<String> loggedUsers = (HashSet<String>) request.getSession()
+                .getServletContext()
                 .getAttribute("loggedUsers");
 
-//        if (){}.
         if ((!loggedUsers.isEmpty())
                 && (loggedUsers.stream().anyMatch(userName::equals))) {
+            log.debug(LogMessages.LOG_USER_DOUBLE_AUTH + "[" + userName + "]");
             return Attributes.RETURN_STATEMENT_USER_LOGGED;
         }
         loggedUsers.add(userName);
         request.getSession().getServletContext()
                 .setAttribute("loggedUsers", loggedUsers);
+        log.debug(LogMessages.LOG_USER_LOGGED + "[" + userName + "]");
         return Attributes.RETURN_STATEMENT_USER_LOGGED_OUT;
     }
 
@@ -96,8 +91,7 @@ public abstract class CommandUtil {
         try {
             userHttp = Optional.ofNullable(UserMapper.extractFromHttpServletRequest(request));
         } catch (DataHttpException e) {
-            //todo: logger
-//            log.error(e.getMessage());
+            log.error(LogMessages.LOG_USER_HTTP_NOT_EXTRACT + "[" + e.getMessage() + "]");
             userHttp = Optional.empty();
         }
         return userHttp;
@@ -108,8 +102,7 @@ public abstract class CommandUtil {
         try {
             userHttp = Optional.ofNullable(UserMapper.extractRegisterFromHttpServletRequest(request));
         } catch (DataHttpException e) {
-            //todo: logger
-//            log.error(e.getMessage());
+            log.error(LogMessages.LOG_USER_HTTP_NOT_EXTRACT + "[" + e.getMessage() + "]");
             userHttp = Optional.empty();
         }
         return userHttp;

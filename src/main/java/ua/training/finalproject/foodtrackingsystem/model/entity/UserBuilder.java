@@ -6,6 +6,7 @@ public class UserBuilder {
     private String password;
     private String email;
     private Role role;
+    private Client client;
 
     public UserBuilder buildId(Long id){
         this.id = id;
@@ -32,6 +33,11 @@ public class UserBuilder {
         return this;
     }
 
+   /* public UserBuilder buildClient(Client client){
+        this.client = client;
+        return this;
+    }*/
+
     public User build(){
         User user = new User();
         user.setId(id);
@@ -39,6 +45,7 @@ public class UserBuilder {
         user.setPassword(password);
         user.setEmail(email);
         user.setRole(role);
+//        user.setClient(client);
         return user;
     }
 }

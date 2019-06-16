@@ -1,6 +1,9 @@
 package ua.training.finalproject.foodtrackingsystem.controller.filter;
 
-import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
+import com.sun.org.apache.bcel.internal.generic.LMUL;
+import org.apache.log4j.Logger;
+import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
+import ua.training.finalproject.foodtrackingsystem.model.entity.Role;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 
 import javax.servlet.FilterChain;
@@ -16,11 +19,12 @@ import java.util.Optional;
  *
  * @author
  */
+//todo: add pages
 @WebFilter(urlPatterns = {"/fts/homePage", "/fts/foodTracking", "/fts/dayMeal",
         "/fts/mealStatistic", "/fts/logOut", "/fts/userSettings", /*"wwwwwwww",
         "wwwwwwww", "wwwwwwww", "wwwwwwww"*/})
-//@Log4j2
 public class PageFilterNonRegistered extends AbstractFilter {
+    private static final Logger log = Logger.getLogger(PageFilterNonRegistered.class);
 
     @Override
     protected void filter(HttpServletRequest request,
@@ -30,9 +34,8 @@ public class PageFilterNonRegistered extends AbstractFilter {
         if (user.isPresent()) {
             filterChain.doFilter(request, response);
         } else {
-//            log.warn(Mess.LOG_USER_GO_USER_URL + " - [" + Roles.UNKNOWN + "]");
+            log.warn(LogMessages.LOG_USER_GO_USER_URL + " - [" + Role.GUEST + "]");
             response.sendRedirect("http://localhost:8080/fts/loginOrRegister");
-//            request.getRequestDispatcher(PagePath.LOGIN_OR_REGISTER).forward(request, response);
         }
     }
 }

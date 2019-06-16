@@ -1,7 +1,9 @@
 package ua.training.finalproject.foodtrackingsystem.controller.filter;
 
+import org.apache.log4j.Logger;
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
+import ua.training.finalproject.foodtrackingsystem.controller.command.auth.Login;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Role;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 
@@ -18,11 +20,12 @@ import java.util.Optional;
  *
  * @author
  */
-@WebFilter(urlPatterns = {"/swft/menuGeneralEdit", "/swft/menuGeneralEditWithError", "/swft/deleteGeneralMenuItem",
-        "/swft/updateGeneralDish", "/swft/showUsers", "/swft/deleteUsers", "/swft/listUsersPage", "/swft/updateUsers",
-        "/swft/showUsersAfterUpdateOrSearch", "/swft/searchUsersByEmail"})
-//@Log4j2
+//todo: change pages
+@WebFilter(urlPatterns = {"/fts/menuGeneralEdit", "/fts/menuGeneralEditWithError", "/fts/deleteGeneralMenuItem",
+        "/fts/updateGeneralDish", "/fts/showUsers", "/fts/deleteUsers", "/fts/listUsersPage", "/fts/updateUsers",
+        "/fts/showUsersAfterUpdateOrSearch", "/fts/searchUsersByEmail"})
 public class PageFilterAdmin extends AbstractFilter {
+    private static final Logger log = Logger.getLogger(PageFilterAdmin.class);
 
     @Override
     protected void filter(HttpServletRequest request,
@@ -33,6 +36,7 @@ public class PageFilterAdmin extends AbstractFilter {
             if (user.get().getRole().equals(Role.ADMIN)) {
                 filterChain.doFilter(request, response);
             } else {
+//                todo: logger
 //                log.warn(Mess.LOG_USER_GO_ADMIN_URL + " - [" + user.get().getEmail() + "]");
                 request.getSession().setAttribute(Attributes.PAGE_NAME, Attributes.PAGE_MAIN);
                 request.getRequestDispatcher(PagePath.USER_MAIN_PAGE).forward(request, response);

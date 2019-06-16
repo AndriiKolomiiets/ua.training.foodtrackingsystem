@@ -1,6 +1,6 @@
 package ua.training.finalproject.foodtrackingsystem.model.dao.connection;
 
-//import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 //import org.apache.commons.dbcp.BasicDataSource;
 //import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -14,7 +14,6 @@ public class ConnectionPoolHolder {
     private static ResourceBundle resourceBundle = ResourceBundle.getBundle("db",
             new Locale("en", "GB"));
 
-
     public static DataSource getDataSource(){
 
         if (dataSource == null){
@@ -24,17 +23,17 @@ public class ConnectionPoolHolder {
                     ds.setUrl(resourceBundle.getString("db.url"));
                     ds.setUsername(resourceBundle.getString("db.user"));
                     ds.setPassword(resourceBundle.getString("db.password"));
-                    ds.setMinIdle(5);
-                    ds.setMaxIdle(10);
-                    ds.setMaxOpenPreparedStatements(100);
+                    ds.setMinIdle(50);
+                    ds.setMaxIdle(100);
+                    ds.setMaxOpenPreparedStatements(1000);
                     dataSource = ds;
                 }
             }
         }
         return dataSource;
     }
-/*
-    public static ComboPooledDataSource getDataSource() throws PropertyVetoException{
+
+   /* public static ComboPooledDataSource getDataSource() throws PropertyVetoException {
         ComboPooledDataSource cpds = new ComboPooledDataSource();
         cpds.setJdbcUrl(resourceBundle.getString("db.url"));
         cpds.setUser(resourceBundle.getString("db.user"));

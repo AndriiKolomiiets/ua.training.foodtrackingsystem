@@ -1,21 +1,24 @@
 package ua.training.finalproject.foodtrackingsystem.model.entity;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Client implements Entity{
     private Long id;
-    private Date birthDate;
+    private LocalDate birthDate;
     private Integer weight;
     private Integer height;
     private Integer lifeStyleCoefficient;
     private Integer caloriesNorm;
+    private User user;
 
     private List<DayMeal> dayMealList = new ArrayList<>();
     private List<ClientTrack> clientTrackList = new ArrayList<>();
 
-    public Client(Long id, Date birthDate, Integer weight, Integer height, Integer lifeStyleCoefficient, Integer caloriesNorm) {
+    public Client(User user, Long id, LocalDate birthDate, Integer weight, Integer height, Integer lifeStyleCoefficient, Integer caloriesNorm) {
+        this.user = user;
         this.id = id;
         this.birthDate = birthDate;
         this.weight = weight;
@@ -24,8 +27,18 @@ public class Client implements Entity{
         this.caloriesNorm = caloriesNorm;
     }
 
-    public Client(Long id, Date birthDate, Integer weight, Integer height, Integer lifeStyleCoefficient,
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Client(User user, Long id, LocalDate birthDate, Integer weight, Integer height, Integer lifeStyleCoefficient,
                   Integer caloriesNorm, List<DayMeal> dayMealList, List<ClientTrack> clientTrackList) {
+        this.user = user;
+
         this.id = id;
         this.birthDate = birthDate;
         this.weight = weight;
@@ -47,11 +60,11 @@ public class Client implements Entity{
         this.id = id;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -101,5 +114,18 @@ public class Client implements Entity{
 
     public void setClientTrackList(List<ClientTrack> clientTrackList) {
         this.clientTrackList = clientTrackList;
+    }
+
+    @Override
+    public String toString(){
+        return "ID: " + getId()+
+                "\nBirthDate" + getBirthDate() +
+                "\nWeight" + getWeight() +
+                "\nHeight" + getHeight() +
+                "\nLifeStyleCoefficient" + getLifeStyleCoefficient() +
+                "\nCaloriesNorm" + getCaloriesNorm() +
+                "\nUser" + getUser() +
+                "\nDayMealList" + getDayMealList() +
+                "\nClientTrackList" + getClientTrackList();
     }
 }

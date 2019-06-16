@@ -1,6 +1,8 @@
 package ua.training.finalproject.foodtrackingsystem.controller;
 
+import org.apache.log4j.Logger;
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
+import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
 import ua.training.finalproject.foodtrackingsystem.controller.command.Command;
 import ua.training.finalproject.foodtrackingsystem.controller.command.CommandUtil;
@@ -10,19 +12,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 
 public class Servlet extends HttpServlet {
     private Map<String, Command> commands;
-    private static final String PAGE_PATH = "/fts/";
-    private static final String REGEX_REDIRECT_PAGE = ".*/fts/";
+    private static final Logger log = Logger.getLogger(Servlet.class);
 
     @Override
     public void init() {
         commands = CommandUtil.initializeCommands();
-
     }
 
     @Override
@@ -42,6 +41,8 @@ public class Servlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        Command command;
+        String page;
         HashSet<String> returnStatements = new HashSet<>();
         returnStatements.add(Attributes.RETURN_STATEMENT_SUCCESS);
         returnStatements.add(Attributes.RETURN_STATEMENT_USER_EXISTS_IN_DB);
@@ -53,19 +54,20 @@ public class Servlet extends HttpServlet {
         returnStatements.add(Attributes.USER_ERROR_PASSWORD);
         String path = req.getRequestURI();
 
-        path = path.replaceAll(REGEX_REDIRECT_PAGE, "");
+        path = path.replaceAll(Attributes.REGEX_REDIRECT_PAGE, "");
 
-        Command command = commands.getOrDefault(path, (r) -> PagePath.INDEX);
-
-        String page = command.execute(req);
+        command = commands.getOrDefault(path, (r) -> PagePath.INDEX);
+        page = command.execute(req);
 
         if (page.contains(PagePath.REDIRECT)) {
             resp.sendRedirect(page.replace(PagePath.REDIRECT, Attributes.PAGE_PATH));
+            log.debug(LogMessages.LOG_PAGE_REDIRECTED + "[Path: " + page + "]");
         } else {
             for (String s : returnStatements) {
                 if (page.equals(s)) {
-                    resp.setContentType("text/html;charset=UTF-8");
+                    resp.setContentType(Attributes.HTML_CONTENT_TYPE);
                     resp.getWriter().write(page);
+                    log.debug(LogMessages.LOG_SEND_RESPONSE + "[" + page + "] - to request: " + req.getRequestURI());
                     return;
                 }
             }

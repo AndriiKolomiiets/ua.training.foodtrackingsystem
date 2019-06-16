@@ -3,6 +3,7 @@ package ua.training.finalproject.foodtrackingsystem.constants;
 public interface Attributes {
     String HTML_TEXT = "text/html";
     String HTML_ENCODE = "UTF-8";
+    String REGEX_REDIRECT_PAGE = ".*/fts/";
 
     String PAGE_PATH = "/fts/";
     String PAGE_NAME = "pageName";
@@ -69,7 +70,7 @@ public interface Attributes {
 
     //DAY MEAL
     String REQUEST_MEAL_ID = "meal_id";
-    String REQUEST_DATE_TYME = "date_time";
+    String REQUEST_DATE_TIME = "date_time";
     String REQUEST_NUMBER = "number";
     String REQUEST_CALORIES_STATUS = "calories_status";
     String REQUEST_CALORIES_TO_NORM = "calories_to_norm";
@@ -119,5 +120,6 @@ public interface Attributes {
     String COMMAND_MENU_LIST_USERS_PAGE = "listUsersPage";
 
 
+    String HTML_CONTENT_TYPE = "text/html;charset=UTF-8";
 
 }

@@ -56,7 +56,7 @@
 
 <div align="center">
 <div class="settings_container">
-    <form action="/action_page.php">
+    <form action="/fts/addClient">
         <div class="row">
             <div class="col-25">
                 <label for="birth_date"><fmt:message key="page.settings.input.birthDate"/></label>

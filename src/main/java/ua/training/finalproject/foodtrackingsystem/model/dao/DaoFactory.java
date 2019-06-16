@@ -15,6 +15,8 @@ public abstract class DaoFactory {
 
     public abstract FoodDao createFoodDao();
 
+    public abstract RoleDao createRoleDao();
+
     public abstract TrackStatisticDao createTrackStatisticDao();
 
     public static DaoFactory getInstance() {

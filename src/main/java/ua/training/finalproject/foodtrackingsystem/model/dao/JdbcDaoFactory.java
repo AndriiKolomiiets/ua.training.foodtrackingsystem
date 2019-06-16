@@ -1,6 +1,8 @@
 package ua.training.finalproject.foodtrackingsystem.model.dao;
 
-import ua.training.finalproject.foodtrackingsystem.model.dao.*;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.log4j.Logger;
+import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.model.dao.JdbcDao.*;
 import ua.training.finalproject.foodtrackingsystem.model.dao.connection.ConnectionPoolHolder;
 import ua.training.finalproject.foodtrackingsystem.model.dao.dao.*;
@@ -8,14 +10,13 @@ import ua.training.finalproject.foodtrackingsystem.model.dao.dao.*;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class JdbcDaoFactory extends DaoFactory {
-
+    private static final Logger log = Logger.getLogger(JdbcDaoFactory.class);
     private static ResourceBundle resourceBundle = ResourceBundle.getBundle("db",
             new Locale("en", "GB"));
 
@@ -49,6 +50,12 @@ public class JdbcDaoFactory extends DaoFactory {
         return new JdbcTrackStatisticDao(getConnection());
     }
 
+    @Override
+    public RoleDao createRoleDao() {
+        return new JdbcRoleDao(getConnection());
+    }
+
+    //<editor-fold desc="Simple connection">
 /*    private Connection getConnection() {
         try {
             Driver driver = new com.mysql.jdbc.Driver();
@@ -62,13 +69,23 @@ public class JdbcDaoFactory extends DaoFactory {
         }
         return null;
     }*/
+    //</editor-fold>
 
     private Connection getConnection() {
-     DataSource dataSource = ConnectionPoolHolder.getDataSource();
+        //<editor-fold desc="Data source">
+             DataSource dataSource = ConnectionPoolHolder.getDataSource();
+        //</editor-fold>
+//        ComboPooledDataSource dataSource = null;
+//        try {
+            dataSource = ConnectionPoolHolder.getDataSource();
+//        } catch (PropertyVetoException e) {
+//            log.error(LogMessages.LOG_CONNECTION_POOL_EXCEPTION + "["+ e.getMessage() +"]");
+//        }
+
         try {
-            return dataSource.getConnection();
+            return Objects.requireNonNull(dataSource).getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(LogMessages.LOG_CONNECTION_EXCEPTION + "["+ e.getMessage() +"]");
         }
         return null;
     }

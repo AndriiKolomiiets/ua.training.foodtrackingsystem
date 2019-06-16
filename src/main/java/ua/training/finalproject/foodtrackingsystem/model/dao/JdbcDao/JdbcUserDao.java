@@ -1,11 +1,11 @@
 package ua.training.finalproject.foodtrackingsystem.model.dao.JdbcDao;
 
-import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
+import org.apache.log4j.Logger;
+import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.model.dao.dao.UserDao;
 import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.ClientMapper;
 import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.UserMapper;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
-import ua.training.finalproject.foodtrackingsystem.model.entity.Role;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 
 import java.sql.*;
@@ -13,7 +13,8 @@ import java.util.*;
 
 public class JdbcUserDao implements UserDao {
     private Connection connection;
-    private UserMapper userMapper;
+    private static final Logger log = Logger.getLogger(JdbcUserDao.class);
+    private UserMapper userMapper = new UserMapper();
     private ClientMapper clientMapper;
     private ResultSet rs;
     private User user;
@@ -36,85 +37,33 @@ public class JdbcUserDao implements UserDao {
                 message = true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
         return message;
     }
 
-    /*public User getOrCheckUser(String login, String pass) {
-//        Optional<User> optionalUser;
-        Integer role_id = 2;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("select.userByLoginAndPass"))) {
-            preparedStatement.setString(1, login);
-            preparedStatement.setString(2, pass);
-            rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                user = new User();
-                user.setId(rs.getLong(Attributes.REQUEST_USER_ID));
-                user.setUsername(rs.getString(Attributes.REQUEST_LOGIN));
-                user.setPassword(rs.getString(Attributes.REQUEST_PASSWORD));
-                user.setEmail(rs.getString(Attributes.REQUEST_EMAIL));
-                //todo: get User ROle
-
-                role_id =rs.getInt(Attributes.REQUEST_ROLE_ID);
-                user.setClient(new Client());
-                user.getClient().setId(rs.getLong(Attributes.REQUEST_CLIENT_ID));
-            }
-        } catch (Exception e) {
-            user = null;
-        }
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("select.roleByRoleId"))) {
-            preparedStatement.setInt(1, role_id);
-            rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                String roleFromDb = rs.getString(Attributes.REQUEST_ROLE);
-                user.setRole(Role.valueOf(roleFromDb));
-            }
-    } catch (Exception e) {
-            e.printStackTrace();
-            //todo: logger
-        user = null;
-    }
-           return user;
-    }*/
-
     public User getOrCheckUser(String login) {
-//        Optional<User> optionalUser;
-        Integer role_id = 2;
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 resourceBundle.getString("select.userByLogin"))) {
             preparedStatement.setString(1, login);
-
             rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                user = new User();
-                user.setId(rs.getLong(Attributes.REQUEST_USER_ID));
-                user.setUsername(rs.getString(Attributes.REQUEST_LOGIN));
-                user.setPassword(rs.getString(Attributes.REQUEST_PASSWORD));
-                user.setEmail(rs.getString(Attributes.REQUEST_EMAIL));
-                role_id =rs.getInt(Attributes.REQUEST_ROLE_ID);
-                user.setClient(new Client());
-                user.getClient().setId(rs.getLong(Attributes.REQUEST_CLIENT_ID));
-            }
+            rs=preparedStatement.getResultSet();
+//            System.out.println(rs);
+//            sdfsdfsdfsdf
+            //todo:  RS==null
+//            while (rs.next()) {
+                user = userMapper.extractFromResultSet(rs);
+//            }
         } catch (Exception e) {
-            user = null;
-        }
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("select.roleByRoleId"))) {
-            preparedStatement.setInt(1, role_id);
-            rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                String roleFromDb = rs.getString(Attributes.REQUEST_ROLE);
-                user.setRole(Role.valueOf(roleFromDb));
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        } finally {
+            if (connection!=null){
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            //todo: logger
-            user = null;
         }
         return user;
     }
@@ -125,11 +74,34 @@ public class JdbcUserDao implements UserDao {
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
-//todo: check is role set successfully!!!!
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 resourceBundle.getString("insert.user"))) {
+            preparedStatement.setString(1, entity.getUsername());
+            preparedStatement.setString(2, entity.getPassword());
+            preparedStatement.setString(3, entity.getEmail());
+            preparedStatement.setLong(4, entity.getClient().getId());
+            preparedStatement.setInt(5, role);
+            preparedStatement.addBatch();
+            preparedStatement.executeBatch();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        log.debug(LogMessages.LOG_USER_CREATED_IN_DB + "[Login: " + entity.getUsername() + "]");
+    }
+
+    @Override
+    public void createWithoutClient(User entity) {
+        Integer role = 2;
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("insert.userWithoutClient"))) {
             preparedStatement.setString(1, entity.getUsername());
             preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setString(3, entity.getEmail());
@@ -138,34 +110,71 @@ public class JdbcUserDao implements UserDao {
             preparedStatement.executeBatch();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            e.printStackTrace();
-        //todo: logging
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
+        log.debug(LogMessages.LOG_USER_CREATED_IN_DB + "[Login: " + entity.getUsername() + "]");
     }
 
     @Override
-    public Optional<User> findById(int id) {
+    public Optional<User> findById(long id) {
         Optional<User> optionalUser = Optional.empty();
-        try {
-            connection.setAutoCommit(false);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 resourceBundle.getString("select.userById"))) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
             rs = preparedStatement.executeQuery();
-            connection.setAutoCommit(true);
             optionalUser = Optional.of(userMapper.extractFromResultSet(rs));
-        } catch (
-                SQLException e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
         return optionalUser;
     }
 
-    public List<User> getUsersWithClient() {
+    @Override
+    public Optional<User> findByUsername(String name) {
+        Optional<User> optionalUser = Optional.empty();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("select.userByName"))) {
+            preparedStatement.setString(1, name);
+            rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+
+
+
+
+
+
+
+            optionalUser = Optional.of(userMapper.extractFromResultSet(rs));
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        return optionalUser;
+    }
+
+    public void setClient(User user){
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("update.userClientId"))) {
+            preparedStatement.setLong(1, user.getClient().getId());
+            preparedStatement.setLong(2, user.getId());
+            preparedStatement.executeUpdate();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+
+
+
+    }
+
+    //<editor-fold desc="UsersWithClient">
+/*    public List<User> getUsersWithClient() {
         userList = new ArrayList<>();
         try (Statement st = connection.createStatement()) {
             rs = st.executeQuery(resourceBundle.getString("select.userWithClint"));
@@ -176,11 +185,11 @@ public class JdbcUserDao implements UserDao {
                 userList.add(user);
             }
         } catch (SQLException e) {
-            //todo: logger
-            System.out.println(e.getMessage());
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
         return userList;
-    }
+    }*/
+    //</editor-fold>
 
     @Override
     public List<User> findAll() {
@@ -193,26 +202,24 @@ public class JdbcUserDao implements UserDao {
                 userList.add(user);
             }
         } catch (SQLException e) {
-            //todo: logger
-            e.printStackTrace();
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
         return userList;
     }
 
     @Override
     public void update(User entity) {
-
     }
 
+    //todo EXECUTE UPDATE
+
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         try (Statement statement = connection.createStatement()) {
             rs = statement.executeQuery(
                     resourceBundle.getString("select.unique.user.and.tax.info"));
-
         } catch (SQLException e) {
-            //todo: logger
-            e.printStackTrace();
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
     }
 
@@ -221,7 +228,7 @@ public class JdbcUserDao implements UserDao {
         try {
             connection.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
     }
 }
