@@ -123,8 +123,10 @@ public interface Attributes {
     String HTML_CONTENT_TYPE = "text/html;charset=UTF-8";
 
     String REQUEST_MEAL_LIST = "mealList";
+    String REQUETS_CLIENT_TRACK_LIST = "trackList";
     String RETURN_STATEMENT_FOOD_EXISTS = "foodExists";
 
     String CALORIES_STATUS_EXCEEDED = "exceeded";
     String CALORIES_STATUS_OK = "normal";
+    String RETURN_STATEMENT_WRONG_ID = "wrongId";
 }

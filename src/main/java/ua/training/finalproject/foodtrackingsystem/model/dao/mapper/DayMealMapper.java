@@ -1,6 +1,7 @@
 package ua.training.finalproject.foodtrackingsystem.model.dao.mapper;
 
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
+import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Food;
 import ua.training.finalproject.foodtrackingsystem.model.service.GetFoodService;
@@ -14,7 +15,10 @@ public class DayMealMapper implements ObjectMapper {
         Food food;
         GetFoodService getFoodService = new GetFoodService();
         DayMeal dayMeal = new DayMeal();
+//        Client client = new Client();
         dayMeal.setId(rs.getLong(Attributes.REQUEST_MEAL_ID));
+        dayMeal.setClient(new Client());
+        dayMeal.getClient().setId(rs.getLong(Attributes.REQUEST_CLIENT_ID));
         dayMeal.setDateTime(rs.getTimestamp(Attributes.REQUEST_DATE_TIME)
                 .toLocalDateTime());
         food =getFoodService.getFoodById(rs.getLong(Attributes.REQUEST_FOOD_ID)).get();
@@ -22,13 +26,6 @@ public class DayMealMapper implements ObjectMapper {
         dayMeal.setNumber(rs.getInt(Attributes.REQUEST_NUMBER));
         dayMeal.setCaloriesStatus(rs.getString(Attributes.REQUEST_CALORIES_STATUS));
         dayMeal.setCaloriesToNorm(rs.getInt(Attributes.REQUEST_CALORIES_TO_NORM));
-        /*
-        dayMeal.setId(rs.getLong(Attributes.REQUEST_MEAL_ID));
-        dayMeal.setCaloriesStatus(rs.getString(Attributes.REQUEST_CALORIES_STATUS));
-        dayMeal.setCaloriesToNorm(rs.getInt(Attributes.REQUEST_CALORIES_TO_NORM));
-        dayMeal.setDateTime(rs.getTimestamp(Attributes.REQUEST_DATE)
-                .toLocalDateTime());
-        dayMeal.setNumber(rs.getInt(Attributes.REQUEST_NUMBER));*/
 
         return dayMeal;
     }

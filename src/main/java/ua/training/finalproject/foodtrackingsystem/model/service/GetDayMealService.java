@@ -11,21 +11,31 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 import java.util.Optional;
 
 public class GetDayMealService {
-    private DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-    private DayMealDao dayMealDao = daoFactory.createDayMealDao();
     private static final Logger log = Logger.getLogger(GetDayMealService.class);
-    private Optional<DayMeal> dayMealByClient;
 
     public Optional<DayMeal> getDayMealByClient(Client client) {
-        /*DaoFactory daoFactory;
-        daoFactory = JdbcDaoFactory.getInstance();
-        DayMealDao dayMealDao = daoFactory.createDayMealDao();*/
+        DaoFactory daoFactory = JdbcDaoFactory.getInstance();
+        DayMealDao dayMealDao = daoFactory.createDayMealDao();
+        Optional<DayMeal> dayMealByClient;
         dayMealByClient = dayMealDao.findDayMealByClient(client);
         dayMealDao.close();
         return dayMealByClient;
     }
 
+    public Optional<DayMeal> getDayMealById(Long id) {
+        DaoFactory daoFactory = JdbcDaoFactory.getInstance();
+        DayMealDao dayMealDao = daoFactory.createDayMealDao();
+        Optional<DayMeal> dayMealByClient;
+        dayMealByClient = dayMealDao.findById(id);
+        dayMealDao.close();
+        return dayMealByClient;
+    }
+
     public DayMeal createAndGet(Client client) {
+        DaoFactory daoFactory = JdbcDaoFactory.getInstance();
+        DayMealDao dayMealDao = daoFactory.createDayMealDao();
+
+        Optional<DayMeal> dayMealByClient;
         DayMeal dayMeal = new DayMeal();
         dayMeal.setClient(client);
         dayMealDao.create(dayMeal);

@@ -9,6 +9,15 @@ public class ClientTrack implements Entity{
     private String caloriesStatus;
     private Integer caloriesToNorm;
     private List<TrackStatistic> trackStatisticList;
+    private Client client;
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     public ClientTrack(Long id, LocalDate date, String caloriesStatus, Integer caloriesToNorm, List<TrackStatistic> trackStatisticList) {
         this.id = id;

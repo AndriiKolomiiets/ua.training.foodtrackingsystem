@@ -30,7 +30,7 @@ public class AddClientService {
         daoFactory = JdbcDaoFactory.getInstance();
         ClientDao clientDao = daoFactory.createClientDao();
         GetDayMealService getDayMealService = new GetDayMealService();
-        CaloriesNormCalc caloriesNormCalc = new CaloriesNormCalc();
+        CalcCaloriesNormService calcCaloriesNormService = new CalcCaloriesNormService();
 
         if(client.getCaloriesNorm()==null){
             dayMealList = new ArrayList<>();
@@ -39,10 +39,10 @@ public class AddClientService {
             client.setDayMealList(dayMealList);
             log.debug(LogMessages.LOG_DAY_MEAL_LIST_CREATED + "[Login: "+ client.getUser().getUsername() +"]");
 
-            normCalories = caloriesNormCalc.calcNorm(client);
+            normCalories = calcCaloriesNormService.calcNorm(client);
             client.setCaloriesNorm(normCalories);
         }
-        normCalories = caloriesNormCalc.calcNorm(client);
+        normCalories = calcCaloriesNormService.calcNorm(client);
         client.setCaloriesNorm(normCalories);
         clientDao.update(client);
 

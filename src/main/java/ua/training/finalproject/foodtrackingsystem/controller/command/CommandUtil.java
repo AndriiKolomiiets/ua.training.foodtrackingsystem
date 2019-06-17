@@ -8,6 +8,7 @@ import ua.training.finalproject.foodtrackingsystem.controller.command.auth.Login
 import ua.training.finalproject.foodtrackingsystem.controller.command.auth.RegisterNewUser;
 import ua.training.finalproject.foodtrackingsystem.controller.command.direction.*;
 import ua.training.finalproject.foodtrackingsystem.controller.command.exception.DataHttpException;
+import ua.training.finalproject.foodtrackingsystem.controller.command.process.*;
 import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.UserMapper;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 
@@ -28,6 +29,7 @@ public abstract class CommandUtil {
         commandMap.put("changeLanguage", new ChangeLanguage());
         commandMap.put("addClient", new AddClient());
         commandMap.put("trackNewFood", new TrackNewFood());
+        commandMap.put("deleteMeal", new DeleteMeal());
 
         commandMap.put("foodTracking", new FoodTracking());
         commandMap.put("trackFood", new TrackFood());

@@ -2,6 +2,7 @@
 
 <jsp:include page="../pagecomponents/header.jsp"/>
 <jsp:include page="../pagecomponents/footer.jsp"/>
+<%@ page errorPage="/error.jsp"%>
 <link rel="stylesheet" type="text/css" href="../../style/settingsStyle.css">
 
 <script>

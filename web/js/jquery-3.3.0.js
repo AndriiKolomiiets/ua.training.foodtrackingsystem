@@ -1604,7 +1604,7 @@
                 } else if ( nodeType === 3 || nodeType === 4 ) {
                     return elem.nodeValue;
                 }
-                // Do not include comment or processing instruction nodes
+                // Do not include comment or process instruction nodes
 
                 return ret;
             };
@@ -2028,7 +2028,7 @@
                     "empty": function( elem ) {
                         // http://www.w3.org/TR/selectors/#empty-pseudo
                         // :empty is negated by element (1) or content nodes (text: 3; cdata: 4; entity ref: 5),
-                        //   but not by others (comment: 8; processing instruction: 7; etc.)
+                        //   but not by others (comment: 8; process instruction: 7; etc.)
                         // nodeType < 6 works because attributes (2) do not appear as children
                         for ( elem = elem.firstChild; elem; elem = elem.nextSibling ) {
                             if ( elem.nodeType < 6 ) {
@@ -2338,7 +2338,7 @@
                             // If we have a postFinder, or filtered seed, or non-seed postFilter or preexisting results,
                             postFinder || ( seed ? preFilter : preexisting || postFilter ) ?
 
-                                // ...intermediate processing is necessary
+                                // ...intermediate process is necessary
                                 [] :
 
                                 // ...otherwise use results directly

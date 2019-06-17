@@ -42,7 +42,7 @@ public class Servlet extends HttpServlet {
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Command command;
-        String page;
+        String pageOrResponse;
         HashSet<String> returnStatements = new HashSet<>();
         returnStatements.add(Attributes.RETURN_STATEMENT_SUCCESS);
         returnStatements.add(Attributes.RETURN_STATEMENT_USER_EXISTS_IN_DB);
@@ -53,26 +53,27 @@ public class Servlet extends HttpServlet {
         returnStatements.add(Attributes.USER_NOT_EXISTS);
         returnStatements.add(Attributes.USER_ERROR_PASSWORD);
         returnStatements.add(Attributes.RETURN_STATEMENT_FOOD_EXISTS);
+        returnStatements.add(Attributes.RETURN_STATEMENT_WRONG_ID);
         String path = req.getRequestURI();
 
         path = path.replaceAll(Attributes.REGEX_REDIRECT_PAGE, "");
 
         command = commands.getOrDefault(path, (r) -> PagePath.INDEX);
-        page = command.execute(req);
+        pageOrResponse = command.execute(req);
 
-        if (page.contains(PagePath.REDIRECT)) {
-            resp.sendRedirect(page.replace(PagePath.REDIRECT, Attributes.PAGE_PATH));
-            log.debug(LogMessages.LOG_PAGE_REDIRECTED + "[Path: " + page + "]");
+        if (pageOrResponse.contains(PagePath.REDIRECT)) {
+            resp.sendRedirect(pageOrResponse.replace(PagePath.REDIRECT, Attributes.PAGE_PATH));
+            log.debug(LogMessages.LOG_PAGE_REDIRECTED + "[Path: " + pageOrResponse + "]");
         } else {
             for (String s : returnStatements) {
-                if (page.equals(s)) {
+                if (pageOrResponse.equals(s)) {
                     resp.setContentType(Attributes.HTML_CONTENT_TYPE);
-                    resp.getWriter().write(page);
-                    log.debug(LogMessages.LOG_SEND_RESPONSE + "[" + page + "] - to request: " + req.getRequestURI());
+                    resp.getWriter().write(pageOrResponse);
+                    log.debug(LogMessages.LOG_SEND_RESPONSE + "[" + pageOrResponse + "] - to request: " + req.getRequestURI());
                     return;
                 }
             }
-            req.getRequestDispatcher(page).forward(req, resp);
+            req.getRequestDispatcher(pageOrResponse).forward(req, resp);
         }
     }
 }

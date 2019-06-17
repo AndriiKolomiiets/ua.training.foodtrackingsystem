@@ -1,9 +1,10 @@
-package ua.training.finalproject.foodtrackingsystem.controller.command;
+package ua.training.finalproject.foodtrackingsystem.controller.command.process;
 
 import org.apache.log4j.Logger;
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
+import ua.training.finalproject.foodtrackingsystem.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;

@@ -11,7 +11,7 @@
     <%--<script src="path/to/jquery.nice-select.js"></script>--%>
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('select').niceSelect();
         });
 
@@ -53,9 +53,20 @@
     <%--<li><a href="${pageContext.request.contextPath}/fts/main">Home</a></li>--%>
     <li><a href="${pageContext.request.contextPath}/fts/foodTracking"><fmt:message key="food.tracking.title"/></a></li>
     <li><a href="${pageContext.request.contextPath}/fts/dayMeal"><fmt:message key="day.meal.title"/></a></li>
-    <li><a href="${pageContext.request.contextPath}/fts/mealStatistic"><fmt:message key="meal.statistic.title"/></a></li>
-    <li style="float:right"><a href="${pageContext.request.contextPath}/fts/userSettings"><fmt:message key="client.settings.title"/></a></li>
-    <%--<li><a href="${pageContext.request.contextPath}/fts/extendedStatistic"><fmt:message key="extended.statistic.title"/></a></li>--%>
+    <li><a href="${pageContext.request.contextPath}/fts/mealStatistic">
+        <fmt:message key="meal.statistic.title"/></a></li>
+    <li style="float:right"><a href="${pageContext.request.contextPath}/fts/userSettings">
+        <fmt:message key="client.settings.title"/></a></li>
+    <c:if test="${mealList != null}">
+        <li style="float:right"><a><fmt:message key="page.calories.to.norm"/>
+            <c:out value='${calories_to_norm}'/></a></li>
+        <c:if test="${calories_status == 'normal'}">
+            <li style="float:right"><a><fmt:message key="page.calories.norm"/></a></li>
+        </c:if>
+        <c:if test="${calories_status == 'exceeded'}">
+            <li style="float:right"><a><fmt:message key="page.calories.exceeded"/></a></li>
+        </c:if>
+    </c:if>
 </ul>
 <script type="text/javascript">
     chooseLanguage()

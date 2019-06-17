@@ -2,7 +2,6 @@ package ua.training.finalproject.foodtrackingsystem.model.service;
 
 import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public class CalcCaloriesToNormService {
@@ -12,7 +11,7 @@ public class CalcCaloriesToNormService {
             return caloriesNorm;
         }
         for (DayMeal dayMeal : dayMealList) {
-            calories += dayMeal.getFood().getCalories();
+            calories += (dayMeal.getFood().getCalories()*dayMeal.getNumber());
         }
        return caloriesNorm - calories;
     }

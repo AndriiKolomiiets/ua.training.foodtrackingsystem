@@ -10,7 +10,7 @@ public interface LogMessages {
     String LOG_USER_LOGGED = "User logged";
     String LOG_USER_LOGGED_OUT = "User logged out";
     String LOG_USER_REGISTERED = "User registered";
-    String LOG_USER_UPDATE_PARAMETERS = "User update parameters";
+    String LOG_USER_UPDATE_PARAMETERS = "User updateAll parameters";
     String LOG_USER_GET_BY_ID = "\n\tProblem to get user by id";
     String LOG_USER_HTTP_NOT_EXTRACT = "\n\tProblem to extract user from HttpServletRequest";
     String LOG_USER_GO_ADMIN_URL = "User tries to go by admin urls";
@@ -48,4 +48,6 @@ public interface LogMessages {
     String LOG_DAY_MEAL_ERROR = "Error while creating or getting DayMeal.";
     String LOG_USER_ROLE_MISSED = "User role is missed";
     String LOG_CLIENT_ERROR = "Client creation error";
+    String LOG_DAY_MEAL_UPPDATED_IN_DB = "DayMeal updated in DB";
+    String LOG_CLIENT_TRACK_CREATED_IN_DB = "ClientTrack reated in DB";
 }

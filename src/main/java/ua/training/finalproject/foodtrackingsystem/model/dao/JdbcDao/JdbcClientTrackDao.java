@@ -7,10 +7,8 @@ import ua.training.finalproject.foodtrackingsystem.model.dao.dao.ClientTrackDao;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.ClientTrack;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 public class JdbcClientTrackDao implements ClientTrackDao {
@@ -30,7 +28,25 @@ public class JdbcClientTrackDao implements ClientTrackDao {
 
     @Override
     public void create(ClientTrack entity) {
-//todo: collect data for the day from DayMeal and save here
+
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("insert.clientTrack"))) {
+            preparedStatement.setLong(1, entity.getClient().getId());
+            preparedStatement.setDate(2, Date.valueOf(entity.getDate()));
+            preparedStatement.setString(3, entity.getCaloriesStatus());
+            preparedStatement.setInt(4, entity.getCaloriesToNorm());
+            preparedStatement.addBatch();
+            preparedStatement.executeBatch();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        log.debug(LogMessages.LOG_CLIENT_TRACK_CREATED_IN_DB + "[Login: " + entity.getClient() + "]");
     }
 
     public List<ClientTrack> findClientTrackListByClient(Client client) {
@@ -40,8 +56,8 @@ public class JdbcClientTrackDao implements ClientTrackDao {
                 resourceBundle.getString("select.clientTrackByClient"))) {
             preparedStatement.setLong(1, client.getId());
             rs = preparedStatement.executeQuery();
-            clientTrack = new ClientTrack();
             while (rs.next()) {
+                clientTrack = new ClientTrack();
                 clientTrack.setId(rs.getLong(Attributes.REQUEST_CLIENT_TRACK_ID));
                 clientTrack.setDate(rs.getDate(Attributes.REQUEST_DATE)
                         .toLocalDate());

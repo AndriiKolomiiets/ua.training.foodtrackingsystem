@@ -31,7 +31,7 @@ label.settings_label {
     display: inline-block;
 }
 
-input[type=submit] {
+input[type=button] {
     background-color: #4CAF50;
     color: white;
     padding: 12px 20px;
@@ -41,7 +41,7 @@ input[type=submit] {
     float: right;
 }
 
-input[type=submit]:hover {
+input[type=button]:hover {
     background-color: #45a049;
 }
 
@@ -70,4 +70,28 @@ input[type=submit]:hover {
     content: "";
     display: table;
     clear: both;
+}
+/* Table */
+
+#dayMeal {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#dayMeal td, #dayMeal th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#dayMeal tr:nth-child(even){background-color: #f2f2f2;}
+
+#dayMeal tr:hover {background-color: #ddd;}
+
+#dayMeal th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
 }

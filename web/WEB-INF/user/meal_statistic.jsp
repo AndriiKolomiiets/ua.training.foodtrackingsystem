@@ -2,6 +2,8 @@
 
 <jsp:include page="../pagecomponents/header.jsp"/>
 <jsp:include page="../pagecomponents/footer.jsp"/>
+<link rel="stylesheet" type="text/css" href="../../style/settingsStyle.css">
+<%@ page errorPage="/error.jsp" %>
 
 
 <br>
@@ -21,26 +23,32 @@
 
 </c:if>
 
-
 <c:if test="${calories_norm!=null}">
 
+    <c:if test="${trackList.size()!=0}">
 
-
-    <c:if test="${mealList != null}">
-        <c:forEach items="${mealList}" var="element">
-
-            <c:set var="caloriesNorm" value="${calories_norm}"/>
-            <c:out value="${client_id}"/>
-            <c:out value="${calories_to_norm}"/>
-            <c:out value="${calories_status}"/>
-            <c:out value="${calories_norm}"/>
-
-
+        <table id="dayMeal">
             <tr>
-                <td>${element.getFood()}</td>
-                <td>${element.getNumber()}</td>
+                <th><fmt:message key="page.clienttrack.date"/>Meal ID</th>
+                <th><fmt:message key="page.clienttrack.caloriesstatus"/>Calories Status</th>
+                <th><fmt:message key="page.clienttrack.caloriestonorm"/>Calories to Norm</th>
             </tr>
-        </c:forEach>
+            <c:forEach items="${trackList}" var="element">
+
+                <tr>
+                    <td>${element.getDate()}</td>
+                    <td>${element.getCaloriesStatus()}</td>
+                    <td>${element.getCaloriesToNorm()}</td>
+                </tr>
+
+            </c:forEach>
+        </table>
+    </c:if>
+
+    <c:if test="${trackList.size()==0}">
+        <div align="center">
+        <h1><fmt:message key="page.clienttrack.tracklist"/>Track list will appear here next day after you make meal track.</h1>
+        </div>
     </c:if>
 
 </c:if>

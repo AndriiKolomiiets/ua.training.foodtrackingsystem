@@ -10,7 +10,7 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Food;
 
 import java.sql.*;
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class JdbcDayMealDao implements DayMealDao {
@@ -18,10 +18,10 @@ public class JdbcDayMealDao implements DayMealDao {
     private ResourceBundle resourceBundle = ResourceBundle.getBundle("db",
             new Locale("en", "GB"));
     private static final Logger log = Logger.getLogger(JdbcDayMealDao.class);
+    DayMealMapper dayMealMapper = new DayMealMapper();
     private ResultSet rs;
     private DayMeal dayMeal;
     private Food food;
-
 
     public JdbcDayMealDao(Connection connection) {
         this.connection = connection;
@@ -75,23 +75,13 @@ public class JdbcDayMealDao implements DayMealDao {
 
     public List<DayMeal> findDayMealListByClient(Client client) {
         List<DayMeal> dayMealList = new ArrayList<>();
-//        GetFoodService getFoodService = new GetFoodService();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("select.dayMealByClientId"))) {
+                resourceBundle.getString("select.dayMealListByClientId"))) {
             preparedStatement.setLong(1, client.getId());
             rs = preparedStatement.executeQuery();
-            dayMeal = new DayMeal();
+//            dayMeal = new DayMeal();
             while (rs.next()) {
-                DayMealMapper dayMealMapper = new DayMealMapper();
                 dayMeal = dayMealMapper.extractFromResultSet(rs);
-                /*dayMeal.setId(rs.getLong(Attributes.REQUEST_MEAL_ID));
-                dayMeal.setDateTime(rs.getTimestamp(Attributes.REQUEST_DATE_TIME)
-                        .toLocalDateTime());
-                food =getFoodService.getFoodById(rs.getLong(Attributes.REQUEST_FOOD_ID)).get();
-                dayMeal.setFood(food);
-                dayMeal.setNumber(rs.getInt(Attributes.REQUEST_NUMBER));
-                dayMeal.setCaloriesStatus(rs.getString(Attributes.REQUEST_CALORIES_STATUS));
-                dayMeal.setCaloriesToNorm(rs.getInt(Attributes.REQUEST_CALORIES_TO_NORM));*/
                 dayMealList.add(dayMeal);
             }
         } catch (Exception e) {
@@ -102,10 +92,19 @@ public class JdbcDayMealDao implements DayMealDao {
 
     @Override
     public Optional<DayMeal> findById(long id) {
-        Optional<DayMeal> optionalUser = Optional.empty();
-
-
-        return null;
+        Optional<DayMeal> optionalDayMeal = Optional.empty();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("select.dayMealById"))) {
+            preparedStatement.setLong(1, id);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                dayMeal = dayMealMapper.extractFromResultSet(rs);
+            }
+        } catch (Exception e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        optionalDayMeal=Optional.ofNullable(dayMeal);
+        return optionalDayMeal;
     }
 
     @Override
@@ -141,8 +140,54 @@ public class JdbcDayMealDao implements DayMealDao {
     }
 
     @Override
-    public void delete(long id) {
+    public void updateAll(DayMeal entity) {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("update.dayMealList"))) {
+            preparedStatement.setString(1, entity.getCaloriesStatus());
+            preparedStatement.setInt(2, entity.getCaloriesToNorm());
+            preparedStatement.setLong(3, entity.getClient().getId());
+            /*preparedStatement.addBatch();
+            preparedStatement.executeBatch();*/
+            preparedStatement.executeUpdate();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        log.debug(LogMessages.LOG_DAY_MEAL_UPPDATED_IN_DB );
+    }
 
+    public List<DayMeal> findAllByDate(DayMeal dayMeal, LocalDateTime yesterday){
+        List<DayMeal> dayMealList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("select.dayMealListByClientIdAndDateTime"))) {
+            preparedStatement.setLong(1, dayMeal.getClient().getId());
+            preparedStatement.setTimestamp(2, Timestamp.valueOf(yesterday));
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                dayMeal = dayMealMapper.extractFromResultSet(rs);
+                dayMealList.add(dayMeal);
+            }
+        } catch (Exception e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+        }
+        return dayMealList;
+    }
+
+    @Override
+    public void delete(long id) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("delete.dayMealById"))) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
+            dayMeal = null;
+        }
     }
 
     @Override

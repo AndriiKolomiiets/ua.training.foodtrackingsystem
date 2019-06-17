@@ -11,7 +11,6 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 public class SetClientToUserService {
     private static final Logger log = Logger.getLogger(SetClientToUserService.class);
 
-
     public void set(User user){
         DaoFactory daoFactory = new JdbcDaoFactory();
         UserDao userDao = daoFactory.createUserDao();

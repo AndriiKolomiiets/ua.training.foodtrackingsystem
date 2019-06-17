@@ -3,19 +3,22 @@ package ua.training.finalproject.foodtrackingsystem.model.service;
 import ua.training.finalproject.foodtrackingsystem.model.dao.DaoFactory;
 import ua.training.finalproject.foodtrackingsystem.model.dao.JdbcDaoFactory;
 import ua.training.finalproject.foodtrackingsystem.model.dao.dao.ClientTrackDao;
-import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.ClientTrack;
+import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
-public class GetClientTrackByClientService {
-    public List<ClientTrack> getDayMealList(Client client){
-        DaoFactory daoFactory;
-        daoFactory = JdbcDaoFactory.getInstance();
+public class AddClientTrackService {
+    public void add(Set<ClientTrack> clientTrackSet){
+        DaoFactory daoFactory = JdbcDaoFactory.getInstance();
         ClientTrackDao clientTrackDao = daoFactory.createClientTrackDao();
-//todo
-        List<ClientTrack> clientTrackList = clientTrackDao.findClientTrackListByClient(client);
+
+        for (ClientTrack clientTrack : clientTrackSet) {
+        clientTrackDao.create(clientTrack);
+        }
         clientTrackDao.close();
-        return clientTrackList;
     }
 }

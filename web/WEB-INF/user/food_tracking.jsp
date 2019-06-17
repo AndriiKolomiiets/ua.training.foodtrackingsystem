@@ -2,6 +2,7 @@
 
 <jsp:include page="../pagecomponents/header.jsp"/>
 <jsp:include page="../pagecomponents/footer.jsp"/>
+<%@ page errorPage="/error.jsp"%>
 <link rel="stylesheet" type="text/css" href="../../style/settingsStyle.css">
 <link rel="stylesheet" type="text/css" href="../../style/addNewFoodStyle.css">
 
@@ -21,6 +22,13 @@
 <br>
 
 <c:if test="${calories_norm!=null}">
+
+
+
+
+
+
+
 
 
 </c:if>
@@ -45,16 +53,16 @@
 
 <div align="center">
     <div class="settings_container">
-        <form <%--action="http://localhost:8080/fts/trackNewFood"--%>>
+        <form <%--action="http://localhost:8080/fts/trackFood"--%>>
        <div class="row">
                 <div class="col-25">
                     <label for="food"><fmt:message key="page.foodtracking.food"/></label>
                 </div>
                 <div class="col-75">
                     <select id="food"  class="select_life_style" name="food">
-                        <option value="1"><fmt:message key="page.foodtracking.soup"/></option>
-                        <option value="2"><fmt:message key="page.foodtracking.porridge"/></option>
-                        <option value="3"><fmt:message key="page.foodtracking.hamburger"/></option>
+                        <option value="soup"><fmt:message key="page.foodtracking.soup"/></option>
+                        <option value="porridge"><fmt:message key="page.foodtracking.porridge"/></option>
+                        <option value="hamburger"><fmt:message key="page.foodtracking.hamburger"/></option>
                     </select>
                 </div>
             </div>
@@ -68,38 +76,46 @@
             </div>
             <br>
             <div class="row">
-                <input type="submit" name="settings_button" id="settings_button" value="<fmt:message key="page.foodtracking.button"/>">
+                <input type="button" name="settings_button" id="settings_button" value="<fmt:message key="page.foodtracking.button"/>">
             </div>
         </form>
     </div>
 </div>
 
-    <button class="open-button" onclick="openForm()">Add New Food</button>
+    <button class="open-button" onclick="openForm()"><fmt:message key="page.foodtracking.mealform.header"/></button>
 
     <div class="form-popup" id="newFoodForm">
         <form <%--action="http://localhost:8080/fts/trackFood"--%> class="form-container">
             <h1>New food</h1>
 
-            <label for="foodName"><b>Name</b></label>
-            <input type="text" placeholder="Enter food name" id="foodName" name="foodName" required>
+            <label for="foodName"><b><fmt:message key="page.foodtracking.foodname"/></b></label>
+            <input type="text" placeholder="<fmt:message key="page.foodtracking.foodname.holder"/>"
+                   id="foodName" name="foodName" required>
 
-            <label for="newFoodNumber"><b>Number of foods</b></label>
-            <input type="text" placeholder="Enter number of foods" id="newFoodNumber" name="newFoodNumber" required>
+            <label for="newFoodNumber"><b><fmt:message key="page.foodtracking.foodnumber"/></b></label>
+            <input type="text" placeholder="<fmt:message key="page.foodtracking.foodnumber.holder"/>"
+                   id="newFoodNumber" name="newFoodNumber" required>
 
-            <label for="calories"><b>Calories</b></label>
-            <input type="text" placeholder="Enter number of calories" id="calories" name="calories" required>
+            <label for="calories"><b><fmt:message key="page.foodtracking.calories"/></b></label>
+            <input type="text" placeholder="<fmt:message key="page.foodtracking.calories.holder"/>"
+                   id="calories" name="calories" required>
 
-            <label for="proteins"><b>Proteins</b></label>
-            <input type="text" placeholder="Enter number of proteins" id="proteins" name="proteins" required>
+            <label for="proteins"><b><fmt:message key="page.foodtracking.proteins"/></b></label>
+            <input type="text" placeholder="<fmt:message key="page.foodtracking.proteins.holder"/>"
+                   id="proteins" name="proteins" required>
 
-            <label for="lipids"><b>Lipids</b></label>
-            <input type="text" placeholder="Enter number of lipids" id="lipids" name="lipids" required>
+            <label for="lipids"><b><fmt:message key="page.foodtracking.lipids"/></b></label>
+            <input type="text" placeholder="<fmt:message key="page.foodtracking.lipids.holder"/>"
+                   id="lipids" name="lipids" required>
 
-            <label for="carbs"><b>Carbohydrates</b></label>
-            <input type="text" placeholder="Enter number of carbs" id="carbs" name="carbs" required>
+            <label for="carbs"><b><fmt:message key="page.foodtracking.carbohydrates"/></b></label>
+            <input type="text" placeholder="<fmt:message key="page.foodtracking.carbohydrates.holder"/>"
+                   id="carbs" name="carbs" required>
 
-            <button type="button" id="newFoodButton" class="btn">Add Food</button>
-            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            <button type="button" id="newFoodButton" class="btn">
+                <fmt:message key="page.foodtracking.foodbutton"/></button>
+            <button type="button" class="btn cancel" onclick="closeForm()">
+                <fmt:message key="page.foodtracking.foodbutton.close"/></button>
         </form>
     </div>
 
@@ -124,49 +140,49 @@
         var lipids = $("#lipids").val();
         var carbs = $("#carbs").val();
         // var password = $("#password").val();
-        var foodNumberRegex = new RegExp("^([0-9]{1,2})$");
+        var foodNumberRegex = new RegExp("^([1-9])$");
         var foodRegex = new RegExp("[A-za-z0-9]{4,9}");
         var caloriesRegex = new RegExp("^([0-9]{1,3})$")
         if (foodRegex.test(foodName)) {
             console.log("Food name is Valid");
         } else {
             console.log("Food name is Invalid");
-            alert("<fmt:message key="page.name.wrong"/>");
+            alert("<fmt:message key="page.foodtracking.foodname.wrong"/>");
             foodName.focus();
         }
         if (foodNumberRegex.test(newFoodNumber)) {
             console.log("Food number is Valid");
         } else {
             console.log("Food number is Invalid");
-            alert("<fmt:message key="page.name.wrong"/>");
+            alert("<fmt:message key="page.meal.wrong.number"/>");
             newFoodNumber.focus();
         }
         if (caloriesRegex.test(calories)) {
             console.log("Calories number is Valid");
         } else {
             console.log("Calories number is Invalid");
-            alert("<fmt:message key="page.name.wrong"/>");
+            alert("<fmt:message key="page.elements.wrong.number"/>");
             calories.focus();
         }
         if (caloriesRegex.test(proteins)) {
             console.log("Proteins number is Valid");
         } else {
             console.log("Proteins number is Invalid");
-            alert("<fmt:message key="page.name.wrong"/>");
+            alert("<fmt:message key="page.elements.wrong.number"/>");
             proteins.focus();
         }
         if (caloriesRegex.test(lipids)) {
             console.log("Lipids number is Valid");
         } else {
             console.log("Lipids number is Invalid");
-            alert("<fmt:message key="page.name.wrong"/>");
+            alert("<fmt:message key="page.elements.wrong.number"/>");
             lipids.focus();
         }
         if (caloriesRegex.test(carbs)) {
             console.log("Carbs number is Valid");
         } else {
             console.log("Carbs number is Invalid");
-            alert("<fmt:message key="page.name.wrong"/>");
+            alert("<fmt:message key="page.elements.wrong.number"/>");
             carbs.focus();
         }
 
@@ -186,6 +202,8 @@
             success: function (result) {
                 if (result === "success") {
                     alert("<fmt:message key="page.new.food.added"/>");
+                    resetData();
+                    location.reload();
                 }else if (result==="foodExists"){
                     alert("<fmt:message key="page.new.food.exists"/>");
                 }
@@ -199,5 +217,59 @@
                 alert("Error!")
             }
         });
+
     });
+    function resetData() {
+        $("#foodName").val("");
+        $("#newFoodNumber").val("");
+        $("#calories").val("");
+        $("#proteins").val("");
+        $("#lipids").val("");
+        $("#carbs").val("");
+    }
+</script>
+
+<script>
+    $("#settings_button").on('click', function () {
+        var number = $("#number").val();
+        var foodNumberRegex = new RegExp("^([1-9])$");
+        if (foodNumberRegex.test(number)) {
+            console.log("Food number is Valid");
+        } else {
+            console.log("Food number is Invalid");
+            alert("<fmt:message key="page.meal.wrong.number"/>");
+            number.focus();
+        }
+
+        $.ajax({
+            url: "/fts/trackFood",
+            method: "POST",
+            /*dataType: 'json',
+            contentType: 'application/json; charset=utf-8',*/
+            data: {
+                food_name: $("#food").val(),
+                number: number,
+            },
+            success: function (result) {
+                if (result === "success") {
+                    alert("<fmt:message key="page.meal.added"/>");
+                    location.reload();
+                }
+                else {
+                    alert("<fmt:message key="page.food.problem"/>");
+                    console.log("Unknown response from Servlet.");
+                }
+                console.log("Servlet response: " + result);
+            },
+            error: function (result) {
+                alert("Error!")
+            }
+
+        });
+        resetData();
+    });
+    function resetData() {
+        $("#number").val("");
+    }
+
 </script>

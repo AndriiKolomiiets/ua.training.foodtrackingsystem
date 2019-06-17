@@ -9,6 +9,5 @@
 
 
 <br>
-<h1 align="center" style="color:#1e4103"><fmt:message key="page.exception.title"/></h1>
+<h1 align="center" style="color:#1e4103"><fmt:message key="page.404.title"/></h1>
 <br>
-
