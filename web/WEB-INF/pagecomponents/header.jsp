@@ -57,6 +57,10 @@
         <fmt:message key="meal.statistic.title"/></a></li>
     <li style="float:right"><a href="${pageContext.request.contextPath}/fts/userSettings">
         <fmt:message key="client.settings.title"/></a></li>
+    <c:if test="${role == 'ADMIN'}">
+        <li style="float:right"><a href="${pageContext.request.contextPath}/fts/userManagement">
+        <fmt:message key="page.admin.title"/></a></li>
+    </c:if>
     <c:if test="${mealList != null}">
         <li style="float:right"><a><fmt:message key="page.calories.to.norm"/>
             <c:out value='${calories_to_norm}'/></a></li>

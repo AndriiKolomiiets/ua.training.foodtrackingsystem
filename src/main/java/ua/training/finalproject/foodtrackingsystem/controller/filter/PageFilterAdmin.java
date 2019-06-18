@@ -21,9 +21,8 @@ import java.util.Optional;
  * @author
  */
 //todo: change pages
-@WebFilter(urlPatterns = {"/fts/menuGeneralEdit", "/fts/menuGeneralEditWithError", "/fts/deleteGeneralMenuItem",
-        "/fts/updateGeneralDish", "/fts/showUsers", "/fts/deleteUsers", "/fts/listUsersPage", "/fts/updateUsers",
-        "/fts/showUsersAfterUpdateOrSearch", "/fts/searchUsersByEmail"})
+@WebFilter(urlPatterns = {"/fts/userManagement", "/fts/appStatistic",
+        "/fts/updateFood", "/fts/showUsers", "/fts/deleteUsers", "/fts/updateUsers"})
 public class PageFilterAdmin extends AbstractFilter {
     private static final Logger log = Logger.getLogger(PageFilterAdmin.class);
 

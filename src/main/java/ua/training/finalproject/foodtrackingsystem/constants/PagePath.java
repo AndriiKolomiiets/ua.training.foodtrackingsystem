@@ -11,6 +11,7 @@ public interface PagePath {
 
     String USER_MAIN_PAGE = "/WEB-INF/user/main.jsp";
     String USER_SETTINGS = "/WEB-INF/user/settings.jsp";
+    String ADMIN = "/WEB-INF/admin/user_management.jsp";
     String USER_FOOD_TRACKING = "/WEB-INF/user/food_tracking.jsp";
     String USER_DAY_MEAL = "/WEB-INF/user/day_meal.jsp";
     String USER_EXTENDED_STATISTIC = "/WEB-INF/user/extended_statistic.jsp";

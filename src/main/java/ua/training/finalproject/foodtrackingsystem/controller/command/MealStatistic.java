@@ -5,9 +5,9 @@ import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.ClientTrack;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
-import ua.training.finalproject.foodtrackingsystem.model.service.GetClientService;
-import ua.training.finalproject.foodtrackingsystem.model.service.GetClientTrackByClientService;
-import ua.training.finalproject.foodtrackingsystem.model.service.GetUserService;
+import ua.training.finalproject.foodtrackingsystem.model.service.client.GetClientService;
+import ua.training.finalproject.foodtrackingsystem.model.service.clienttrack.GetClientTrackByClientService;
+import ua.training.finalproject.foodtrackingsystem.model.service.user.GetUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -23,7 +23,7 @@ public class MealStatistic implements Command {
         Optional<User> userFromDb = getUserService.getUserByName(user.getUsername());
         Client client = getClientService.getClient(userFromDb.get());
         List<ClientTrack> clientTrackList = getClientTrackByClientService.getDayMealList(client);
-        request.getSession().setAttribute(Attributes.REQUETS_CLIENT_TRACK_LIST, clientTrackList);
+        request.getSession().setAttribute(Attributes.REQUEST_CLIENT_TRACK_LIST, clientTrackList);
 //        request.getSession().setAttribute(Attributes.REQUEST_CALORIES_NORM, client.getCaloriesNorm());
         return PagePath.USER_MEAL_STATISTIC;
     }

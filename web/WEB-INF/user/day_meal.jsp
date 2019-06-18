@@ -23,6 +23,7 @@
 
 </c:if>
 
+<c:if test="${calories_norm != null}">
 <c:if test="${mealList.size()!=0}">
 
     <table id="dayMeal">
@@ -85,7 +86,7 @@
 <div align="center">
     <h1><fmt:message key="page.daymeal.meallist"/>DayMeal list will appear here after you track first meal.</h1>
 </div>
-<c:if test="${calories_norm != null}">
+
 
 </c:if>
 <script>

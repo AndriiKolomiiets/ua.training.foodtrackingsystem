@@ -21,35 +21,6 @@
 
 <%--<link rel="stylesheet" href="../../style/form_style.css">--%>
 
-<%--<div align="center">
-    <h3>Life style coefficients:</h3>
-<table >
-    <tr>
-        <th>Style</th>
-        <th>Coefficient</th>
-    </tr>
-    <tr>
-        <td>Active</td>
-        <td>3</td>
-
-    </tr>
-    <tr>
-        <td>Normal</td>
-        <td>2</td>
-
-    </tr>
-    <tr>
-        <td>Sedentary</td>
-        <td>1</td>
-
-    </tr>
-</table>
-</div>--%>
-
-<%--<br>
-<h1 align="center" style="color:#1e4103"><fmt:message key="client.settings.title"/></h1>
-<br>--%>
-
 <%--     *****************USER SETTINGS FORM*************************--%>
 <br>
 <h1 align="center" style="color:#1e4103"><fmt:message key="client.settings.title"/></h1>

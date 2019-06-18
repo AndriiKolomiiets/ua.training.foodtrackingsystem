@@ -30,7 +30,9 @@ public abstract class CommandUtil {
         commandMap.put("addClient", new AddClient());
         commandMap.put("trackNewFood", new TrackNewFood());
         commandMap.put("deleteMeal", new DeleteMeal());
+        commandMap.put("userManagement", new Admin());
 
+        commandMap.put("deleteUser", new DeleteUser());
         commandMap.put("foodTracking", new FoodTracking());
         commandMap.put("trackFood", new TrackFood());
         commandMap.put("allUsersStatistic", new AllUsersStatistic());

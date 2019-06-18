@@ -8,7 +8,11 @@ import ua.training.finalproject.foodtrackingsystem.controller.command.CommandUti
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
-import ua.training.finalproject.foodtrackingsystem.model.service.*;
+import ua.training.finalproject.foodtrackingsystem.model.service.client.AddClientService;
+import ua.training.finalproject.foodtrackingsystem.model.service.client.GetClientService;
+import ua.training.finalproject.foodtrackingsystem.model.service.daymeal.GetDayMealService;
+import ua.training.finalproject.foodtrackingsystem.model.service.user.GetUserService;
+import ua.training.finalproject.foodtrackingsystem.model.service.util.CalcCaloriesNormService;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -2,20 +2,17 @@ package ua.training.finalproject.foodtrackingsystem.model.dao.mapper;
 
 import org.apache.log4j.Logger;
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
-import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.controller.command.exception.DataHttpException;
-import ua.training.finalproject.foodtrackingsystem.model.dao.JdbcDao.JdbcClientDao;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Role;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 import ua.training.finalproject.foodtrackingsystem.model.entity.UserBuilder;
-import ua.training.finalproject.foodtrackingsystem.model.service.GetClientService;
-import ua.training.finalproject.foodtrackingsystem.model.service.GetRoleService;
+import ua.training.finalproject.foodtrackingsystem.model.service.client.GetClientService;
+import ua.training.finalproject.foodtrackingsystem.model.service.role.GetRoleService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class UserMapper implements ObjectMapper {
     private static final Logger log = Logger.getLogger(UserMapper.class);

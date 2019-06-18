@@ -7,7 +7,11 @@ import ua.training.finalproject.foodtrackingsystem.controller.command.Command;
 import ua.training.finalproject.foodtrackingsystem.controller.command.CommandUtil;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
-import ua.training.finalproject.foodtrackingsystem.model.service.*;
+import ua.training.finalproject.foodtrackingsystem.model.service.client.CreateClientService;
+import ua.training.finalproject.foodtrackingsystem.model.service.client.SetClientToUserService;
+import ua.training.finalproject.foodtrackingsystem.model.service.user.GetUserService;
+import ua.training.finalproject.foodtrackingsystem.model.service.util.LoginService;
+import ua.training.finalproject.foodtrackingsystem.model.service.util.RegisterService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;

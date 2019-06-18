@@ -228,9 +228,10 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public void delete(long id) {
-        try (Statement statement = connection.createStatement()) {
-            rs = statement.executeQuery(
-                    resourceBundle.getString("select.unique.user.and.tax.info"));
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                resourceBundle.getString("delete.userById"))) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }

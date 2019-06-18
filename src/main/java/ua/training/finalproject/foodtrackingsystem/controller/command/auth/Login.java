@@ -8,10 +8,13 @@ import ua.training.finalproject.foodtrackingsystem.controller.command.CommandUti
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
-import ua.training.finalproject.foodtrackingsystem.model.service.*;
+import ua.training.finalproject.foodtrackingsystem.model.service.client.GetClientService;
+import ua.training.finalproject.foodtrackingsystem.model.service.daymeal.GetDayMealListService;
+import ua.training.finalproject.foodtrackingsystem.model.service.daymeal.GetDayMealService;
+import ua.training.finalproject.foodtrackingsystem.model.service.user.GetUserService;
+import ua.training.finalproject.foodtrackingsystem.model.service.util.LoginService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.event.CaretListener;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +35,8 @@ public class Login implements Command {
         Client client;
         User user;
         String returnStatement;
+        List<DayMeal> dayMealList = null;
+        Integer caloriesNorm = null;
 
         if (login == null || login.equals("") || pass == null || pass.equals("")) {
             log.warn(LogMessages.LOG_HTTP_USER_FIELDS_EMPTY);
@@ -55,17 +60,20 @@ public class Login implements Command {
         GetUserService getUserService = new GetUserService();
         Optional<User> userFromDb = getUserService.getUserByName(user.getUsername());
         /*Client*/
+//        client = getClientService.getClient(userFromDb.get());
         client = getClientService.getClient(userFromDb.get());
-        client = getClientService.getClient(userFromDb.get());
-        optionalDayMeal = getDayMealService.getDayMealByClient(client);
-        if (optionalDayMeal.isPresent()) {
-            caloriesToNorm = optionalDayMeal.get().getCaloriesToNorm();
-            caloriesStatus = optionalDayMeal.get().getCaloriesStatus();
+        if (client!=null) {
+            optionalDayMeal = getDayMealService.getDayMealByClient(client);
+            if (optionalDayMeal.isPresent()) {
+                caloriesToNorm = optionalDayMeal.get().getCaloriesToNorm();
+                caloriesStatus = optionalDayMeal.get().getCaloriesStatus();
+            }
+            caloriesNorm = client.getCaloriesNorm();
+            GetDayMealListService getDayMealListService = new GetDayMealListService();
+             dayMealList = getDayMealListService.getDayMealList(client);
         }
-        GetDayMealListService getDayMealListService = new GetDayMealListService();
-        List<DayMeal> dayMealList = getDayMealListService.getDayMealList(client);
         request.getSession().setAttribute(Attributes.REQUEST_MEAL_LIST, dayMealList);
-        request.getSession().setAttribute(Attributes.REQUEST_CALORIES_NORM, client.getCaloriesNorm());
+        request.getSession().setAttribute(Attributes.REQUEST_CALORIES_NORM, caloriesNorm);
         request.getSession().setAttribute(Attributes.REQUEST_CALORIES_TO_NORM, caloriesToNorm);
         request.getSession().setAttribute(Attributes.REQUEST_CALORIES_STATUS, caloriesStatus);
         return returnStatement;

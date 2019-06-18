@@ -10,8 +10,8 @@ import java.sql.SQLException;
 public class ClientMapper implements ObjectMapper {
     @Override
     public Client extractFromResultSet(ResultSet rs) throws SQLException {
-        Client client = new Client();
         while (rs.next()) {
+            Client client = new Client();
             client.setId(rs.getLong(Attributes.REQUEST_CLIENT_ID));
             Date date = rs.getDate(Attributes.REQUEST_BIRTH_DATE);
             if (date != null) {
@@ -21,7 +21,8 @@ public class ClientMapper implements ObjectMapper {
             client.setHeight(rs.getInt(Attributes.REQUEST_HEIGHT));
             client.setWeight(rs.getInt(Attributes.REQUEST_WEIGHT));
             client.setLifeStyleCoefficient(rs.getInt(Attributes.REQUEST_LIFE_STYLE));
+            return client;
         }
-        return client;
+        return null;
     }
 }

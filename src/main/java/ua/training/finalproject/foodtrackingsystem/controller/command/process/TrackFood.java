@@ -6,7 +6,16 @@ import ua.training.finalproject.foodtrackingsystem.controller.command.CommandUti
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
-import ua.training.finalproject.foodtrackingsystem.model.service.*;
+import ua.training.finalproject.foodtrackingsystem.model.service.client.GetClientService;
+import ua.training.finalproject.foodtrackingsystem.model.service.daymeal.AddMealService;
+import ua.training.finalproject.foodtrackingsystem.model.service.daymeal.CheckCaloriesStatusService;
+import ua.training.finalproject.foodtrackingsystem.model.service.daymeal.GetDayMealListService;
+import ua.training.finalproject.foodtrackingsystem.model.service.daymeal.UpdateCaloriesStatusInDbService;
+import ua.training.finalproject.foodtrackingsystem.model.service.food.GetFoodIdService;
+import ua.training.finalproject.foodtrackingsystem.model.service.food.GetFoodService;
+import ua.training.finalproject.foodtrackingsystem.model.service.user.GetUserService;
+import ua.training.finalproject.foodtrackingsystem.model.service.util.CalcCaloriesNormService;
+import ua.training.finalproject.foodtrackingsystem.model.service.util.CalcCaloriesToNormService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;

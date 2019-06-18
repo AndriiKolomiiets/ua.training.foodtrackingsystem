@@ -4,7 +4,7 @@ import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Food;
-import ua.training.finalproject.foodtrackingsystem.model.service.GetFoodService;
+import ua.training.finalproject.foodtrackingsystem.model.service.food.GetFoodService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

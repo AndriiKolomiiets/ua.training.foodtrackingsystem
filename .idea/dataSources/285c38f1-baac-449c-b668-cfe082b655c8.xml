@@ -1140,7 +1140,6 @@
     <column id="291" parent="283" name="client_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="292" parent="283" name="date">
@@ -1166,7 +1165,7 @@
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="296" parent="283" name="user_track_clients_id_fk">
+    <index id="296" parent="283" name="client_track_clients_client_id_fk">
       <ColNames>client_id</ColNames>
       <Type>btree</Type>
     </index>
@@ -1179,7 +1178,7 @@
       <ColNames>client_track_id</ColNames>
       <UnderlyingIndexName>user_track_user_track_id_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="299" parent="283" name="user_track_clients_id_fk">
+    <foreign-key id="299" parent="283" name="client_track_clients_client_id_fk">
       <ColNames>client_id</ColNames>
       <RefSchemaName>food_tracking_system_db</RefSchemaName>
       <RefTableName>clients</RefTableName>
@@ -1319,222 +1318,207 @@
       <RefTableName>clients</RefTableName>
       <RefColNames>client_id</RefColNames>
     </foreign-key>
-    <foreign-key id="325" parent="285" name="day_meal_food_food_id_fk">
-      <ColNames>food_id</ColNames>
-      <RefSchemaName>food_tracking_system_db</RefSchemaName>
-      <RefTableName>food</RefTableName>
-      <RefColNames>food_id</RefColNames>
-    </foreign-key>
-    <column id="326" parent="286" name="food_id">
+    <column id="325" parent="286" name="food_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="327" parent="286" name="food_name">
+    <column id="326" parent="286" name="food_name">
       <Position>2</Position>
       <DataType>varchar(15)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="328" parent="286" name="calories">
+    <column id="327" parent="286" name="calories">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="329" parent="286" name="proteins">
+    <column id="328" parent="286" name="proteins">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="330" parent="286" name="lipids">
+    <column id="329" parent="286" name="lipids">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="331" parent="286" name="carbs">
+    <column id="330" parent="286" name="carbs">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="332" parent="286" name="food_food_id_uindex">
+    <index id="331" parent="286" name="food_food_id_uindex">
       <ColNames>food_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="333" parent="286" name="PRIMARY">
+    <key id="332" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>food_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="334" parent="286" name="food_food_id_uindex">
+    <key id="333" parent="286" name="food_food_id_uindex">
       <ColNames>food_id</ColNames>
       <UnderlyingIndexName>food_food_id_uindex</UnderlyingIndexName>
     </key>
-    <column id="335" parent="287" name="role_id">
+    <column id="334" parent="287" name="role_id">
       <Position>1</Position>
       <DataType>bigint(20)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="336" parent="287" name="role">
+    <column id="335" parent="287" name="role">
       <Position>2</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="337" parent="287" name="roles_role_uindex">
+    <index id="336" parent="287" name="roles_role_uindex">
       <ColNames>role</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="338" parent="287" name="PRIMARY">
+    <key id="337" parent="287" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>role_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="339" parent="287" name="roles_role_uindex">
+    <key id="338" parent="287" name="roles_role_uindex">
       <ColNames>role</ColNames>
       <UnderlyingIndexName>roles_role_uindex</UnderlyingIndexName>
     </key>
-    <column id="340" parent="288" name="track_statistic_id">
+    <column id="339" parent="288" name="track_statistic_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="341" parent="288" name="client_track_id">
+    <column id="340" parent="288" name="client_track_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="342" parent="288" name="food_id">
+    <column id="341" parent="288" name="food_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="343" parent="288" name="number">
+    <column id="342" parent="288" name="number">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="344" parent="288" name="date_time">
+    <column id="343" parent="288" name="date_time">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="345" parent="288" name="track_statistic_track_id_uindex">
+    <index id="344" parent="288" name="track_statistic_track_id_uindex">
       <ColNames>track_statistic_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="346" parent="288" name="track_statistic_user_track_user_track_id_fk">
+    <index id="345" parent="288" name="track_statistic_user_track_user_track_id_fk">
       <ColNames>client_track_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="347" parent="288" name="track_statistic_food_food_id_fk">
+    <index id="346" parent="288" name="track_statistic_food_food_id_fk">
       <ColNames>food_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="348" parent="288" name="PRIMARY">
+    <key id="347" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>track_statistic_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="349" parent="288" name="track_statistic_track_id_uindex">
+    <key id="348" parent="288" name="track_statistic_track_id_uindex">
       <ColNames>track_statistic_id</ColNames>
       <UnderlyingIndexName>track_statistic_track_id_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="350" parent="288" name="track_statistic_user_track_user_track_id_fk">
+    <foreign-key id="349" parent="288" name="track_statistic_user_track_user_track_id_fk">
       <ColNames>client_track_id</ColNames>
       <RefSchemaName>food_tracking_system_db</RefSchemaName>
       <RefTableName>client_track</RefTableName>
       <RefColNames>client_track_id</RefColNames>
     </foreign-key>
-    <foreign-key id="351" parent="288" name="track_statistic_food_food_id_fk">
+    <foreign-key id="350" parent="288" name="track_statistic_food_food_id_fk">
       <ColNames>food_id</ColNames>
       <RefSchemaName>food_tracking_system_db</RefSchemaName>
       <RefTableName>food</RefTableName>
       <RefColNames>food_id</RefColNames>
     </foreign-key>
-    <column id="352" parent="289" name="user_id">
+    <column id="351" parent="289" name="user_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="353" parent="289" name="login">
+    <column id="352" parent="289" name="login">
       <Position>2</Position>
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="354" parent="289" name="password">
+    <column id="353" parent="289" name="password">
       <Position>3</Position>
       <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="355" parent="289" name="email">
+    <column id="354" parent="289" name="email">
       <Position>4</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="356" parent="289" name="client_id">
+    <column id="355" parent="289" name="role_id">
       <Position>5</Position>
-      <DataType>int(11)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="357" parent="289" name="role_id">
-      <Position>6</Position>
       <DataType>bigint(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="358" parent="289" name="users_user_id_uindex">
+    <index id="356" parent="289" name="users_user_id_uindex">
       <ColNames>user_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="359" parent="289" name="users_login_uindex">
+    <index id="357" parent="289" name="users_login_uindex">
       <ColNames>login</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="360" parent="289" name="users_clients_id_fk">
-      <ColNames>client_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="361" parent="289" name="users_roles_role_id_fk">
+    <index id="358" parent="289" name="users_roles_role_id_fk">
       <ColNames>role_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="362" parent="289" name="PRIMARY">
+    <key id="359" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="363" parent="289" name="users_user_id_uindex">
+    <key id="360" parent="289" name="users_user_id_uindex">
       <ColNames>user_id</ColNames>
       <UnderlyingIndexName>users_user_id_uindex</UnderlyingIndexName>
     </key>
-    <key id="364" parent="289" name="users_login_uindex">
+    <key id="361" parent="289" name="users_login_uindex">
       <ColNames>login</ColNames>
       <UnderlyingIndexName>users_login_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="365" parent="289" name="users_roles_role_id_fk">
+    <foreign-key id="362" parent="289" name="users_roles_role_id_fk">
       <ColNames>role_id</ColNames>
       <RefSchemaName>food_tracking_system_db</RefSchemaName>
       <RefTableName>roles</RefTableName>
