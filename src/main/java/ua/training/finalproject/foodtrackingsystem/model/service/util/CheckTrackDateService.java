@@ -15,13 +15,13 @@ import java.util.List;
 public class CheckTrackDateService {
     public List<DayMeal> checkAndGetExpiredDayMealTrack(DayMeal dayMeal) {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        DayMealDao foodDao = daoFactory.createDayMealDao();
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime yesterday = now.minusHours(24);
-        List<DayMeal> dayMealList = foodDao.findAllByDate(dayMeal, yesterday);
-        foodDao.close();
+        List<DayMeal> dayMealList;
+        try(DayMealDao foodDao = daoFactory.createDayMealDao()) {
+            dayMealList = foodDao.findAllByDate(dayMeal, yesterday);
+        }
         return dayMealList;
-
     }
 
 }

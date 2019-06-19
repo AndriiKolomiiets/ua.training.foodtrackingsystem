@@ -59,7 +59,6 @@ public class JdbcClientDao implements ClientDao {
 
     @Override
     public Optional<Client> findById(long id) {
-        Optional<Client> optionalClient = Optional.empty();
         GetDayMealListService getDayMealByClientService = new GetDayMealListService();
         GetClientTrackByClientService getClientTrackByClientService = new GetClientTrackByClientService();
         try (PreparedStatement preparedStatement = connection.prepareStatement(

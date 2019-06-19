@@ -13,12 +13,13 @@ import java.util.List;
  * @version 1.0 19.06.2019
  */
 public class GetDayMealListService {
-    public List<DayMeal> getDayMealList(Client client){
+    public List<DayMeal> getDayMealList(Client client) {
         DaoFactory daoFactory;
         daoFactory = JdbcDaoFactory.getInstance();
-        DayMealDao dayMealDao = daoFactory.createDayMealDao();
-       List<DayMeal> dayMealList = dayMealDao.findDayMealListByClient(client);
-        dayMealDao.close();
+        List<DayMeal> dayMealList;
+        try(DayMealDao dayMealDao = daoFactory.createDayMealDao()) {
+            dayMealList = dayMealDao.findDayMealListByClient(client);
+        }
         return dayMealList;
     }
 }

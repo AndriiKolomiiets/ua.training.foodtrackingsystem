@@ -31,6 +31,9 @@ public class PageFilterRegistered extends AbstractFilter {
                           FilterChain filterChain, Optional<User> user) throws IOException, ServletException {
 
         if (user.isPresent()) {
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+            response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+            response.setDateHeader("Expires", 0);
             log.warn(LogMessages.LOG_USER_GO_NON_REGISTERED_URL + " - [" + user.get().getUsername() + "]");
             request.getSession().setAttribute(Attributes.PAGE_NAME, Attributes.PAGE_MAIN);
             request.getRequestDispatcher(PagePath.USER_MAIN_PAGE).forward(request, response);

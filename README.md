@@ -12,10 +12,9 @@ Maksym Liashenko
 
 # How to run project:
 1. Install maven http://www.apache-maven.ru/install.html
-2. Select URL in src\main\resources\db.properties 'jdbc:mysql://localhost:3306/food_tracking_system_db?autoReconnect=true&useSSL=false'
-3. In project directory open PowerShell/CMD
-4. Enter command "mvn tomcat7:run"
-5. Open browser and follow the link http://localhost:8888/fts/
+2. In project directory open PowerShell/CMD
+3. Enter command "mvn tomcat7:run"
+4. Open browser and follow the link http://localhost:8888/fts/
 
 Unfortunately, project can be ran only with IDE. 
 War version for Maven was modified from master branch, but doesn't run.

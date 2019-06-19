@@ -20,41 +20,36 @@ public class GetDayMealService {
 
     public Optional<DayMeal> getDayMealByClient(Client client) {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        DayMealDao dayMealDao = daoFactory.createDayMealDao();
         Optional<DayMeal> dayMealByClient;
-        dayMealByClient = dayMealDao.findDayMealByClient(client);
-        dayMealDao.close();
+        try(DayMealDao dayMealDao = daoFactory.createDayMealDao()) {
+            dayMealByClient = dayMealDao.findDayMealByClient(client);
+        }
         return dayMealByClient;
     }
 
     public Optional<DayMeal> getDayMealById(Long id) {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        DayMealDao dayMealDao = daoFactory.createDayMealDao();
         Optional<DayMeal> dayMealByClient;
-        dayMealByClient = dayMealDao.findById(id);
-        dayMealDao.close();
+        try(DayMealDao dayMealDao = daoFactory.createDayMealDao()) {
+            dayMealByClient = dayMealDao.findById(id);
+        }
         return dayMealByClient;
     }
 
     public DayMeal createAndGet(Client client) {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        DayMealDao dayMealDao = daoFactory.createDayMealDao();
-
-        Optional<DayMeal> dayMealByClient;
+        Optional<DayMeal> dayMealByClient = Optional.empty();
         DayMeal dayMeal = new DayMeal();
         dayMeal.setClient(client);
-        try {
+        try(DayMealDao dayMealDao = daoFactory.createDayMealDao()) {
             dayMealDao.create(dayMeal);
+            dayMealByClient = dayMealDao.findDayMealByClient(client);
+            if (!dayMealByClient.isPresent()) {
+                log.error(LogMessages.LOG_DAY_MEAL_ERROR + "[" + client.getUser().getUsername() + "]");
+            }
         } catch (SQLException e) {
             //NOP
-        } finally {
-            dayMealDao.close();
         }
-        dayMealByClient = dayMealDao.findDayMealByClient(client);
-        if (!dayMealByClient.isPresent()) {
-            log.error(LogMessages.LOG_DAY_MEAL_ERROR + "[" + client.getUser().getUsername() + "]");
-        }
-
         return dayMealByClient.get();
     }
 }

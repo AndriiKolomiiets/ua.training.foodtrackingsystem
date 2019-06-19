@@ -21,21 +21,18 @@ public class CreateClientService {
     public Client createEmptyClient(User user) {
         DaoFactory daoFactory;
         daoFactory = JdbcDaoFactory.getInstance();
-        ClientDao clientDao = daoFactory.createClientDao();
+        Optional<Client> optionalClient = Optional.empty();
         Client client = new Client();
 
         client.setUser(user);
-        try {
+        try (ClientDao clientDao = daoFactory.createClientDao()){
             clientDao.create(client);
+            optionalClient = clientDao.findByUserId(user.getId());
+            if (!optionalClient.isPresent()){
+                log.error(LogMessages.LOG_CLIENT_ERROR + "[Login: " + user.getUsername() + "]");
+            }
         } catch (SQLException e) {
            //NOP
-        } finally {
-            clientDao.close();
-        }
-        Optional<Client> optionalClient = clientDao.findByUserId(user.getId());
-
-        if (!optionalClient.isPresent()){
-            log.error(LogMessages.LOG_CLIENT_ERROR + "[Login: " + user.getUsername() + "]");
         }
         return optionalClient.get();
     }

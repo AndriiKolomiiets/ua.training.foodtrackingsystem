@@ -15,7 +15,6 @@ import java.util.Set;
 public class AddClientTrackService {
     public void add(Set<ClientTrack> clientTrackSet){
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-
         for (ClientTrack clientTrack : clientTrackSet) {
             try (ClientTrackDao clientTrackDao = daoFactory.createClientTrackDao()) {
                 clientTrackDao.create(clientTrack);

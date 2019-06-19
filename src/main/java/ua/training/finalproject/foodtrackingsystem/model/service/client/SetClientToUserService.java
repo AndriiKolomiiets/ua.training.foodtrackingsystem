@@ -14,12 +14,11 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 public class SetClientToUserService {
     private static final Logger log = Logger.getLogger(SetClientToUserService.class);
 
-    public void set(User user){
+    public void set(User user) {
         DaoFactory daoFactory = new JdbcDaoFactory();
-        UserDao userDao = daoFactory.createUserDao();
-        userDao.setClient(user);
-
+        try (UserDao userDao = daoFactory.createUserDao()) {
+            userDao.setClient(user);
+        }
         log.debug(LogMessages.LOG_USER_UPDATE_PARAMETERS + "[" + user + "]");
-        userDao.close();
     }
 }

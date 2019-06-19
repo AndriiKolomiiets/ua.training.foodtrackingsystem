@@ -24,13 +24,10 @@ public class AddClientService {
     public void addClient(Client client){
         DaoFactory daoFactory;
         daoFactory = JdbcDaoFactory.getInstance();
-        ClientDao clientDao = daoFactory.createClientDao();
-        try {
+        try(ClientDao clientDao = daoFactory.createClientDao()) {
             clientDao.create(client);
         } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            clientDao.close();
+            log.debug(LogMessages.LOG_DATABASE_EXCEPTION + "[Login: "+ client.getUser().getUsername() +"]");
         }
     }
 
@@ -40,7 +37,11 @@ public class AddClientService {
         DayMeal dayMeal;
         List<DayMeal> dayMealList;
         daoFactory = JdbcDaoFactory.getInstance();
-        ClientDao clientDao = daoFactory.createClientDao();
+        try(ClientDao clientDao = daoFactory.createClientDao()){
+            clientDao.update(client);
+        } catch (SQLException e) {
+            log.debug(LogMessages.LOG_DATABASE_EXCEPTION + "[Login: "+ client.getUser().getUsername() +"]");
+        }
         GetDayMealService getDayMealService = new GetDayMealService();
         CalcCaloriesNormService calcCaloriesNormService = new CalcCaloriesNormService();
 
@@ -56,13 +57,6 @@ public class AddClientService {
         }
         normCalories = calcCaloriesNormService.calcNorm(client);
         client.setCaloriesNorm(normCalories);
-        try {
-            clientDao.update(client);
-        } catch (SQLException e) {
-            clientDao.close();
-        }
-
-        clientDao.close();
     }
 
     public void update(Client client) {

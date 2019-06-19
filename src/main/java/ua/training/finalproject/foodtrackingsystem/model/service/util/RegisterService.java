@@ -17,11 +17,11 @@ public class RegisterService {
 
     public void registerNewUser(User user) throws DataSqlException {
         DaoFactory daoFactory = new JdbcDaoFactory();
-        UserDao userDao = daoFactory.createUserDao();
-        if (userDao.checkUserByLogin(user.getUsername(), user.getPassword())) {
-            log.warn(LogMessages.LOG_USER_LOGIN_REGISTER_ERROR + "[Login: " + user.getUsername() + "]");
+        try(UserDao userDao = daoFactory.createUserDao()) {
+            if (userDao.checkUserByLogin(user.getUsername(), user.getPassword())) {
+                log.warn(LogMessages.LOG_USER_LOGIN_REGISTER_ERROR + "[Login: " + user.getUsername() + "]");
+            }
+            userDao.createWithoutClient(user);
         }
-        userDao.createWithoutClient(user);
-        userDao.close();
     }
 }

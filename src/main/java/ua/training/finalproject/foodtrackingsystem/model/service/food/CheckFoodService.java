@@ -15,9 +15,10 @@ public class CheckFoodService {
 
     public boolean isUnique(String foodName){
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        FoodDao foodDao = daoFactory.createFoodDao();
-        Optional<Food> optionalFood = foodDao.findByName(foodName);
-        foodDao.close();
+        Optional<Food> optionalFood;
+        try(FoodDao foodDao = daoFactory.createFoodDao()) {
+            optionalFood = foodDao.findByName(foodName);
+        }
         if (optionalFood.get().getFoodName()==null){
             return false;
         }

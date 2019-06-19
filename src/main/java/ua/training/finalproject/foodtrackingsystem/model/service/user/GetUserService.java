@@ -15,17 +15,19 @@ public class GetUserService {
 
     public Optional<User> getUserByName(String name) {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        UserDao userDao = daoFactory.createUserDao();
-        Optional<User> optionalUser = userDao.findByUsername(name);
-        userDao.close();
+        Optional<User> optionalUser;
+        try(UserDao userDao = daoFactory.createUserDao()) {
+            optionalUser = userDao.findByUsername(name);
+        }
         return optionalUser;
     }
 
     public Optional<User> getUserById(Long id) {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        UserDao userDao = daoFactory.createUserDao();
-        Optional<User> optionalUser = userDao.findById(id);
-        userDao.close();
+        Optional<User> optionalUser;
+        try(UserDao userDao = daoFactory.createUserDao()) {
+            optionalUser = userDao.findById(id);
+        }
         return optionalUser;
     }
 }

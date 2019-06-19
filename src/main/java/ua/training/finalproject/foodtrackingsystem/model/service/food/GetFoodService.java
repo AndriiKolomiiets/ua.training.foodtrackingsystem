@@ -14,10 +14,11 @@ import java.util.Optional;
 public class GetFoodService {
     public Optional<Food> getFoodById(Long id) {
         DaoFactory daoFactory;
+        Optional<Food> optionalFood;
         daoFactory = JdbcDaoFactory.getInstance();
-        FoodDao foodDao = daoFactory.createFoodDao();
-        Optional<Food> optionalFood = foodDao.findById(id);
-        foodDao.close();
+        try(FoodDao foodDao = daoFactory.createFoodDao()) {
+            optionalFood = foodDao.findById(id);
+        }
         return optionalFood;
     }
 }

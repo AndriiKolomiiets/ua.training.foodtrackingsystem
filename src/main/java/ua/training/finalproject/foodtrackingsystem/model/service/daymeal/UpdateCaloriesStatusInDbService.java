@@ -12,8 +12,8 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 public class UpdateCaloriesStatusInDbService {
     public void updateAll(DayMeal dayMeal){
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        DayMealDao dayMealDao = daoFactory.createDayMealDao();
-        dayMealDao.updateAll(dayMeal);
-        dayMealDao.close();
+        try(DayMealDao dayMealDao = daoFactory.createDayMealDao()) {
+            dayMealDao.updateAll(dayMeal);
+        }
     }
 }

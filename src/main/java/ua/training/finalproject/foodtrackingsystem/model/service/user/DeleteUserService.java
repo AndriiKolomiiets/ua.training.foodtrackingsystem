@@ -9,10 +9,10 @@ import ua.training.finalproject.foodtrackingsystem.model.dao.dao.UserDao;
  * @version 1.0 19.06.2019
  */
 public class DeleteUserService {
-    public void delete(Long id){
+    public void delete(Long id) {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        UserDao userDao = daoFactory.createUserDao();
-        userDao.delete(id);
-        userDao.close();
+        try (UserDao userDao = daoFactory.createUserDao()) {
+            userDao.delete(id);
+        }
     }
 }

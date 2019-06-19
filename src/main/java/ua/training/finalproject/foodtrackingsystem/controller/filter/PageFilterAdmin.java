@@ -31,8 +31,14 @@ public class PageFilterAdmin extends AbstractFilter {
 
         if (user.isPresent()) {
             if (user.get().getRole().equals(Role.ADMIN)) {
+                response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+                response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+                response.setDateHeader("Expires", 0);
                 filterChain.doFilter(request, response);
             } else {
+                response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+                response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+                response.setDateHeader("Expires", 0);
                 request.getSession().setAttribute(Attributes.PAGE_NAME, Attributes.PAGE_MAIN);
                 request.getRequestDispatcher(PagePath.USER_MAIN_PAGE).forward(request, response);
             }

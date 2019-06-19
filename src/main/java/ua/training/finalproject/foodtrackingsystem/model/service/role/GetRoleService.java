@@ -19,12 +19,13 @@ public class GetRoleService {
     public Role getRole(Long roleId) {
         DaoFactory daoFactory;
         daoFactory = JdbcDaoFactory.getInstance();
-        RoleDao roleDao = daoFactory.createRoleDao();
-        Optional<Role> role = roleDao.findById(roleId);
+        Optional<Role> role;
+        try(RoleDao roleDao = daoFactory.createRoleDao()) {
+            role = roleDao.findById(roleId);
+        }
         if (!role.isPresent()){
             log.error(LogMessages.LOG_USER_ROLE_MISSED);
         }
-        roleDao.close();
         return role.get();
     }
 }

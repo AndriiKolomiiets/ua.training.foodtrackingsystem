@@ -14,10 +14,11 @@ import java.util.Optional;
 public class GetFoodIdService {
     public Long getIdByName(String foodName) {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        FoodDao foodDao = daoFactory.createFoodDao();
-        Optional<Food> optionalFood = foodDao.findByName(foodName);
         Long foodId = null;
-        foodDao.close();
+        Optional<Food> optionalFood;
+        try(FoodDao foodDao = daoFactory.createFoodDao()) {
+           optionalFood = foodDao.findByName(foodName);
+        }
         if (optionalFood.isPresent()) {
             foodId = optionalFood.get().getId();
         }

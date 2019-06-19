@@ -15,10 +15,10 @@ public class GetAllClientsService {
 
     public List<Client> getClientList() {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        ClientDao clientDao = daoFactory.createClientDao();
-        List<Client> clients ;
-        clients = clientDao.findAll();
-        clientDao.close();
+        List<Client> clients;
+        try (ClientDao clientDao = daoFactory.createClientDao()) {
+            clients = clientDao.findAll();
+        }
         return clients;
     }
 }

@@ -11,8 +11,8 @@ import ua.training.finalproject.foodtrackingsystem.model.dao.dao.DayMealDao;
 public class DeleteDayMealService {
     public void deleteById(Long id) {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
-        DayMealDao dayMealDao = daoFactory.createDayMealDao();
-        dayMealDao.delete(id);
-        dayMealDao.close();
+        try(DayMealDao dayMealDao = daoFactory.createDayMealDao()) {
+            dayMealDao.delete(id);
+        }
     }
 }

@@ -6,13 +6,13 @@ import java.time.LocalDateTime;
  * @author Andrii Kolomiiets
  * @version 1.0 19.06.2019
  */
-public class DayMeal implements Entity{
-    private Long id;
+public class DayMeal implements Entity {
+    private long id;
     private LocalDateTime dateTime;
     private Food food;
-    private Integer number;
+    private int number;
     private String caloriesStatus;
-    private Integer caloriesToNorm;
+    private int caloriesToNorm;
     private Client client;
 
     public Client getClient() {
@@ -89,5 +89,39 @@ public class DayMeal implements Entity{
 
     public void setCaloriesToNorm(Integer caloriesToNorm) {
         this.caloriesToNorm = caloriesToNorm;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DayMeal temp = (DayMeal) obj;
+        return number == temp.getNumber() &&
+                (client == temp.getClient() || client != null &&
+                        client.equals(temp.getClient())) &&
+                caloriesToNorm == temp.getCaloriesToNorm() &&
+                (dateTime == temp.getDateTime() || dateTime != null &&
+                        dateTime.equals(temp.getDateTime())) &&
+                (caloriesStatus == temp.getCaloriesStatus() || caloriesStatus != null &&
+                        caloriesStatus.equals(temp.getCaloriesStatus())) &&
+                (food == temp.food || food != null && food.equals(temp.getFood()));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 33;
+        int result = 1;
+        result = prime * result + ((client == null) ? 0 : client.hashCode());
+        result = prime * result + number;
+        result = prime * result + ((dateTime == null) ? 0 : dateTime.hashCode());
+        result = prime * result + caloriesToNorm;
+        result = prime * result + ((caloriesStatus == null) ? 0 : caloriesStatus.hashCode());
+        result = prime * result + ((food == null) ? 0 : food.hashCode());
+        return result;
+
     }
 }
