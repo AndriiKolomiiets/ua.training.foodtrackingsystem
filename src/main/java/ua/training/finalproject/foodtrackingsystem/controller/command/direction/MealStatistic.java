@@ -1,7 +1,8 @@
-package ua.training.finalproject.foodtrackingsystem.controller.command;
+package ua.training.finalproject.foodtrackingsystem.controller.command.direction;
 
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
+import ua.training.finalproject.foodtrackingsystem.controller.command.Command;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.ClientTrack;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
@@ -25,7 +26,10 @@ public class MealStatistic implements Command {
         GetClientTrackByClientService getClientTrackByClientService = new GetClientTrackByClientService();
         User user = (User) request.getSession().getAttribute(Attributes.REQUEST_USER);
         Optional<User> userFromDb = getUserService.getUserByName(user.getUsername());
-        Client client = getClientService.getClient(userFromDb.get());
+        Client client = null;
+        if (userFromDb.isPresent()) {
+            client = getClientService.getClient(userFromDb.get());
+        }
         List<ClientTrack> clientTrackList = getClientTrackByClientService.getDayMealList(client);
         request.getSession().setAttribute(Attributes.REQUEST_CLIENT_TRACK_LIST, clientTrackList);
         return PagePath.USER_MEAL_STATISTIC;

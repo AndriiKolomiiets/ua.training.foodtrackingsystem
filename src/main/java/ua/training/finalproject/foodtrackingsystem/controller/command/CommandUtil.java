@@ -8,6 +8,7 @@ import ua.training.finalproject.foodtrackingsystem.controller.command.auth.Login
 import ua.training.finalproject.foodtrackingsystem.controller.command.auth.RegisterNewUser;
 import ua.training.finalproject.foodtrackingsystem.controller.command.direction.*;
 import ua.training.finalproject.foodtrackingsystem.controller.command.exception.DataHttpException;
+import ua.training.finalproject.foodtrackingsystem.controller.command.exception.PageException;
 import ua.training.finalproject.foodtrackingsystem.controller.command.process.*;
 import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.UserMapper;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
