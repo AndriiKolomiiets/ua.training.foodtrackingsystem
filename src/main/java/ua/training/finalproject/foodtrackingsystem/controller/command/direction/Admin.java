@@ -9,6 +9,10 @@ import ua.training.finalproject.foodtrackingsystem.model.service.admin.GetAllCli
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class Admin implements Command {
     @Override
     public String execute(HttpServletRequest request) {

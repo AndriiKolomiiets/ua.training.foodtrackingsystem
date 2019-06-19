@@ -7,14 +7,12 @@
 <fmt:setLocale value="${localeLang}"/>
 <fmt:setBundle basename="messages"/>
 
-
 <html>
 <head>
     <script>
         function preback() {
             window.history.forward();
         }
-
         setTimeout("preback()", 0);
         window.onload = function () {
             null
@@ -26,10 +24,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="../selectstyle/js/jquery.nice-select.js"></script>
     <link rel="stylesheet" href="../selectstyle/css/nice-select.css">
-
     <link rel="stylesheet" href="../style/form_style.css">
-
-
     <script type="text/javascript">
         $(document).ready(function () {
             $('select').niceSelect();
@@ -82,11 +77,6 @@
     }
 </script>
 
-
-<br>
-<%--<h1 align="center" style="color:#1e4103"><fmt:message key="main.title"/></h1>--%>
-<br>
-
 <%--                    LOGIN FORM                           --%>
 
 <div id="loginDiv" class="modal">
@@ -117,17 +107,6 @@
         </div>
     </form>
 </div>
-<%--<div id="messageDiv" style="display:none;"></div>--%>
-<%--<script>
-    // Get the modal
-    var modal = document.getElementById('loginDiv');
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>--%>
 
 <script>
     $("#login_button").on('click', function () {
@@ -326,7 +305,6 @@
         }
     })
 </script>
-
 
 <%--               FOOTER                     --%>
 

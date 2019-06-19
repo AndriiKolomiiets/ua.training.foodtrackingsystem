@@ -1,6 +1,5 @@
 package ua.training.finalproject.foodtrackingsystem.controller.filter;
 
-import com.sun.org.apache.bcel.internal.generic.LMUL;
 import org.apache.log4j.Logger;
 import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Role;
@@ -15,14 +14,13 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Description: Direct non registered users to users pages
+ * Prevent non-registered users to get to the website.
  *
- * @author
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
  */
-//todo: add pages
 @WebFilter(urlPatterns = {"/fts/homePage", "/fts/foodTracking", "/fts/dayMeal",
-        "/fts/mealStatistic", "/fts/logOut", "/fts/userSettings", /*"wwwwwwww",
-        "wwwwwwww", "wwwwwwww", "wwwwwwww"*/})
+        "/fts/mealStatistic", "/fts/logOut", "/fts/userSettings"})
 public class PageFilterNonRegistered extends AbstractFilter {
     private static final Logger log = Logger.getLogger(PageFilterNonRegistered.class);
 

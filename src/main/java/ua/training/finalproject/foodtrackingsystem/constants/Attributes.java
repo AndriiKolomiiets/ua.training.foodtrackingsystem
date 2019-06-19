@@ -1,5 +1,12 @@
 package ua.training.finalproject.foodtrackingsystem.constants;
 
+/**
+ * Initializing interface.
+ * Here are stored requests and response constants.
+ *
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public interface Attributes {
     String HTML_TEXT = "text/html";
     String HTML_ENCODE = "UTF-8";
@@ -8,22 +15,8 @@ public interface Attributes {
     String PAGE_PATH = "/fts/";
     String PAGE_NAME = "pageName";
     String PAGE_MAIN = "page.main";
-    String PAGE_RATION = "page.ration";
     String PAGE_FOOD_TRACKING = "page.food.tracking";
-    String PAGE_USERS_LIST = "page.menu.users.list";
-    String PAGE_MENU_EDIT = "page.menu.edit.mess";
     String PAGE_DEMONSTRATION = "page.demonstration";
-    String PAGE_SETTINGS = "page.settings";
-
-    //WRONG MESSAGES
-    String PAGE_USER_EXIST = "page.user.email.exist";
-    String PAGE_USER_WRONG_DATA = "page.wrong.data";
-
-    String PAGE_USER_WRONG_PASSWORD = "page.user.wrong.password";
-    String PAGE_USER_LOGGED = "page.user.email.logged";
-    String PAGE_USER_ERROR_DATA = "userErrorData";
-    String PAGE_USER_NON_EMAIL = "nonEmail";
-    String PAGE_USER_NON_ERROR_DATA = "nonErrorData";
 
     //SESSION
     String REQUEST_USER = "user";
@@ -59,7 +52,6 @@ public interface Attributes {
     String REQUEST_CALORIES_NORM = "calories_norm";
     String REQUEST_LIFE_STYLE = "life_style_coefficient";
 
-
     //FOOD
     String REQUEST_FOOD_ID = "food_id";
     String REQUEST_FOOD_NAME = "food_name";
@@ -81,7 +73,6 @@ public interface Attributes {
     //CLIENT TRACK
     String REQUEST_CLIENT_TRACK_ID = "client_track_id";
     String REQUEST_DATE = "date";
-
 
     //COMMANDS
     String COMMAND_SIGN_OR_REGISTER = "signInOrRegister";
@@ -118,15 +109,11 @@ public interface Attributes {
     String COMMAND_MENU_ADD_DISH = "addNewDish";
     String COMMAND_MENU_LIST_DISH_PAGE = "listDishPage";
     String COMMAND_MENU_LIST_USERS_PAGE = "listUsersPage";
-
-
     String HTML_CONTENT_TYPE = "text/html;charset=UTF-8";
-
     String REQUEST_MEAL_LIST = "mealList";
     String REQUEST_CLIENT_LIST = "clientList";
     String REQUEST_CLIENT_TRACK_LIST = "trackList";
     String RETURN_STATEMENT_FOOD_EXISTS = "foodExists";
-
     String CALORIES_STATUS_EXCEEDED = "exceeded";
     String CALORIES_STATUS_OK = "normal";
     String RETURN_STATEMENT_WRONG_ID = "wrongId";

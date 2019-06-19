@@ -2,6 +2,10 @@ package ua.training.finalproject.foodtrackingsystem.model.dao;
 
 import ua.training.finalproject.foodtrackingsystem.model.dao.dao.*;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;
 

@@ -29,9 +29,9 @@
 
         <table id="dayMeal">
             <tr>
-                <th><fmt:message key="page.clienttrack.date"/>Meal ID</th>
-                <th><fmt:message key="page.clienttrack.caloriesstatus"/>Calories Status</th>
-                <th><fmt:message key="page.clienttrack.caloriestonorm"/>Calories to Norm</th>
+                <th><fmt:message key="page.clienttrack.date"/></th>
+                <th><fmt:message key="page.clienttrack.caloriesstatus"/></th>
+                <th><fmt:message key="page.clienttrack.caloriestonorm"/></th>
             </tr>
             <c:forEach items="${trackList}" var="element">
 
@@ -47,7 +47,7 @@
 
     <c:if test="${trackList.size()==0}">
         <div align="center">
-        <h1><fmt:message key="page.clienttrack.tracklist"/>Track list will appear here next day after you make meal track.</h1>
+        <h1><fmt:message key="page.clienttrack.tracklist"/></h1>
         </div>
     </c:if>
 

@@ -3,7 +3,6 @@
 <head>
     <title>Food Tracking System</title>
 
-
     <link rel="stylesheet" type="text/css" href="../../style/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="../../selectstyle/js/jquery.nice-select.js"></script>
@@ -23,19 +22,6 @@
 </head>
 <body>
 
-<%--<form class="left_form">
-    <label for="language"></label>
-    <h3 align="right" style="color:#FF4500">
-        <fmt:message key="language"/><select id="language" name="language"
-                                             onchange="submit()">
-        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-        <option value="uk_UA" ${language == 'uk_UA' ? 'selected' : ''}>Ukrainian</option>
-    </select></h3>
-</form>--%>
-
-<%--<div align="left" class="login">
-    <button class="header_button" onclick="window.location.href='/fts/logOut'">Log Out</button>
-</div>--%>
 <div align="left" class="form-group">
     <button class="header_button" onclick="window.location.href='/fts/logOut'"><fmt:message key="page.logout"/></button>
 
@@ -79,7 +65,6 @@
 <script>
     function getCurrentlink() {
         var select, value, page;
-
         page = window.location.pathname;
         select = document.getElementById("selectId");
         value = select.options[select.selectedIndex].value;

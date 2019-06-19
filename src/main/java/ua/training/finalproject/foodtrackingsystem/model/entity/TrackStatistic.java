@@ -3,6 +3,10 @@ package ua.training.finalproject.foodtrackingsystem.model.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class TrackStatistic implements Entity {
     private Long id;
     private List<Food> foodList;

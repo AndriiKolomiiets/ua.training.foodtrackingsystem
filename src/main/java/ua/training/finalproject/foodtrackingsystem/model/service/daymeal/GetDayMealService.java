@@ -11,6 +11,10 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class GetDayMealService {
     private static final Logger log = Logger.getLogger(GetDayMealService.class);
 

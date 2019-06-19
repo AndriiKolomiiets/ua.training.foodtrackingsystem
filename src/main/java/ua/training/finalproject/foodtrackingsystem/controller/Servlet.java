@@ -15,6 +15,13 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 
+/**
+ * Process requests and responds with command from map.
+ *
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ * @see CommandUtil
+ */
 public class Servlet extends HttpServlet {
     private Map<String, Command> commands;
     private static final Logger log = Logger.getLogger(Servlet.class);

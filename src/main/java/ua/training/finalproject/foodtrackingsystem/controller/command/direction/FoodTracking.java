@@ -16,6 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Command which check and save food into database.
+ * Works with next services:
+ *
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ * @see GetUserService
+ * @see GetClientService
+ * @see GetDayMealListService
+ */
 public class FoodTracking implements Command {
     private static final Logger log = Logger.getLogger(ToDayMeal.class);
 
@@ -44,8 +54,6 @@ public class FoodTracking implements Command {
             }
             caloriesNorm = client.getCaloriesNorm();
         }
-//        GetDayMealListService getDayMealListService = new GetDayMealListService();
-//        List<DayMeal> dayMealList = getDayMealListService.getDayMealList(client);
         request.getSession().setAttribute(Attributes.REQUEST_USER_ROLE, user.getRole());
         request.getSession().setAttribute(Attributes.REQUEST_MEAL_LIST, dayMealList);
         request.getSession().setAttribute(Attributes.REQUEST_CALORIES_NORM, caloriesNorm);

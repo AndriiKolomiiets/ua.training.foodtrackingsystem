@@ -1,10 +1,11 @@
 package ua.training.finalproject.foodtrackingsystem.model.service.daymeal;
 
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
-import ua.training.finalproject.foodtrackingsystem.model.dao.DaoFactory;
-import ua.training.finalproject.foodtrackingsystem.model.dao.JdbcDaoFactory;
-import ua.training.finalproject.foodtrackingsystem.model.dao.dao.DayMealDao;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class CheckCaloriesStatusService {
     public String checkStatus(Integer caloriesToNorm){
         if (caloriesToNorm<0){

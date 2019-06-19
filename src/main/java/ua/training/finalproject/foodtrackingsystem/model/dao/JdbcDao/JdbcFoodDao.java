@@ -16,6 +16,10 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class JdbcFoodDao implements FoodDao {
     private Connection connection;
     private ResourceBundle resourceBundle = ResourceBundle.getBundle("db",

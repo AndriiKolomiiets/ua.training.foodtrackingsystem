@@ -4,23 +4,24 @@ import org.apache.log4j.Logger;
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
 import ua.training.finalproject.foodtrackingsystem.model.dao.dao.UserDao;
-import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.ClientMapper;
 import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.UserMapper;
-import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 
-import javax.naming.directory.AttributeInUseException;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * MySql database connectivity.
+ *
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class JdbcUserDao implements UserDao {
     private Connection connection;
     private static final Logger log = Logger.getLogger(JdbcUserDao.class);
     private UserMapper userMapper = new UserMapper();
-    private ClientMapper clientMapper;
     private ResultSet rs;
     private User user;
-    private List<User> userList;
     private ResourceBundle resourceBundle = ResourceBundle.getBundle("db",
             new Locale("en", "GB"));
 
@@ -49,17 +50,12 @@ public class JdbcUserDao implements UserDao {
                 resourceBundle.getString("select.userByLogin"))) {
             preparedStatement.setString(1, login);
             rs = preparedStatement.executeQuery();
-            rs=preparedStatement.getResultSet();
-//            System.out.println(rs);
-//            sdfsdfsdfsdf
-            //todo:  RS==null
-//            while (rs.next()) {
-                user = userMapper.extractFromResultSet(rs);
-//            }
+            rs = preparedStatement.getResultSet();
+            user = userMapper.extractFromResultSet(rs);
         } catch (Exception e) {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         } finally {
-            if (connection!=null){
+            if (connection != null) {
                 try {
                     connection.close();
                 } catch (SQLException e) {
@@ -132,23 +128,21 @@ public class JdbcUserDao implements UserDao {
         return optionalUser;
     }
 
-    public Long getClientId(String username){
+    public Long getClientId(String username) {
         Long clientId = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 resourceBundle.getString("select.userClientById"))) {
             preparedStatement.setString(1, username);
             rs = preparedStatement.executeQuery();
             rs = preparedStatement.getResultSet();
-           while (rs.next()){
-             clientId = rs.getLong(Attributes.REQUEST_CLIENT_ID);
-           }
+            while (rs.next()) {
+                clientId = rs.getLong(Attributes.REQUEST_CLIENT_ID);
+            }
         } catch (SQLException e) {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
         return clientId;
     }
-
-//    public void setClientId()
 
     @Override
     public Optional<User> findByUsername(String name) {
@@ -166,7 +160,7 @@ public class JdbcUserDao implements UserDao {
         return optionalUser;
     }
 
-    public void setClient(User user){
+    public void setClient(User user) {
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
@@ -181,7 +175,6 @@ public class JdbcUserDao implements UserDao {
         } catch (SQLException e) {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
-
 
 
     }
@@ -206,7 +199,7 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public List<User> findAll() {
-        userList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
 
         try (Statement st = connection.createStatement()) {
             rs = st.executeQuery(resourceBundle.getString("select.allUsers"));

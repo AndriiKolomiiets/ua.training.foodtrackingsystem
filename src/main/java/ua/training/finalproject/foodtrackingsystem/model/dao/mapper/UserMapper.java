@@ -7,41 +7,36 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Role;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 import ua.training.finalproject.foodtrackingsystem.model.entity.UserBuilder;
-import ua.training.finalproject.foodtrackingsystem.model.service.client.GetClientService;
 import ua.training.finalproject.foodtrackingsystem.model.service.role.GetRoleService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class UserMapper implements ObjectMapper {
     private static final Logger log = Logger.getLogger(UserMapper.class);
 
     @Override
     public User extractFromResultSet(ResultSet rs) throws SQLException {
-//        log.warn(LogMessages.LOG_DATABASE_EXCEPTION + "[>>>" + rs + "<<<]");
         String userName = null;
         Role role = null;
         Client client = null;
         User user=null;
-
-        //todo: add additional method for Login with client
         long id  ;
         String pass  ;
         String email  ;
         UserBuilder userBuilder = new UserBuilder();
-        GetClientService clientService = new GetClientService();
         GetRoleService roleService = new GetRoleService();
         if (rs.next()) {
-//            String s = "sdf";
-//            log.warn(LogMessages.LOG_DATABASE_EXCEPTION + "[>>>" + rs + "<<<]");
             System.out.println(rs);
             userName = rs.getString(Attributes.REQUEST_LOGIN);
             id = rs.getLong(Attributes.REQUEST_USER_ID);
             pass = rs.getString(Attributes.REQUEST_PASSWORD);
             email = rs.getString(Attributes.REQUEST_EMAIL);
-
-//            client = clientService.getSimpleClientByUserName(userName);
             role = roleService.getRole(rs.getLong(Attributes.REQUEST_ROLE_ID));
             user = userBuilder.
                     buildId(id).
@@ -49,7 +44,6 @@ public class UserMapper implements ObjectMapper {
                     buildPassword(pass).
                     buildEmail(email).
                     buildRole(role).
-//                buildClient(client).
         build();
         }
         return user;

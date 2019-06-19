@@ -9,21 +9,22 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 import ua.training.finalproject.foodtrackingsystem.model.service.client.GetClientService;
 import ua.training.finalproject.foodtrackingsystem.model.service.daymeal.GetDayMealListService;
-import ua.training.finalproject.foodtrackingsystem.model.service.daymeal.GetDayMealService;
 import ua.training.finalproject.foodtrackingsystem.model.service.user.GetUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class ToDayMeal implements Command {
     private static final Logger log = Logger.getLogger(ToDayMeal.class);
 
     @Override
     public String execute(HttpServletRequest request) {
         GetClientService getClientService = new GetClientService();
-        GetDayMealService getDayMealService = new GetDayMealService();
-//        Optional<DayMeal> optionalDayMeal = getDayMealService.getDayMealById(mealId);
         User user = (User) request.getSession().getAttribute(Attributes.REQUEST_USER);
         Integer caloriesToNorm =null;
         String caloriesStatus = null;

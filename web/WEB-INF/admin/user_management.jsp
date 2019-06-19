@@ -5,32 +5,18 @@
 <%@ page errorPage="/error.jsp" %>
 <link rel="stylesheet" type="text/css" href="../../style/settingsStyle.css">
 
-
 <br>
 <h1 align="center" style="color:#1e4103"><fmt:message key="page.admin.title"/></h1>
 <br>
-
-<%--<c:if test="${calories_norm == null}">
-    <div align="center">
-        <h2>To track a meal, please, create a client account!</h2>
-        <br>
-        <div class="row">
-            <button onclick="location.href='${pageContext.request.contextPath}/fts/userSettings'" type="button">
-                Create account
-            </button>
-        </div>
-    </div>
-
-</c:if>--%>
 
 <c:if test="${clientList.size()!=0}">
 
     <table id="dayMeal">
         <tr>
-            <th><fmt:message key="page.admin.userlogin"/>Meal ID</th>
-            <th><fmt:message key="page.admin.birthdate"/>Food name</th>
-            <th><fmt:message key="page.admin.caloriesnorm"/>Proteins</th>
-            <th><fmt:message key="page.admin.stylecoeff"/>Lipids</th>
+            <th><fmt:message key="form.login.input"/></th>
+            <th><fmt:message key="page.admin.birthdate"/></th>
+            <th><fmt:message key="page.admin.caloriesnorm"/></th>
+            <th><fmt:message key="page.admin.stylecoeff"/></th>
         </tr>
         <c:forEach items="${clientList}" var="element">
 
@@ -83,15 +69,15 @@
 <script>
     $("#clientDeleteButton").on('click', function (event) {
         var mealId = $("#mealId").val();
-      /*  var mealIdRegex = new RegExp("^([0-9]{1,3})$");
+        var mealIdRegex = new RegExp("^([0-9]{1,3})$");
 
         if (mealIdRegex.test(mealId)) {
             console.log("MealId is Valid");
         } else {
             event.preventDefault();
             console.log("MealId is Invalid");
-            alert("<fmt:message key="page.daymeal.id.wrong"/>");
-        }*/
+            alert("<fmt:message key="page.amdin.id.wrong"/>");
+        }
 
         $.ajax({
             url: "/fts/deleteUser",
@@ -105,7 +91,7 @@
                     location.reload();
                     resetData();
                 } else if (result === "wrongId") {
-                    alert("<fmt:message key="page.daymeal.wrong.id"/>");
+                    alert("<fmt:message key="page.amdin.id.wrong"/>");
                 }
                 else {
                     alert("<fmt:message key="page.food.problem"/>");

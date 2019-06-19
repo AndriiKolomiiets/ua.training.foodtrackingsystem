@@ -6,8 +6,11 @@ import ua.training.finalproject.foodtrackingsystem.model.dao.dao.FoodDao;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Food;
 
 import java.sql.SQLException;
-import java.util.Optional;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class AddNewFoodService {
     public void add(Food food){
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();

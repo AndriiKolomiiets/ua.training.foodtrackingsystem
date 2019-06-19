@@ -1,5 +1,9 @@
 package ua.training.finalproject.foodtrackingsystem.model.entity;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class Food implements Entity {
     private Long id;
     private String foodName;

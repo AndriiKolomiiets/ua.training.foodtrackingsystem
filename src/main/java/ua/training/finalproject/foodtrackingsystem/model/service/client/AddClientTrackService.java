@@ -8,6 +8,10 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.ClientTrack;
 import java.sql.SQLException;
 import java.util.Set;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class AddClientTrackService {
     public void add(Set<ClientTrack> clientTrackSet){
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();

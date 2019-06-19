@@ -13,6 +13,10 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class JdbcDayMealDao implements DayMealDao {
     private Connection connection;
     private ResourceBundle resourceBundle = ResourceBundle.getBundle("db",
@@ -21,7 +25,6 @@ public class JdbcDayMealDao implements DayMealDao {
     DayMealMapper dayMealMapper = new DayMealMapper();
     private ResultSet rs;
     private DayMeal dayMeal;
-    private Food food;
 
     public JdbcDayMealDao(Connection connection) {
         this.connection = connection;
@@ -114,29 +117,6 @@ public class JdbcDayMealDao implements DayMealDao {
 
     @Override
     public void update(DayMeal entity) {
-        //<editor-fold desc="create method - need to be rewrote">
-       /* try {
-            connection.setAutoCommit(false);
-        } catch (SQLException e) {
-            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
-        }
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("insert.dayMeal"))) {
-            preparedStatement.setLong(1, entity.getClient().getId());
-            preparedStatement.setTimestamp(2,
-                    Timestamp.valueOf(entity.getDateTime()));
-            preparedStatement.setLong(3, entity.getFood().getId());
-            preparedStatement.setInt(4, entity.getNumber());
-            preparedStatement.setString(5, entity.getCaloriesStatus());
-            preparedStatement.setInt(6, entity.getCaloriesToNorm());
-            preparedStatement.addBatch();
-            preparedStatement.executeBatch();
-            connection.setAutoCommit(true);
-        } catch (SQLException e) {
-            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
-        }
-        log.debug(LogMessages.LOG_DAY_MEAL_ADDED_TO_DB + "[Login: " + entity.getClient().getUser().getUsername() + "]");*/
-        //</editor-fold>
     }
 
     @Override
@@ -151,8 +131,6 @@ public class JdbcDayMealDao implements DayMealDao {
             preparedStatement.setString(1, entity.getCaloriesStatus());
             preparedStatement.setInt(2, entity.getCaloriesToNorm());
             preparedStatement.setLong(3, entity.getClient().getId());
-            /*preparedStatement.addBatch();
-            preparedStatement.executeBatch();*/
             preparedStatement.executeUpdate();
             connection.setAutoCommit(true);
         } catch (SQLException e) {

@@ -13,6 +13,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class AddMealService {
     public void addMeal(DayMeal dayMeal) {
         DaoFactory daoFactory = JdbcDaoFactory.getInstance();
@@ -22,7 +26,6 @@ public class AddMealService {
         Set<ClientTrack> clientTrackSet;
         DeleteDayMealService deleteDayMealService;
 
-        //<editor-fold desc="Client Track Block">
         List<DayMeal> dayMealList = checkTrackDate.checkAndGetExpiredDayMealTrack(dayMeal);
         if (dayMealList!=null){
             clientTrackSet = dayMealToTrackStatisticConverter.convert(dayMealList);
@@ -32,13 +35,11 @@ public class AddMealService {
                 deleteDayMealService.deleteById(meal.getId());
             }
         }
-        //</editor-fold>
 
         try (DayMealDao dayMealDao = daoFactory.createDayMealDao()) {
             dayMealDao.create(dayMeal);
         } catch (SQLException e) {
             //NOP
         }
-
     }
 }

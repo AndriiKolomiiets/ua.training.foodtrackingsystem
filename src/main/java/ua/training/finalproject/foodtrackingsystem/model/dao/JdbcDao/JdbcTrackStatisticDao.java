@@ -12,6 +12,10 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class JdbcTrackStatisticDao implements TrackStatisticDao {
     private Connection connection;
     private ResourceBundle resourceBundle = ResourceBundle.getBundle("db",
@@ -29,9 +33,6 @@ public class JdbcTrackStatisticDao implements TrackStatisticDao {
 
     @Override
     public Optional<TrackStatistic> findById(long id) {
-        Optional<TrackStatistic> optionalTrackStatistic = Optional.empty();
-
-
         return null;
     }
 

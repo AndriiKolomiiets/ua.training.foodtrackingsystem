@@ -15,6 +15,10 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class JdbcClientDao implements ClientDao {
     private Connection connection;
     private static final Logger log = Logger.getLogger(JdbcClientDao.class);
@@ -65,15 +69,6 @@ public class JdbcClientDao implements ClientDao {
             ClientMapper clientMapper = new ClientMapper();
 
             client = clientMapper.extractFromResultSet(rs);
-            /*while (rs.next()) {
-                client.setId(rs.getLong(Attributes.REQUEST_CLIENT_ID));
-                client.setBirthDate(rs.getDate(Attributes.REQUEST_BIRTH_DATE)
-                        .toLocalDate());
-                client.setHeight(rs.getInt(Attributes.REQUEST_CALORIES_TO_NORM));
-                client.setWeight(rs.getInt(Attributes.REQUEST_WEIGHT));
-                client.setLifeStyleCoefficient(rs.getInt(Attributes.REQUEST_LIFE_STYLE));
-                client.setCaloriesNorm(rs.getInt(Attributes.REQUEST_CALORIES_NORM));
-            }*/
         } catch (Exception e) {
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
@@ -106,9 +101,7 @@ public class JdbcClientDao implements ClientDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 resourceBundle.getString("select.clientListWithUser"))) {
             rs = preparedStatement.executeQuery();
-            ClientMapper clientMapper = new ClientMapper();
 
-//            client = clientMapper.extractFromResultSet(rs);
             while (rs.next()) {
                 Client client = new Client();
                 client.setId(rs.getLong(Attributes.REQUEST_CLIENT_ID));
@@ -139,7 +132,6 @@ public class JdbcClientDao implements ClientDao {
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 resourceBundle.getString("update.client"))) {
-//            preparedStatement.setLong(1, entity.getUser().getId());
             preparedStatement.setDate(1, Date.valueOf(entity.getBirthDate()));
             preparedStatement.setInt(2, entity.getCaloriesNorm());
             preparedStatement.setInt(3, entity.getHeight());
@@ -176,13 +168,6 @@ public class JdbcClientDao implements ClientDao {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
 
-
-
-//            preparedStatement = connection.prepareStatement(
-//                    resourceBundle.getString("delete.trackByClientId"));
-//                preparedStatement.setLong(1, id);
-//                preparedStatement.executeUpdate();
-
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
@@ -193,22 +178,6 @@ public class JdbcClientDao implements ClientDao {
             }
             log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
         }
-        /*try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("delete.mealByClientId"))) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
-        }*/
-        /*try (PreparedStatement preparedStatement = connection.prepareStatement(
-                resourceBundle.getString("delete.trackByClientId"))) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            log.error(LogMessages.LOG_DATABASE_EXCEPTION + "[" + e.getMessage() + "]");
-        }*/
-
-
     }
 
     @Override

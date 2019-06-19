@@ -6,6 +6,10 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.ClientTrack;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class ClientTrackMapper implements ObjectMapper {
     @Override
     public ClientTrack extractFromResultSet(ResultSet rs) throws SQLException {

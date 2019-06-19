@@ -1,48 +1,93 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="language"
-       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
-       scope="session"/>
-<fmt:setLocale value="${language}"/>
-<fmt:setBundle basename="page_content"/>
+<%@ include file="WEB-INF/pagecomponents/allImports.jsp" %>
 
-<link rel="stylesheet" type="text/css" href="style/styles.css">
+<%--<jsp:include page="WEB-INF/pagecomponents/header.jsp"/>--%>
+<jsp:include page="WEB-INF/pagecomponents/footer.jsp"/>
+<%@ page errorPage="/error.jsp"%>
 
-<!DOCTYPE html>
-<html lang="${language}">
+<html>
 <head>
-    <script>
-        function preback() {
-            window.history.forward();
-        }
+    <title>Food Tracking System</title>
 
-        setTimeout("preback()", 0);
-        window.onload = function () {
-            null
-        };
-    </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><fmt:message key="index.title"/></title>
+    <link rel="stylesheet" type="text/css" href="../../style/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="../../selectstyle/js/jquery.nice-select.js"></script>
+    <link rel="stylesheet" href="../../selectstyle/css/nice-select.css">
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('select').niceSelect();
+        });
+
+        function chooseLanguage() {
+            $('#selectId').val('${pageContext.request.contextPath}' + '/fts/changeLanguage?lang=' + '${localeLang}' + '&currPage=').change();
+        }
+    </script>
 
 </head>
-
 <body>
-<div align="right">
-    <button class="header_button" onclick="document.getElementById('loginDiv').style.display='block'">Login</button>
+
+<div align="left" class="form-group">
+    <button class="header_button"  onclick="document.getElementById('loginDiv').style.display='block'"><fmt:message key="page.signIn"/></button>
+
+    <select id="selectId" onchange="getCurrentlink()">
+        <option value="${pageContext.request.contextPath}/fts/changeLanguage?lang=uk_UA&currPage=">
+            <fmt:message key="page.lang.ua_UA"/>
+        </option>
+        <option value="${pageContext.request.contextPath}/fts/changeLanguage?lang=en_US&currPage=">
+            <fmt:message key="page.lang.en_US"/>
+        </option>
+    </select>
 </div>
 
-<div id="loginDiv" class="modal">
-    <%--<span onclick="document.getElementById('loginDiv').style.display='none'"
-          class="close" title="Close Form">&times;</span>--%>
+<ul>
+    <%--<li><a href="${pageContext.request.contextPath}/fts/main">Home</a></li>--%>
+    <li><a href="${pageContext.request.contextPath}/fts/foodTracking"><fmt:message key="food.tracking.title"/></a></li>
+    <li><a href="${pageContext.request.contextPath}/fts/dayMeal"><fmt:message key="day.meal.title"/></a></li>
+    <li><a href="${pageContext.request.contextPath}/fts/mealStatistic">
+        <fmt:message key="meal.statistic.title"/></a></li>
+    <li style="float:right"><a href="${pageContext.request.contextPath}/fts/userSettings">
+        <fmt:message key="client.settings.title"/></a></li>
+    <c:if test="${role == 'ADMIN'}">
+        <li style="float:right"><a href="${pageContext.request.contextPath}/fts/userManagement">
+            <fmt:message key="page.admin.title"/></a></li>
+    </c:if>
+    <c:if test="${mealList != null}">
+        <li style="float:right"><a><fmt:message key="page.calories.to.norm"/>
+            <c:out value='${calories_to_norm}'/></a></li>
+        <c:if test="${calories_status == 'normal'}">
+            <li style="float:right"><a><fmt:message key="page.calories.norm"/></a></li>
+        </c:if>
+        <c:if test="${calories_status == 'exceeded'}">
+            <li style="float:right"><a><fmt:message key="page.calories.exceeded"/></a></li>
+        </c:if>
+    </c:if>
+</ul>
 
-    <form id="loginForm" class="modal-content animate" name="login_form" <%--action="/Servlet/"--%>>
+<br>
+<h1 align="center" style="color:#1e4103"><fmt:message key="main.title"/></h1>
+<br>
+<script type="text/javascript">
+    chooseLanguage()
+</script>
+
+<script>
+    function getCurrentlink() {
+        var select, value, page;
+
+        page = window.location.pathname;
+        select = document.getElementById("selectId");
+        value = select.options[select.selectedIndex].value;
+        window.location.href = value + page;
+    }
+</script>
+<%--                    LOGIN FORM                           --%>
+<div id="loginDiv" class="modal">
+    <form id="loginForm" class="modal-content animate" name="login_form">
         <%--onsubmit="return validateForm()--%>
         <div class="imgcontainer">
             <span onclick="document.getElementById('loginDiv').style.display='none'"
                   class="close" title="Close Form">&times;</span>
-            <img src="images/login.jpg" alt="Avatar" class="avatar">
+            <img src="/images/login.jpg" alt="Avatar" class="avatar">
         </div>
         <div class="container">
             <tr><fmt:message key="index.login.input"/><input type="text" name="login" id="login"
@@ -52,193 +97,74 @@
             <tr><fmt:message key="index.password.input"/><input type="password" name="password" id="password"
                                                                 placeholder="<fmt:message key="index.password.enter"/>"
                                                                 pattern="[0-9A-Za-z ]{4,15}"/></tr>
-            <button type="submit" name="login_button" id="login_button">Login</button>
-            <label>
-                <input type="checkbox" checked="checked" name="remember"> Remember me
-            </label>
+            <button type="button" name="login_button" id="login_button">Login</button>
         </div>
 
         <div class="container" style="background-color:#f1f1f1">
             <button type="button" onclick="document.getElementById('loginDiv').style.display='none'" class="cancelbtn">
                 Cancel
             </button>
-            <span class="psw">Forgot <a href="#">password?</a></span>
+            <span class="psw"><a href="${pageContext.request.contextPath}/fts/mainPage"><fmt:message
+                    key="main.page.direct"/></a></span>
         </div>
     </form>
 </div>
-<div id="messageDiv" style="display:none;"></div>
-
-<%--<script>
-    var modal = document.getElementById('loginDiv');
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>--%>
-<script>
-    $( document ).ready(function() {
-        window.addEventListener( "pageshow", function ( event ) {
-            var historyTraversal = event.persisted ||
-                ( typeof window.performance != "undefined" &&
-                    window.performance.navigation.type === 2 );
-            if ( historyTraversal ) {
-                // Handle page restore.
-                window.location.reload();
-            }
-        });
-        console.log( "cache disabled!" );
-    });
-</script>
-
-<script>
-    // Get the modal
-    var modal = document.getElementById('loginDiv');
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>
-
-<%--<script>
-    window.onload = function() {
-        if (window.jQuery) {
-            showMessage("Success");
-            $('#messageDiv').css("display", "block");
-
-        } else {
-            // jQuery is not loaded
-            alert("Doesn't Work");
-        }
-    }
-
-</script>--%>
 
 <script>
     $("#login_button").on('click', function () {
         var login = $("#login").val();
         var password = $("#password").val();
-        if (login == "") {
-            $('#messageDiv').css("display", "none");
-            alert("<fmt:message key="index.input.login.message"/>");
-            login.focus()
-            return;
+        var passRegex = new RegExp("^([a-z0-9]{3,9})$");
+        var loginRegex = new RegExp("[A-za-z0-9]{4,9}");
+        if (loginRegex.test(login)) {
+            console.log("Login is Valid");
+        } else {
+            console.log("Login is Invalid");
+            alert("<fmt:message key="page.name.wrong"/>");
         }
-        if (password == "") {
-            $('#messageDiv').css("display", "none");
-            alert("<fmt:message key="index.input.pass.message"/>");
-            return;
+        if (passRegex.test(password)) {
+            console.log("Password is Valid");
+        } else {
+            console.log("Password is Invalid");
+            alert("<fmt:message key="page.password.wrong"/>");
         }
         $.ajax({
-            /*cache: false,*/
-            url: "/Servlet/",
-            method: "get",
-            /*dataType: 'json',
-            contentType: 'application/json; charset=utf-8',*/
+            url: "/fts/login",
+            method: "POST",
             data: {
                 login: login,
                 password: password
             },
-            success: function (results) {
-                if (results != null && results != "") {
-                    window.location.reload( true );
-                    showMessage(results);
-                    $('#messageDiv').css("display", "block");
-                } else {
-                    $('#messageDiv').css("display", "none");
-                    $('#messageDiv').html("");
-                    alert("Some exception occurred! Please try again.");
+            success: function (result) {
+                if (result === "success") {
+                    window.location.reload(true);
+                    window.location = "/fts/foodTracking";
+                }else if (result==="userIsLogged"){
+                    alert("<fmt:message key="page.user.alreadyLoggedIn"/>");
+                } else if (result==="userExistsInDb"){
+                    alert("<fmt:message key="page.user.loginAlreadyExists"/>");
+                } else if (result==="userPassError"){
+                    alert("<fmt:message key="page.user.wrong.password"/>");
+                    console.log("user pass error")
+                }else if (result==="userErrorLogin"){
+                    alert("<fmt:message key="page.name.wrong"/>");
+                }else if (result==="userNotExist"){
+                    alert("<fmt:message key="page.user.loginDoesntExistInDb"/>");
                 }
+                else {
+                    alert("<fmt:message key="page.user.problem"/>");
+                    console.log("Unknown response from Servlet.");
+                }
+                console.log("Servlet response: " + result);
+            },
+            error: function (result) {
+                alert("Error!")
             }
         });
     });
-
-    //function to display message to the user
-    function showMessage(results) {
-        if (results === 'Success') {
-            window.alert("<font color='green'>You are successfully logged in. </font>")
-            $("#messageDiv").show(50);
-            $('#messageDiv').html("<font color='green'>You are successfully logged in. </font>")
-        } else {
-            $('#messageDiv').html("<font color='red'>Username or password incorrect </font>")
-        }
-    }
 </script>
+<%--                               LOGIN FORM ENDS                  --%>
 
-
-<script> function validateForm() {
-    var login = document.forms["login_form"]["login"].value;
-    var pass = document.forms["login_form"]["pass"].value;
-    if (login === "") {
-        window.alert("<fmt:message key="index.input.login.message"/>");
-        return false;
-    }
-    if (pass === "") {
-        window.alert("<fmt:message key="index.input.pass.message"/>");
-        return false;
-    }
-    return true;
-}  </script>
-<form class="left_form">
-    <label for="language"></label>
-    <h3 align="right" style="color:#FF4500">
-        <fmt:message key="language"/><select id="language" name="language"
-                                             onchange="submit()">
-        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-        <option value="uk_UA" ${language == 'uk_UA' ? 'selected' : ''}>Ukrainian</option>
-    </select></h3>
-</form>
-<br>
-<ul>
-    <li><a href="${pageContext.request.contextPath}/fts/main">Home</a></li>
-    <li style="float:right"><a href="${pageContext.request.contextPath}/fts/userSettings">User Settings</a></li>
-    <li><a href="${pageContext.request.contextPath}/fts/foodTracking">Food Tracking</a></li>
-    <li><a href="${pageContext.request.contextPath}/fts/userStatistic">Statistic</a></li>
-    <li><a href="${pageContext.request.contextPath}/fts/dayMeal">Day Meal</a></li>
-    <li><a href="${pageContext.request.contextPath}/fts/mealStatistic">Meal Statistic</a></li>
-</ul>
-<br>
-<h1 align="center" style="color:#1e4103"><fmt:message key="index.title"/></h1>
-<br>
-<br>
-<div class="menu-container">
-    <h2 align="center" style="color:#000000"><fmt:message key="index.body"/></h2>
+<div class="mainDiv">
+    <fmt:message key="page.main.info"/>
 </div>
-
-<div class="container">
-    <div class="buttons" align="center" style="text-align:center;">
-        <a href="http://localhost:8080/TaxDeclarationFilling/">
-            <button type="button" class="choose_button" id="slide_start_button">
-                <fmt:message key="index.button.fillDeclaration"/></button>
-        </a>
-        <a href="http://localhost:8080/declaration_check/">
-            <button type="button" class="choose_button" id="slide_stop_button">
-                <fmt:message key="index.button.getInfoById"/></button>
-        </a>
-        <a href="http://localhost:8080/admin/">
-            <button type="button" class="choose_button" id="admin_page_button">
-                <%-- <fmt:message key="index.button.toadminpage"/></button>--%>
-        </a>
-    </div>
-</div>
-</body>
-</html>
-
-<%--
-<div id="loginDiv" class="modal">
-    <form id="loginForm" class="left_form" name="login_form" action="/Servlet/" onsubmit="return validateForm()">
-        <table>
-            <tr><fmt:message key="index.login.input"/><input type="text" name="login" id="login" pattern="[0-9A-Za-z ]{2,15}"/></tr>
-            <tr><fmt:message key="index.password.input"/><input type="text" name="pass" id="password" pattern="[0-9A-Za-z ]{4,15}"/></tr>
-
-            <div class="buttons" align="center">
-                <input type="submit" class="sub_button" value=<fmt:message key="index.login.button"/>>
-                <input type="reset" class="sub_button" value=<fmt:message key="index.clear.button"/>>
-            </div>
-        </table>
-    </form>
-    <div id="messageDiv" style="display:none;"></div>
-</div>--%>

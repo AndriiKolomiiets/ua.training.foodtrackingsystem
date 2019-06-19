@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class MealStatistic implements Command {
     @Override
     public String execute(HttpServletRequest request) {
@@ -24,7 +28,6 @@ public class MealStatistic implements Command {
         Client client = getClientService.getClient(userFromDb.get());
         List<ClientTrack> clientTrackList = getClientTrackByClientService.getDayMealList(client);
         request.getSession().setAttribute(Attributes.REQUEST_CLIENT_TRACK_LIST, clientTrackList);
-//        request.getSession().setAttribute(Attributes.REQUEST_CALORIES_NORM, client.getCaloriesNorm());
         return PagePath.USER_MEAL_STATISTIC;
     }
 }

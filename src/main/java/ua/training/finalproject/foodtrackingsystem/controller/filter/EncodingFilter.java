@@ -12,7 +12,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
-*
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
  */
 @WebFilter(urlPatterns = "/*")
 public class EncodingFilter extends AbstractFilter {

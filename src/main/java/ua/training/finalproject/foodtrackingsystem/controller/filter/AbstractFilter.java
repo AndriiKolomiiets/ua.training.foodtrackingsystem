@@ -11,11 +11,14 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Description: Abstract class for all filters
+ * Abstract class for all filters.
  *
- * @author Zakusylo Pavlo
- * @see Filter
- * @see FilterChain
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ * @see EncodingFilter
+ * @see PageFilterRegistered
+ * @see PageFilterNonRegistered
+ * @see PageFilterAdmin
  */
 public abstract class AbstractFilter implements Filter {
 

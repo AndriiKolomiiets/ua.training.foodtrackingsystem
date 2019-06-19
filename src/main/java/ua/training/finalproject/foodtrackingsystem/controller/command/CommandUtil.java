@@ -15,6 +15,13 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+/**
+ * Stores all commands and form a map which are used in Servlet.
+ *
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ * @see ua.training.finalproject.foodtrackingsystem.controller.Servlet
+ */
 public abstract class CommandUtil {
     private static final Logger log = Logger.getLogger(CommandUtil.class);
 
@@ -31,7 +38,6 @@ public abstract class CommandUtil {
         commandMap.put("trackNewFood", new TrackNewFood());
         commandMap.put("deleteMeal", new DeleteMeal());
         commandMap.put("userManagement", new Admin());
-
         commandMap.put("deleteUser", new DeleteUser());
         commandMap.put("foodTracking", new FoodTracking());
         commandMap.put("trackFood", new TrackFood());

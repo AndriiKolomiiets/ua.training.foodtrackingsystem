@@ -9,13 +9,16 @@ import ua.training.finalproject.foodtrackingsystem.model.service.food.GetFoodSer
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class DayMealMapper implements ObjectMapper {
     @Override
     public DayMeal extractFromResultSet(ResultSet rs) throws SQLException {
         Food food;
         GetFoodService getFoodService = new GetFoodService();
         DayMeal dayMeal = new DayMeal();
-//        Client client = new Client();
         dayMeal.setId(rs.getLong(Attributes.REQUEST_MEAL_ID));
         dayMeal.setClient(new Client());
         dayMeal.getClient().setId(rs.getLong(Attributes.REQUEST_CLIENT_ID));

@@ -19,6 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class Login implements Command {
     private static final Logger log = Logger.getLogger(Login.class);
     private LoginService service = new LoginService();
@@ -59,10 +63,8 @@ public class Login implements Command {
         user = (User) request.getSession().getAttribute(Attributes.REQUEST_USER);
         GetUserService getUserService = new GetUserService();
         Optional<User> userFromDb = getUserService.getUserByName(user.getUsername());
-        /*Client*/
-//        client = getClientService.getClient(userFromDb.get());
         client = getClientService.getClient(userFromDb.get());
-        if (client!=null) {
+        if (client != null) {
             optionalDayMeal = getDayMealService.getDayMealByClient(client);
             if (optionalDayMeal.isPresent()) {
                 caloriesToNorm = optionalDayMeal.get().getCaloriesToNorm();
@@ -70,7 +72,7 @@ public class Login implements Command {
             }
             caloriesNorm = client.getCaloriesNorm();
             GetDayMealListService getDayMealListService = new GetDayMealListService();
-             dayMealList = getDayMealListService.getDayMealList(client);
+            dayMealList = getDayMealListService.getDayMealList(client);
         }
         request.getSession().setAttribute(Attributes.REQUEST_MEAL_LIST, dayMealList);
         request.getSession().setAttribute(Attributes.REQUEST_CALORIES_NORM, caloriesNorm);

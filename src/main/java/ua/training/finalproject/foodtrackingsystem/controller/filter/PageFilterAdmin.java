@@ -3,7 +3,6 @@ package ua.training.finalproject.foodtrackingsystem.controller.filter;
 import org.apache.log4j.Logger;
 import ua.training.finalproject.foodtrackingsystem.constants.Attributes;
 import ua.training.finalproject.foodtrackingsystem.constants.PagePath;
-import ua.training.finalproject.foodtrackingsystem.controller.command.auth.Login;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Role;
 import ua.training.finalproject.foodtrackingsystem.model.entity.User;
 
@@ -17,10 +16,9 @@ import java.util.Optional;
 
 /**
  * Description: Non permit users with role non 'ADMIN' to admin pages
- *
- * @author
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
  */
-//todo: change pages
 @WebFilter(urlPatterns = {"/fts/userManagement", "/fts/appStatistic",
         "/fts/updateFood", "/fts/showUsers", "/fts/deleteUsers", "/fts/updateUsers"})
 public class PageFilterAdmin extends AbstractFilter {
@@ -35,13 +33,10 @@ public class PageFilterAdmin extends AbstractFilter {
             if (user.get().getRole().equals(Role.ADMIN)) {
                 filterChain.doFilter(request, response);
             } else {
-//                todo: logger
-//                log.warn(Mess.LOG_USER_GO_ADMIN_URL + " - [" + user.get().getEmail() + "]");
                 request.getSession().setAttribute(Attributes.PAGE_NAME, Attributes.PAGE_MAIN);
                 request.getRequestDispatcher(PagePath.USER_MAIN_PAGE).forward(request, response);
             }
         } else {
-//            log.warn(Mess.LOG_USER_GO_ADMIN_URL + " - [" + Role.UNKNOWN + "]");
             request.getRequestDispatcher(PagePath.INDEX).forward(request, response);
         }
     }

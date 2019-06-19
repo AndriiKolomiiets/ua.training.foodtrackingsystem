@@ -7,6 +7,10 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class ClientMapper implements ObjectMapper {
     @Override
     public Client extractFromResultSet(ResultSet rs) throws SQLException {

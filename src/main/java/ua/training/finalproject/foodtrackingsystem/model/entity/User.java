@@ -1,5 +1,9 @@
 package ua.training.finalproject.foodtrackingsystem.model.entity;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class User implements Entity {
 
     private Long id;
@@ -9,9 +13,6 @@ public class User implements Entity {
     private Role role;
 
     private Client client;
-//    private Set<Role> roles;
-//    private String password2;
-
 
     public User() {
     }

@@ -11,6 +11,10 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class JdbcClientTrackDao implements ClientTrackDao {
     private Connection connection;
     private ResourceBundle resourceBundle = ResourceBundle.getBundle("db",
@@ -51,7 +55,6 @@ public class JdbcClientTrackDao implements ClientTrackDao {
 
     public List<ClientTrack> findClientTrackListByClient(Client client) {
         List<ClientTrack> clientTrackList = new ArrayList<>();
-//        GetFoodService getFoodService = new GetFoodService();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 resourceBundle.getString("select.clientTrackByClient"))) {
             preparedStatement.setLong(1, client.getId());
@@ -73,8 +76,6 @@ public class JdbcClientTrackDao implements ClientTrackDao {
 
     @Override
     public Optional<ClientTrack> findById(long id) {
-        Optional<ClientTrack> optionalUser = Optional.empty();
-
         return null;
     }
 

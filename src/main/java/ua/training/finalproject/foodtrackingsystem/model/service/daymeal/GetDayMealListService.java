@@ -1,6 +1,5 @@
 package ua.training.finalproject.foodtrackingsystem.model.service.daymeal;
 
-import com.sun.org.apache.bcel.internal.generic.DMUL;
 import ua.training.finalproject.foodtrackingsystem.model.dao.DaoFactory;
 import ua.training.finalproject.foodtrackingsystem.model.dao.JdbcDaoFactory;
 import ua.training.finalproject.foodtrackingsystem.model.dao.dao.DayMealDao;
@@ -9,6 +8,10 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.DayMeal;
 
 import java.util.List;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class GetDayMealListService {
     public List<DayMeal> getDayMealList(Client client){
         DaoFactory daoFactory;
@@ -18,11 +21,4 @@ public class GetDayMealListService {
         dayMealDao.close();
         return dayMealList;
     }
-
-  /*  public List<DayMeal> getDayMealList(long clientId){
-        DaoFactory daoFactory;
-        daoFactory = JdbcDaoFactory.getInstance();
-        DayMealDao dayMealDao = daoFactory.createDayMealDao();
-        return dayMealDao.findDayMealListByClient(clientId);
-    }*/
 }

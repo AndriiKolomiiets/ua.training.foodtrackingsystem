@@ -2,7 +2,6 @@ package ua.training.finalproject.foodtrackingsystem.model.dao.JdbcDao;
 
 import org.apache.log4j.Logger;
 import ua.training.finalproject.foodtrackingsystem.constants.LogMessages;
-import ua.training.finalproject.foodtrackingsystem.model.dao.dao.GenericDao;
 import ua.training.finalproject.foodtrackingsystem.model.dao.dao.RoleDao;
 import ua.training.finalproject.foodtrackingsystem.model.dao.mapper.RoleMapper;
 import ua.training.finalproject.foodtrackingsystem.model.entity.Role;
@@ -16,6 +15,10 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class JdbcRoleDao implements RoleDao {
     private Connection connection;
     private ResultSet rs;
@@ -29,7 +32,6 @@ public class JdbcRoleDao implements RoleDao {
 
     @Override
     public void create(Role entity) {
-
     }
 
     @Override

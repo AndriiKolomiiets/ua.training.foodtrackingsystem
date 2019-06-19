@@ -16,26 +16,17 @@
     };
 </script>
 
-
 <br>
 <h1 align="center" style="color:#1e4103"><fmt:message key="food.tracking.title"/></h1>
 <br>
 
 <c:if test="${calories_norm!=null}">
 
-
-
-
-
-
-
-
-
 </c:if>
 <c:if test="${calories_norm==null}">
 
     <div align="center">
-        <h2>To track meal, please, create a client account!</h2>
+        <h2><fmt:message key="page.daymeal.client.doesnt.exist"/></h2>
         <br>
         <div class="row">
             <button onclick="location.href='${pageContext.request.contextPath}/fts/userSettings'" type="button">
@@ -46,10 +37,7 @@
 
 </c:if>
 
-
 <c:if test="${calories_norm!=null}">
-
-
 
 <div align="center">
     <div class="settings_container">

@@ -17,7 +17,8 @@ import java.util.Optional;
 /**
  * Description: Non permit registered users to demonstration pages
  *
- * @author
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
  */
 @WebFilter(urlPatterns = {"/fts/loginOrRegister", "/fts/registerNewUser",
         "/fts/logIn", "/ftl/"})

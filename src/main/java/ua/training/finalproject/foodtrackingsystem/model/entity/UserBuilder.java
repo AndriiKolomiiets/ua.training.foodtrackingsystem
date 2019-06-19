@@ -1,5 +1,9 @@
 package ua.training.finalproject.foodtrackingsystem.model.entity;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class UserBuilder {
     private Long id;
     private String userName;
@@ -33,11 +37,6 @@ public class UserBuilder {
         return this;
     }
 
-   /* public UserBuilder buildClient(Client client){
-        this.client = client;
-        return this;
-    }*/
-
     public User build(){
         User user = new User();
         user.setId(id);
@@ -45,7 +44,6 @@ public class UserBuilder {
         user.setPassword(password);
         user.setEmail(email);
         user.setRole(role);
-//        user.setClient(client);
         return user;
     }
 }

@@ -1,14 +1,17 @@
 package ua.training.finalproject.foodtrackingsystem.model.dao.connection;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-//import org.apache.commons.dbcp.BasicDataSource;
-//import org.apache.commons.dbcp2.BasicDataSource;
-
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Stores pool of connections to database.
+ * This class is used in DaoFactory.
+ *
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ * @see ua.training.finalproject.foodtrackingsystem.model.dao.JdbcDaoFactory
+ */
 public class ConnectionPoolHolder {
     private static volatile DataSource dataSource;
     private static ResourceBundle resourceBundle = ResourceBundle.getBundle("db",
@@ -33,6 +36,7 @@ public class ConnectionPoolHolder {
         return dataSource;
     }
 
+    //<editor-fold desc="C3P0 Connection Pool">
    /* public static ComboPooledDataSource getDataSource() throws PropertyVetoException {
         ComboPooledDataSource cpds = new ComboPooledDataSource();
         cpds.setJdbcUrl(resourceBundle.getString("db.url"));
@@ -48,6 +52,5 @@ public class ConnectionPoolHolder {
 
         return cpds;
     }*/
-
-
+    //</editor-fold>
 }

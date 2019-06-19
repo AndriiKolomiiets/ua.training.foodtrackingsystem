@@ -7,6 +7,10 @@ import ua.training.finalproject.foodtrackingsystem.model.entity.Client;
 
 import java.util.List;
 
+/**
+ * @author Andrii Kolomiiets
+ * @version 1.0 19.06.2019
+ */
 public class GetAllClientsService {
 
     public List<Client> getClientList() {

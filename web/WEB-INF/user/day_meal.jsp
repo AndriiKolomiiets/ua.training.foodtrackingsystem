@@ -12,7 +12,7 @@
 
 <c:if test="${calories_norm == null}">
     <div align="center">
-        <h2>To track a meal, please, create a client account!</h2>
+        <h2><fmt:message key="page.daymeal.client.doesnt.exist"/></h2>
         <br>
         <div class="row">
             <button onclick="location.href='${pageContext.request.contextPath}/fts/userSettings'" type="button">
@@ -28,14 +28,14 @@
 
     <table id="dayMeal">
         <tr>
-            <th><fmt:message key="page.daymeal.mealid"/>Meal ID</th>
-            <th><fmt:message key="page.daymeal.food"/>Food name</th>
-            <th><fmt:message key="page.daymeal.proteins"/>Proteins</th>
-            <th><fmt:message key="page.daymeal.lipids"/>Lipids</th>
-            <th><fmt:message key="page.daymeal.carbs"/>Carbs</th>
-            <th><fmt:message key="page.daymeal.calories"/>Calories</th>
-            <th><fmt:message key="page.daymeal.number"/>Number</th>
-            <th><fmt:message key="page.daymeal.datetime"/>Date/Time</th>
+            <th><fmt:message key="page.daymeal.mealid"/></th>
+            <th><fmt:message key="page.daymeal.food"/></th>
+            <th><fmt:message key="page.daymeal.proteins"/></th>
+            <th><fmt:message key="page.daymeal.lipids"/></th>
+            <th><fmt:message key="page.daymeal.carbs"/></th>
+            <th><fmt:message key="page.daymeal.calories"/></th>
+            <th><fmt:message key="page.daymeal.number"/></th>
+            <th><fmt:message key="page.daymeal.datetime"/></th>
         </tr>
         <c:forEach items="${mealList}" var="element">
 
@@ -84,7 +84,7 @@
     <br>
 </c:if>
 <div align="center">
-    <h1><fmt:message key="page.daymeal.meallist"/>DayMeal list will appear here after you track first meal.</h1>
+    <h1><fmt:message key="page.daymeal.meallist"/></h1>
 </div>
 
 
@@ -115,7 +115,7 @@
                     location.reload();
                     resetData();
                 } else if (result === "wrongId") {
-                    alert("<fmt:message key="page.daymeal.wrong.id"/>");
+                    alert("<fmt:message key="page.daymeal.id.wrong"/>");
                 }
                 else {
                     alert("<fmt:message key="page.food.problem"/>");
